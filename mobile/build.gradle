@@ -19,6 +19,8 @@ android {
     }
 }
 
+def supportVersion = "23.4.0"
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -26,6 +28,11 @@ dependencies {
     })
     wearApp project(':wear')
     compile 'com.google.android.gms:play-services:9.2.0'
-    compile 'com.android.support:appcompat-v7:23.4.0'
+
+    //noinspection GradleDependency (distracting false positives)
+    compile "com.android.support:appcompat-v7:$supportVersion"
+    //noinspection GradleDependency (distracting false positives)
+    compile "com.android.support:design:$supportVersion"
+
     testCompile 'junit:junit:4.12'
 }
