@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Naming is analogous to the popular CircleIndicator library -->
+    <declare-styleable name="CutoutViewIndicator">
+
+        <!-- drawable to display in foreground, moving from cell to cell -->
+        <attr name="rcv_drawable" format="reference" />
+        <!-- drawable to display as the background of each view -->
+        <attr name="rcv_drawable_unselected" format="reference" />
+
+        <!-- height of each individual cell -->
+        <attr name="rcv_height" format="dimension" />
+        <!-- width of each individual cell -->
+        <attr name="rcv_width" format="dimension" />
+
+        <!-- space between successive cells -->
+        <attr name="rcv_internal_margin" format="dimension" />
+    </declare-styleable>
+</resources>
