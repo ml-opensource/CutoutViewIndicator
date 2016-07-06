@@ -1,0 +1,4 @@
+[submodule "indicator"]
+	path = indicator
+	branch = pre-publish
+	url = /Users/pcohncort/Public/Indicator.git
