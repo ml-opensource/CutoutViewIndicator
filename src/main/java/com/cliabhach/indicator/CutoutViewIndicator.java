@@ -6,15 +6,19 @@ import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * There's a nice monospace line drawing in the javadoc for {@link #showOffsetIndicator(int, float)} that basically sums up
@@ -26,27 +30,8 @@ public class CutoutViewIndicator extends LinearLayout {
 
     private static final String TAG = CutoutViewIndicator.class.getSimpleName();
 
-    protected int internalSpacing;
-    /**
-     * This is the height or width bounding all child views when {@link #HORIZONTAL} or {@link #VERTICAL}, respectively.
-     * <p/>
-     * Typically equal to the height/width of the {@link CutoutViewIndicator}, minus padding.
-     */
-    protected int perpendicularLength;
-
-    /**
-     * This is the id of the drawable currently acting as indicator. If 0, no indicator will be shown.
-     */
-    @DrawableRes
-    protected int indicatorDrawableId;
-
-    @DrawableRes
-    protected int cellBackgroundId;
-
-    /**
-     * This is the resolved dimension (in pixels)
-     */
-    protected int cellLength;
+    @NonNull
+    protected CutoutViewLayoutParams defaultChildParams;
 
     protected ViewPager viewPager;
 
@@ -56,55 +41,7 @@ public class CutoutViewIndicator extends LinearLayout {
      */
     protected boolean usePositiveOffset;
 
-    protected ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            if (indicatorDrawableId != 0) {
-                position = fixPosition(position);
-
-                // Cover the provided position...
-                showOffsetIndicator(position, positionOffset);
-                if (positionOffset > 0) {
-                    // ...and cover the next one too
-                    int next = position + 1;
-                    if (next >= getChildCount()) {
-                        next = 0;
-                    }
-                    showOffsetIndicator(next, positionOffset - 1);
-                }
-            }
-        }
-
-        /**
-         * @see CutoutViewIndicator#usePositiveOffset
-         * @param proposed the value returned by {@link CutoutViewIndicator#viewPager}
-         * @return the corrected value.
-         */
-        public int fixPosition(int proposed) {
-            if (usePositiveOffset) {
-                // ViewPagers like SpinningViewPager are always off by one
-                proposed--;
-                // Ensure that it's positive
-                if (proposed < 0) {
-                    proposed += getChildCount();
-                }
-            }
-            return proposed;
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            showOffsetIndicator(fixPosition(position), 0);
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-            if (state == ViewPager.SCROLL_STATE_IDLE) {
-                // verify that all non-current views are free from indicators
-                ensureOnlyOneItemIsSelected();
-            }
-        }
-    };
+    protected ViewPager.OnPageChangeListener pageChangeListener = new OnViewPagerChangeListener(this);
     protected DataSetObserver dataSetObserver = new DataSetObserver() {
         /**
          * This method is called when the entire data set has changed,
@@ -151,31 +88,33 @@ public class CutoutViewIndicator extends LinearLayout {
 
     public CutoutViewIndicator(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        defaultChildParams = new CutoutViewLayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         init(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public CutoutViewIndicator(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        defaultChildParams = new CutoutViewLayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         init(context, attrs);
     }
 
     protected void init(Context context, AttributeSet attrs) {
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CutoutViewIndicator);
-            indicatorDrawableId = a.getResourceId(R.styleable.CutoutViewIndicator_rcv_drawable, 0);
-            internalSpacing = a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_rcv_internal_margin, 0);
+            setIndicatorDrawableId(a.getResourceId(R.styleable.CutoutViewIndicator_rcv_drawable, 0));
+            setInternalSpacing(a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_rcv_internal_margin, 0));
 
             // The superclass will have resolved orientation by now.
             if (getOrientation() == HORIZONTAL) {
-                perpendicularLength = a.getDimensionPixelSize(R.styleable.CutoutViewIndicator_rcv_height, 0);
-                cellLength = a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_rcv_width, 0);
+                setPerpendicularLength(a.getDimensionPixelSize(R.styleable.CutoutViewIndicator_rcv_height, 0));
+                setCellLength(a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_rcv_width, 0));
             } else {
-                perpendicularLength = a.getDimensionPixelSize(R.styleable.CutoutViewIndicator_rcv_width, 0);
-                cellLength = a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_rcv_height, 0);
+                setPerpendicularLength(a.getDimensionPixelSize(R.styleable.CutoutViewIndicator_rcv_width, 0));
+                setCellLength(a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_rcv_height, 0));
             }
 
-            cellBackgroundId = a.getResourceId(R.styleable.CutoutViewIndicator_rcv_drawable_unselected, 0);
+            setCellBackgroundId(a.getResourceId(R.styleable.CutoutViewIndicator_rcv_drawable_unselected, 0));
             a.recycle();
         }
     }
@@ -187,13 +126,13 @@ public class CutoutViewIndicator extends LinearLayout {
         LinearLayout.LayoutParams lp;
         final int left, top;
         if (getOrientation() == HORIZONTAL) {
-            lp = new LayoutParams(cellLength, perpendicularLength);
-            left = (position == 0) ? 0 : internalSpacing;
+            lp = new LayoutParams(getCellLength(), getPerpendicularLength());
+            left = (position == 0) ? 0 : getInternalSpacing();
             top = 0;
         } else {
-            lp = new LayoutParams(perpendicularLength, cellLength);
+            lp = new LayoutParams(getPerpendicularLength(), getCellLength());
             left = 0;
-            top = (position == 0) ? 0 : internalSpacing;
+            top = (position == 0) ? 0 : getInternalSpacing();
         }
         lp.setMargins(left, top, 0, 0);
         lp.gravity = Gravity.CENTER;
@@ -201,8 +140,8 @@ public class CutoutViewIndicator extends LinearLayout {
         ImageView child = new LayeredImageView(getContext()); // inflater.inflate(R.layout.cell_layered, this, false);
         child.setScaleType(ImageView.ScaleType.MATRIX);
         child.setLayoutParams(lp);
-        child.setBackgroundResource(cellBackgroundId);
-        child.setImageResource(indicatorDrawableId);
+        child.setBackgroundResource(getCellBackgroundId());
+        child.setImageResource(getIndicatorDrawableId());
         addView(child, position);
     }
 
@@ -249,11 +188,22 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     public void setCellBackgroundId(@DrawableRes int cellBackgroundId) {
-        this.cellBackgroundId = cellBackgroundId;
+        defaultChildParams.cellBackgroundId = cellBackgroundId;
+    }
+
+    public int getCellBackgroundId() {
+        return defaultChildParams.cellBackgroundId;
     }
 
     public void setIndicatorDrawableId(@DrawableRes int indicatorDrawableId) {
-        this.indicatorDrawableId = indicatorDrawableId;
+        defaultChildParams.indicatorDrawableId = indicatorDrawableId;
+    }
+
+    /**
+     * This is the id of the drawable currently acting as indicator. If 0, no indicator will be shown.
+     */
+    public int getIndicatorDrawableId() {
+        return defaultChildParams.indicatorDrawableId;
     }
 
     /**
@@ -267,7 +217,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * @see #setPerpendicularLength(int)
      */
     public void setCellLength(int cellLength) {
-        this.cellLength = cellLength;
+        defaultChildParams.cellLength = cellLength;
         requestLayout();
     }
 
@@ -279,7 +229,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * @param internalSpacing any positive number of pixels
      */
     public void setInternalSpacing(int internalSpacing) {
-        this.internalSpacing = internalSpacing;
+        defaultChildParams.internalSpacing = internalSpacing;
         requestLayout();
     }
 
@@ -294,7 +244,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * @see #setCellLength(int)
      */
     public void setPerpendicularLength(int perpendicularLength) {
-        this.perpendicularLength = perpendicularLength;
+        defaultChildParams.perpendicularLength = perpendicularLength;
         requestLayout();
     }
 
@@ -304,7 +254,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * @return current length of one cell in pixels
      */
     public int getCellLength() {
-        return cellLength;
+        return defaultChildParams.cellLength;
     }
 
     /**
@@ -313,7 +263,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * @return current space between cells in pixels
      */
     public int getInternalSpacing() {
-        return internalSpacing;
+        return defaultChildParams.internalSpacing;
     }
 
     /**
@@ -322,7 +272,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * @return current perpendicular length of one cell in pixels
      */
     public int getPerpendicularLength() {
-        return perpendicularLength;
+        return defaultChildParams.perpendicularLength;
     }
 
     /**
@@ -381,5 +331,25 @@ public class CutoutViewIndicator extends LinearLayout {
                 }
             }
         }
+    }
+
+    @Override
+    protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
+        return p instanceof CutoutViewLayoutParams;
+    }
+
+    @Override
+    protected LayoutParams generateDefaultLayoutParams() {
+        return new CutoutViewLayoutParams(defaultChildParams);
+    }
+
+    @Override
+    public LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new CutoutViewLayoutParams(getContext(), attrs);
+    }
+
+    @Override
+    protected LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
+        return new CutoutViewLayoutParams(p);
     }
 }
