@@ -26,7 +26,7 @@ public class CutoutViewIndicator extends LinearLayout {
 
     private static final String TAG = CutoutViewIndicator.class.getSimpleName();
 
-    protected int marginLength;
+    protected int internalSpacing;
     /**
      * This is the height or width bounding all child views when {@link #HORIZONTAL} or {@link #VERTICAL}, respectively.
      * <p/>
@@ -164,7 +164,7 @@ public class CutoutViewIndicator extends LinearLayout {
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CutoutViewIndicator);
             indicatorDrawableId = a.getResourceId(R.styleable.CutoutViewIndicator_rcv_drawable, 0);
-            marginLength = a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_rcv_internal_margin, 0);
+            internalSpacing = a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_rcv_internal_margin, 0);
 
             // The superclass will have resolved orientation by now.
             if (getOrientation() == HORIZONTAL) {
@@ -188,12 +188,12 @@ public class CutoutViewIndicator extends LinearLayout {
         final int left, top;
         if (getOrientation() == HORIZONTAL) {
             lp = new LayoutParams(cellLength, perpendicularLength);
-            left = (position == 0) ? 0 : marginLength;
+            left = (position == 0) ? 0 : internalSpacing;
             top = 0;
         } else {
             lp = new LayoutParams(perpendicularLength, cellLength);
             left = 0;
-            top = (position == 0) ? 0 : marginLength;
+            top = (position == 0) ? 0 : internalSpacing;
         }
         lp.setMargins(left, top, 0, 0);
         lp.gravity = Gravity.CENTER;
@@ -256,21 +256,78 @@ public class CutoutViewIndicator extends LinearLayout {
         this.indicatorDrawableId = indicatorDrawableId;
     }
 
+    /**
+     * This is the width of a cell when {@link #getOrientation() horizontal},
+     * but the height of a cell when {@link #getOrientation() vertical}.
+     * <p>
+     *     All cells are the same proportions by default.
+     * </p>
+     *
+     * @param cellLength any positive number of pixels
+     * @see #setPerpendicularLength(int)
+     */
     public void setCellLength(int cellLength) {
         this.cellLength = cellLength;
+        requestLayout();
     }
 
-    public void setMarginLength(int marginLength) {
-        this.marginLength = marginLength;
+    /**
+     * This is the space between cells. It is not added as padding to either end of
+     * the {@code CutoutViewIndicator}. This view does not draw anything in these
+     * spaces (except the background, if present).
+     *
+     * @param internalSpacing any positive number of pixels
+     */
+    public void setInternalSpacing(int internalSpacing) {
+        this.internalSpacing = internalSpacing;
+        requestLayout();
     }
 
+    /**
+     * This is the height of a cell when {@link #getOrientation() horizontal},
+     * but the width of a cell when {@link #getOrientation() vertical}.
+     * <p>
+     *     All cells are the same proportions by default.
+     * </p>
+     *
+     * @param perpendicularLength any positive number of pixels
+     * @see #setCellLength(int)
+     */
     public void setPerpendicularLength(int perpendicularLength) {
         this.perpendicularLength = perpendicularLength;
+        requestLayout();
+    }
+
+    /**
+     * @see #setCellLength(int)
+     *
+     * @return current length of one cell in pixels
+     */
+    public int getCellLength() {
+        return cellLength;
+    }
+
+    /**
+     * @see #setInternalSpacing(int)
+     *
+     * @return current space between cells in pixels
+     */
+    public int getInternalSpacing() {
+        return internalSpacing;
+    }
+
+    /**
+     * @see #setPerpendicularLength(int)
+     *
+     * @return current perpendicular length of one cell in pixels
+     */
+    public int getPerpendicularLength() {
+        return perpendicularLength;
     }
 
     /**
      * Call this after setting the other custom parameters ({@link #setIndicatorDrawableId(int)},
-     * {@link #setCellLength(int)}, {@link #setMarginLength(int)}, {@link #setPerpendicularLength(int)},
+     * {@link #setCellLength(int)}, {@link #setInternalSpacing(int)}, {@link #setPerpendicularLength(int)},
      * {@link #setCellBackgroundId(int)})
      * to avoid redrawing or extra layout stuff.
      *

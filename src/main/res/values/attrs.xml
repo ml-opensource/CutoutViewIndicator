@@ -15,5 +15,8 @@
 
         <!-- space between successive cells -->
         <attr name="rcv_internal_margin" format="dimension" />
+
+        <!-- design-time-only attribute for previewing what a given number of views would look like -->
+        <attr name="rcv_tools_indicator_count" format="integer" />
     </declare-styleable>
 </resources>
