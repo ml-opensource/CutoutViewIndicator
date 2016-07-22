@@ -3,9 +3,12 @@ package com.cliabhach.emptyhusk;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import com.cliabhach.indicator.CutoutViewIndicator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +20,16 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        initButtons(fab);
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.mainViewPager);
+        initPager(viewPager);
+
+        CutoutViewIndicator cvi = (CutoutViewIndicator) findViewById(R.id.cutoutViewIndicator);
+        initIndicator(cvi, viewPager);
+    }
+
+    private void initButtons(FloatingActionButton fab) {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -24,6 +37,15 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void initPager(ViewPager viewPager) {
+        String[] pages = new String[]{"1", "2", "3"};
+        viewPager.setAdapter(new SimplePagerAdapter(pages));
+    }
+
+    private void initIndicator(CutoutViewIndicator cvi, ViewPager viewPager) {
+        cvi.setViewPager(viewPager);
     }
 
 }

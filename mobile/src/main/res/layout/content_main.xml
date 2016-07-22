@@ -10,4 +10,22 @@
     tools:showIn="@layout/activity_main"
     >
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mainViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        />
+
+    <com.cliabhach.indicator.CutoutViewIndicator
+        android:id="@+id/cutoutViewIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_below="@id/mainViewPager"
+        husk:rcv_drawable="@drawable/rectangle_primary"
+        husk:rcv_internal_margin="0dp"
+        husk:rcv_height="8dp"
+        husk:rcv_width="40dp"
+        husk:rcv_drawable_unselected="@drawable/rectangle_secondary"
+        />
+
 </RelativeLayout>
