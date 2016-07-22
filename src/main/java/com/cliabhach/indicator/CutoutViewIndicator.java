@@ -198,7 +198,7 @@ public class CutoutViewIndicator extends LinearLayout {
         lp.setMargins(left, top, 0, 0);
         lp.gravity = Gravity.CENTER;
 
-        LayeredView child = new LayeredView(getContext()); // inflater.inflate(R.layout.cell_layered, this, false);
+        ImageView child = new LayeredImageView(getContext()); // inflater.inflate(R.layout.cell_layered, this, false);
         child.setScaleType(ImageView.ScaleType.MATRIX);
         child.setLayoutParams(lp);
         child.setBackgroundResource(cellBackgroundId);

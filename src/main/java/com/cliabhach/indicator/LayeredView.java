@@ -1,48 +1,18 @@
 package com.cliabhach.indicator;
 
-import android.content.Context;
-import android.graphics.Matrix;
-import android.support.v7.widget.AppCompatImageView;
-import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 /**
- * Like a {@link android.widget.ProgressBar}, only more straightforward. Offset an image over
- * a static background.
+ * Simple interface which views inside the {@link CutoutViewIndicator} should implement.
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class LayeredView extends AppCompatImageView {
-    public LayeredView(Context context) {
-        this(context, null);
-    }
-
-    public LayeredView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public LayeredView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
+public interface LayeredView {
     /**
      * Sets a new image matrix on this view. This method only allows orthogonal offsets
      *
      * @param orientation direction to offset in. Use either {@link LinearLayout#VERTICAL} or {@link LinearLayout#HORIZONTAL}
      * @param percentage  percentage of width/height to offset by - positive means down/right, negative means up/left
-     * @see #setImageMatrix(Matrix)
      */
-    public void offsetImageBy(int orientation, float percentage) {
-        Matrix mat = new Matrix();
-        float offsetX, offsetY;
-        if (orientation == LinearLayout.VERTICAL) {
-            offsetX = 0;
-            offsetY = percentage * getHeight();
-        } else {
-            offsetX = percentage * getWidth();
-            offsetY = 0;
-        }
-        mat.setTranslate(offsetX, offsetY);
-        setImageMatrix(mat);
-    }
+    void offsetImageBy(int orientation, float percentage);
 }
