@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape
+<inset
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle"
+    android:insetLeft="@dimen/rectangle_border"
+    android:insetTop="@dimen/rectangle_border"
+    android:insetRight="@dimen/rectangle_border"
+    android:insetBottom="@dimen/rectangle_border"
     >
-    <size
-        android:height="4dp"
-        android:width="4dp"
-        />
-    <solid android:color="@color/colorPrimary" />
-</shape>
+    <shape
+        android:shape="rectangle"
+        >
+        <solid android:color="@color/colorAccent" />
+        <size
+            android:width="30dp"
+            android:height="6dp"
+            />
+    </shape>
+</inset>
