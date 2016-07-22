@@ -1,5 +1,6 @@
 package com.cliabhach.emptyhusk;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,18 @@ import android.widget.NumberPicker.OnValueChangeListener;
 import com.cliabhach.indicator.CutoutViewIndicator;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static int deriveDPFrom(Context context, int pixelCount) {
+        float retVal = pixelCount / context.getResources().getDisplayMetrics().density;
+
+        return ((int) retVal);
+    }
+
+    private static int derivePXFrom(Context context, int dpCount) {
+        float retVal = dpCount * context.getResources().getDisplayMetrics().density;
+
+        return ((int) retVal);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         NumberPicker spacing = (NumberPicker) findViewById(R.id.spacingPicker);
         NumberPicker width = (NumberPicker) findViewById(R.id.widthPicker);
         NumberPicker height = (NumberPicker) findViewById(R.id.heightPicker);
-        initPickers(spacing, width, height, cvi, adapter);
+        initPickers(spacing, width, height, cvi);
     }
 
     private void initButtons(FloatingActionButton fab, final @NonNull PagerAdapter adapter) {
@@ -63,41 +76,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void initPickers(
             NumberPicker spacing, NumberPicker width, NumberPicker height,
-            final CutoutViewIndicator cvi,
-            final PagerAdapter adapter
+            final CutoutViewIndicator cvi
     ) {
-        // TODO: throttle calls to notifyDataSetChanged
         setRangeOn(spacing);
-        spacing.setValue(cvi.getInternalSpacing());
-        spacing.setOnValueChangedListener(new OnValueChangeListener() {
+        spacing.setValue(deriveDPFrom(this, cvi.getInternalSpacing()));
+        spacing.setOnValueChangedListener(new BoundValueListener() {
             @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                if (newVal >= 0) {
-                    cvi.setInternalSpacing(newVal);
-                    adapter.notifyDataSetChanged();
-                }
+            protected void onNewValue(int px) {
+                cvi.setInternalSpacing(px);
             }
         });
         setRangeOn(width);
-        width.setValue(cvi.getCellLength());
-        width.setOnValueChangedListener(new OnValueChangeListener() {
+        width.setValue(deriveDPFrom(this, cvi.getCellLength()));
+        width.setOnValueChangedListener(new BoundValueListener() {
             @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                if (newVal >= 0) {
-                    cvi.setCellLength(newVal);
-                    adapter.notifyDataSetChanged();
-                }
+            protected void onNewValue(int px) {
+                cvi.setCellLength(px);
             }
         });
         setRangeOn(height);
-        height.setValue(cvi.getPerpendicularLength());
-        height.setOnValueChangedListener(new OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                if (newVal >= 0) {
-                    cvi.setPerpendicularLength(newVal);
-                    adapter.notifyDataSetChanged();
-                }
+        height.setValue(deriveDPFrom(this, cvi.getPerpendicularLength()));
+        height.setOnValueChangedListener(new BoundValueListener() {
+            protected void onNewValue(int px) {
+                cvi.setPerpendicularLength(px);
             }
         });
     }
@@ -107,4 +108,16 @@ public class MainActivity extends AppCompatActivity {
         picker.setMaxValue(200);
     }
 
+    private abstract static class BoundValueListener implements OnValueChangeListener {
+
+        @Override
+        public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+            if (newVal >= 0) {
+                int px = derivePXFrom(picker.getContext(), newVal);
+                onNewValue(px);
+            }
+        }
+
+        protected abstract void onNewValue(int px);
+    }
 }
