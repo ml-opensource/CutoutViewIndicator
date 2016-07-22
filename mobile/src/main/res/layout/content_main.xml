@@ -14,21 +14,72 @@
         android:id="@+id/mainViewPager"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_centerInParent="true"
+        android:layout_marginTop="100dp"
         />
 
     <com.cliabhach.indicator.CutoutViewIndicator
         android:id="@+id/cutoutViewIndicator"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/mainViewPager"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="20dp"
         android:padding="8dp"
         husk:rcv_drawable="@drawable/rectangle_primary"
-        husk:rcv_internal_margin="0dp"
+        husk:rcv_internal_margin="7dp"
         husk:rcv_height="8dp"
         husk:rcv_width="40dp"
         husk:rcv_drawable_unselected="@drawable/rectangle_secondary"
         />
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/cutoutViewIndicator"
+        android:columnCount="3"
+        android:rowCount="2"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+
+        <NumberPicker
+            android:id="@+id/spacingPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            />
+
+        <TextView
+            android:text="@string/label_margin"
+            style="@style/NumberPickerLabel"
+            />
+
+        <NumberPicker
+            android:id="@+id/heightPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            />
+
+        <TextView
+            android:text="@string/label_height"
+            style="@style/NumberPickerLabel"
+            />
+
+        <NumberPicker
+            android:id="@+id/widthPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            />
+
+        <TextView
+            android:text="@string/label_width"
+            style="@style/NumberPickerLabel"
+            />
+
+    </GridLayout>
 
 </RelativeLayout>

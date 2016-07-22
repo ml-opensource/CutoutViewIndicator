@@ -18,4 +18,13 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark"/>
 
+    <style name="NumberPickerLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:shadowColor">@color/colorPrimaryDark</item>
+        <item name="android:shadowRadius">10</item>
+    </style>
+
 </resources>

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">EmptyHusk</string>
     <string name="title_activity_main">CutoutViewIndicator Demo</string>
+
+    <string name="label_margin">Spacing</string>
+    <string name="label_height">Height</string>
+    <string name="label_width">Width</string>
 </resources>
