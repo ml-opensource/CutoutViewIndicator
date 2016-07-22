@@ -8,6 +8,7 @@ import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -30,6 +31,17 @@ public class CutoutViewIndicator extends LinearLayout {
 
     private static final String TAG = CutoutViewIndicator.class.getSimpleName();
 
+    /**
+     * This holds onto the views that may be attached to this ViewGroup. It's initialised
+     * with space for 5 values because practical experience says that space for 10 would
+     * be excessive.
+     * <p>
+     *     This is kinda micro-optimising since it can expand automatically later.
+     * </p>
+     */
+    @NonNull
+    protected SparseArrayCompat<IndicatorViewHolder> holders = new SparseArrayCompat<>(5);
+
     @NonNull
     protected CutoutViewLayoutParams defaultChildParams;
 
@@ -40,8 +52,8 @@ public class CutoutViewIndicator extends LinearLayout {
      * is true, CutoutViewIndicator will correct for the discrepancy.
      */
     protected boolean usePositiveOffset;
-
     protected ViewPager.OnPageChangeListener pageChangeListener = new OnViewPagerChangeListener(this);
+
     protected DataSetObserver dataSetObserver = new DataSetObserver() {
         /**
          * This method is called when the entire data set has changed,
@@ -52,14 +64,33 @@ public class CutoutViewIndicator extends LinearLayout {
         @Override
         public void onChanged() {
             super.onChanged();
+            int childCount = getChildCount();
+            int pageCount = viewPager.getAdapter().getCount();
+
+            CutoutViewLayoutParams[] params = new CutoutViewLayoutParams[Math.max(childCount, pageCount)];
+
+            for (int i = 0; i < childCount; i++) {
+                View child = getChildAt(i);
+                ViewGroup.LayoutParams childParams = child.getLayoutParams();
+                if (childParams != null) {
+                    params[i] = CutoutViewLayoutParams.from(childParams);
+                }
+            }
             removeAllViews();
 
-            int pageCount = viewPager.getAdapter().getCount();
             for (int i = 0; i < pageCount; i++) {
-                addProgressChild(i);
+                IndicatorViewHolder ivh = holders.get(i);
+                // This is a cached view
+                if (ivh == null || ivh.itemView.getParent() != null) {
+                    // Current viewHolder is nonexistent or already in use elsewhere...create and add a new one!
+                    addProgressChild(i, params[i]);
+                } else {
+                    // No need to make a new View, the existing one should do.
+                    addView(ivh.itemView, i);
+                }
             }
 
-            Log.i(TAG, "onChanged: count=" + pageCount + ", child count=" + getChildCount());
+            Log.i(TAG, "onChanged: count=" + pageCount + ", child count=" + childCount);
 
             // Seriously. They called this the 'CurrentItem'. Can you believe it?
             int currentPageNumber = viewPager.getCurrentItem();
@@ -120,29 +151,50 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     /**
-     * @param position used as 'index' parameter to {@link #addView(View, int)}
+     * Binds the special properties of {@link CutoutViewLayoutParams} to the
+     * child in question.
+     *
+     * @param position    what position this child possesses in terms of {@link #getChildAt(int)}
+     * @param child       a view that will soon be added to this CutoutViewIndicator
      */
-    protected void addProgressChild(int position) {
-        LinearLayout.LayoutParams lp;
+    protected void bindChild(int position, View child) {
+        CutoutViewLayoutParams lp;
+        lp = CutoutViewLayoutParams.from(child.getLayoutParams());
         final int left, top;
         if (getOrientation() == HORIZONTAL) {
-            lp = new LayoutParams(getCellLength(), getPerpendicularLength());
+            lp.width = lp.cellLength;
+            lp.height = lp.perpendicularLength;
             left = (position == 0) ? 0 : getInternalSpacing();
             top = 0;
         } else {
-            lp = new LayoutParams(getPerpendicularLength(), getCellLength());
+            lp.width = lp.perpendicularLength;
+            lp.height = lp.cellLength;
             left = 0;
             top = (position == 0) ? 0 : getInternalSpacing();
         }
         lp.setMargins(left, top, 0, 0);
         lp.gravity = Gravity.CENTER;
+    }
 
-        ImageView child = new LayeredImageView(getContext()); // inflater.inflate(R.layout.cell_layered, this, false);
+    /**
+     * If the {@code lp} parameter is null, a new object will be
+     * constructed with {@link #generateDefaultLayoutParams()}.
+     *
+     * @param position used as 'index' parameter to {@link #addView(View, int)}
+     * @param lp parameters specifying what the child should look like
+     */
+    protected void addProgressChild(int position, @Nullable CutoutViewLayoutParams lp) {
+        if (lp == null) {
+            lp = generateDefaultLayoutParams();
+        }
+
+        ImageView child = new ImageView(getContext()); // inflater.inflate(R.layout.cell_layered, this, false);
         child.setScaleType(ImageView.ScaleType.MATRIX);
         child.setLayoutParams(lp);
-        child.setBackgroundResource(getCellBackgroundId());
-        child.setImageResource(getIndicatorDrawableId());
+        child.setBackgroundResource(lp.cellBackgroundId);
+        child.setImageResource(lp.indicatorDrawableId);
         addView(child, position);
+        holders.put(position, new LayeredImageViewHolder(child));
     }
 
     /**
@@ -176,9 +228,8 @@ public class CutoutViewIndicator extends LinearLayout {
         View child = getChildAt(position);
         if (Math.abs(percentageOffset) < 1) {
             // We have something to draw
-            if (child instanceof LayeredView) {
-                LayeredView layeredView = (LayeredView) child;
-                layeredView.offsetImageBy(getOrientation(), percentageOffset);
+            if (child instanceof ImageView) {
+                OffSetters.offsetImageBy((ImageView) child, getOrientation(), percentageOffset);
             }
         }
     }
@@ -311,6 +362,11 @@ public class CutoutViewIndicator extends LinearLayout {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            // Note that the superclass calls layout on the child for us
+            bindChild(i, child);
+        }
         super.onLayout(changed, l, t, r, b);
         ensureOnlyOneItemIsSelected();
     }
@@ -323,14 +379,19 @@ public class CutoutViewIndicator extends LinearLayout {
             int current = viewPager.getCurrentItem();
             for (int i = 0; i < getChildCount(); i++) {
                 if (i != current) {
-                    View child = getChildAt(i);
-                    if (child instanceof LayeredView) {
+                    IndicatorViewHolder child = getViewHolderAt(i);
+                    if (child != null) {
                         // offset by 1 puts it just off-view (i.e. hiding it)
-                        ((LayeredView) child).offsetImageBy(getOrientation(), 1);
+                        child.offsetImageBy(getOrientation(), 1);
                     }
                 }
             }
         }
+    }
+
+    @Nullable
+    private IndicatorViewHolder getViewHolderAt(int position) {
+        return holders.get(position);
     }
 
     @Override
@@ -339,7 +400,7 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     @Override
-    protected LayoutParams generateDefaultLayoutParams() {
+    protected CutoutViewLayoutParams generateDefaultLayoutParams() {
         return new CutoutViewLayoutParams(defaultChildParams);
     }
 

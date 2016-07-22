@@ -2,6 +2,7 @@ package com.cliabhach.indicator;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -39,7 +40,7 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
         super(c, attrs);
     }
 
-    public CutoutViewLayoutParams(ViewGroup.LayoutParams source) {
+    public CutoutViewLayoutParams(@NonNull ViewGroup.LayoutParams source) {
         super(source);
         if (source instanceof CutoutViewLayoutParams) {
             CutoutViewLayoutParams cutoutSource = (CutoutViewLayoutParams) source;
@@ -53,5 +54,20 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
 
     public CutoutViewLayoutParams(int width, int height) {
         super(width, height);
+    }
+
+    /**
+     * Unlike calling the constructor, if the passed parameters are already of this
+     * type they will be returned directly.
+     *
+     * @param layoutParams any layoutParams, ideally descendants of {@link CutoutViewLayoutParams}
+     * @return valid CutoutViewLayoutParams
+     */
+    public static CutoutViewLayoutParams from(@NonNull ViewGroup.LayoutParams layoutParams) {
+        if (layoutParams instanceof CutoutViewLayoutParams) {
+            return (CutoutViewLayoutParams) layoutParams;
+        } else {
+            return new CutoutViewLayoutParams(layoutParams);
+        }
     }
 }
