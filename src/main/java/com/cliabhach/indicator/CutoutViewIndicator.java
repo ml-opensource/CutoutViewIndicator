@@ -67,27 +67,34 @@ public class CutoutViewIndicator extends LinearLayout {
             int childCount = getChildCount();
             int pageCount = viewPager.getAdapter().getCount();
 
-            CutoutViewLayoutParams[] params = new CutoutViewLayoutParams[Math.max(childCount, pageCount)];
+            // Unlike in RecyclerView, the individual IndicatorViewHolders are considered interchangeable.
+            // Therefore the only thing that matters here is how many views there are supposed to be on screen
 
-            for (int i = 0; i < childCount; i++) {
-                View child = getChildAt(i);
-                ViewGroup.LayoutParams childParams = child.getLayoutParams();
-                if (childParams != null) {
-                    params[i] = CutoutViewLayoutParams.from(childParams);
-                }
-            }
-            removeAllViews();
+            int newViews = pageCount - childCount;
 
-            for (int i = 0; i < pageCount; i++) {
-                IndicatorViewHolder ivh = holders.get(i);
-                // This is a cached view
-                if (ivh == null || ivh.itemView.getParent() != null) {
-                    // Current viewHolder is nonexistent or already in use elsewhere...create and add a new one!
-                    addProgressChild(i, params[i]);
-                } else {
-                    // No need to make a new View, the existing one should do.
+            if (newViews > 0) {
+                // We're adding new views
+                for (int i = childCount; i < pageCount; i++) {
+                    // This is a cached view
+                    IndicatorViewHolder ivh = holders.get(i);
+
+                    if (ivh == null || ivh.itemView.getParent() != null) {
+                        // Current viewHolder is nonexistent or already in use elsewhere...create and add a new one!
+                        if (ivh != null && ivh.itemView.getParent() == CutoutViewIndicator.this) {
+                            Log.w(TAG, "It would appear that the view at " + i + " was not removed properly.");
+                        }
+
+                        ivh = createIndicatorFor(i);
+                        holders.put(i, ivh);
+                    }
+
                     addView(ivh.itemView, i);
                 }
+            } else if (newViews < 0) {
+                // We're removing views
+                removeViews(pageCount, -newViews);
+            } else {
+                // Quantity isn't changing.
             }
 
             Log.i(TAG, "onChanged: count=" + pageCount + ", child count=" + childCount);
@@ -177,24 +184,19 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     /**
-     * If the {@code lp} parameter is null, a new object will be
-     * constructed with {@link #generateDefaultLayoutParams()}.
+     * Creates a new {@link LayeredImageViewHolder} by default. Override to change that.
      *
      * @param position used as 'index' parameter to {@link #addView(View, int)}
-     * @param lp parameters specifying what the child should look like
      */
-    protected void addProgressChild(int position, @Nullable CutoutViewLayoutParams lp) {
-        if (lp == null) {
-            lp = generateDefaultLayoutParams();
-        }
+    protected IndicatorViewHolder<ImageView> createIndicatorFor(int position) {
+        CutoutViewLayoutParams lp = generateDefaultLayoutParams();
 
         ImageView child = new ImageView(getContext()); // inflater.inflate(R.layout.cell_layered, this, false);
         child.setScaleType(ImageView.ScaleType.MATRIX);
         child.setLayoutParams(lp);
         child.setBackgroundResource(lp.cellBackgroundId);
         child.setImageResource(lp.indicatorDrawableId);
-        addView(child, position);
-        holders.put(position, new LayeredImageViewHolder(child));
+        return new LayeredImageViewHolder(child);
     }
 
     /**
