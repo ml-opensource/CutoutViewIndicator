@@ -14,6 +14,7 @@
         android:id="@+id/mainViewPager"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_centerInParent="true"
         />
 
     <com.cliabhach.indicator.CutoutViewIndicator
@@ -21,6 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:layout_below="@id/mainViewPager"
+        android:layout_centerHorizontal="true"
+        android:padding="8dp"
         husk:rcv_drawable="@drawable/rectangle_primary"
         husk:rcv_internal_margin="0dp"
         husk:rcv_height="8dp"

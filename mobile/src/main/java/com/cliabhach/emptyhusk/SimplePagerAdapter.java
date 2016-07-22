@@ -2,6 +2,7 @@ package com.cliabhach.emptyhusk;
 
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,11 @@ public class SimplePagerAdapter extends PagerAdapter {
     @NonNull
     private final String[] values;
 
+    private final LruCache<String, View> viewCache;
+
     public SimplePagerAdapter(@NonNull String[] values) {
         this.values = values;
+        viewCache = new LruCache<>(values.length);
     }
 
     @Override
@@ -46,6 +50,18 @@ public class SimplePagerAdapter extends PagerAdapter {
 
         item.setText(value);
 
+        viewCache.put(value, inflated);
+
+        container.addView(inflated);
+
         return value;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        View view = viewCache.get(object.toString());
+        if (view != null) {
+            container.removeView(view);
+        }
     }
 }
