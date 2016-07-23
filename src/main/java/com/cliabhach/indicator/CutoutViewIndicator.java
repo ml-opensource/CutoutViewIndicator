@@ -48,12 +48,16 @@ public class CutoutViewIndicator extends LinearLayout {
     protected ViewPager viewPager;
 
     /**
+     * @see #cascadeParamChanges(boolean)
+     */
+    protected boolean cascadeChanges;
+    /**
      * {@link com.eccyan.widget.SpinningViewPager} reports positions as one greater than other ViewPagers. When this variable
      * is true, CutoutViewIndicator will correct for the discrepancy.
      */
     protected boolean usePositiveOffset;
-    protected ViewPager.OnPageChangeListener pageChangeListener = new OnViewPagerChangeListener(this);
 
+    protected ViewPager.OnPageChangeListener pageChangeListener = new OnViewPagerChangeListener(this);
     protected DataSetObserver dataSetObserver = new DataSetObserver() {
         /**
          * This method is called when the entire data set has changed,
@@ -96,8 +100,6 @@ public class CutoutViewIndicator extends LinearLayout {
             } else {
                 // Quantity isn't changing.
             }
-
-            Log.i(TAG, "onChanged: count=" + pageCount + ", child count=" + childCount);
 
             // Seriously. They called this the 'CurrentItem'. Can you believe it?
             int currentPageNumber = viewPager.getCurrentItem();
@@ -167,17 +169,31 @@ public class CutoutViewIndicator extends LinearLayout {
     protected void bindChild(int position, View child) {
         CutoutViewLayoutParams lp;
         lp = CutoutViewLayoutParams.from(child.getLayoutParams());
+
+        int cellLength;
+        int perpendicularLength;
+        int internalSpacing;
+        if (cascadeChanges) {
+            cellLength = getCellLength();
+            perpendicularLength = getPerpendicularLength();
+            internalSpacing = getInternalSpacing();
+        } else {
+            cellLength = lp.cellLength;
+            perpendicularLength = lp.perpendicularLength;
+            internalSpacing = lp.internalSpacing;
+        }
+
         final int left, top;
         if (getOrientation() == HORIZONTAL) {
-            lp.width = lp.cellLength;
-            lp.height = lp.perpendicularLength;
-            left = (position == 0) ? 0 : getInternalSpacing();
+            lp.width = cellLength;
+            lp.height = perpendicularLength;
+            left = (position == 0) ? 0 : internalSpacing;
             top = 0;
         } else {
-            lp.width = lp.perpendicularLength;
-            lp.height = lp.cellLength;
+            lp.width = perpendicularLength;
+            lp.height = cellLength;
             left = 0;
-            top = (position == 0) ? 0 : getInternalSpacing();
+            top = (position == 0) ? 0 : internalSpacing;
         }
         lp.setMargins(left, top, 0, 0);
         lp.gravity = Gravity.CENTER;
@@ -236,26 +252,63 @@ public class CutoutViewIndicator extends LinearLayout {
         }
     }
 
+    /**
+     * Use this to change whether the setters and getters apply to all views in this layout,
+     * or just to the currently selected one.
+     *
+     * @param cascade true to enable cascading changes, false to disable
+     */
+    public void cascadeParamChanges(boolean cascade) {
+        this.cascadeChanges = cascade;
+        requestLayout();
+    }
+
     public void enablePositiveOffset(boolean usePositiveOffset) {
         this.usePositiveOffset = usePositiveOffset;
     }
 
     public void setCellBackgroundId(@DrawableRes int cellBackgroundId) {
         defaultChildParams.cellBackgroundId = cellBackgroundId;
+
+        if (!cascadeChanges) {
+            CutoutViewLayoutParams params = getLayoutParamsForCurrentItem();
+            if (params != null) {
+                params.cellBackgroundId = cellBackgroundId;
+            }
+        }
     }
 
     public int getCellBackgroundId() {
+        if (!cascadeChanges) {
+            CutoutViewLayoutParams params = getLayoutParamsForCurrentItem();
+            if (params != null) {
+                return params.cellBackgroundId;
+            }
+        }
         return defaultChildParams.cellBackgroundId;
     }
 
     public void setIndicatorDrawableId(@DrawableRes int indicatorDrawableId) {
         defaultChildParams.indicatorDrawableId = indicatorDrawableId;
+
+        if (!cascadeChanges) {
+            CutoutViewLayoutParams params = getLayoutParamsForCurrentItem();
+            if (params != null) {
+                params.indicatorDrawableId = indicatorDrawableId;
+            }
+        }
     }
 
     /**
      * This is the id of the drawable currently acting as indicator. If 0, no indicator will be shown.
      */
     public int getIndicatorDrawableId() {
+        if (!cascadeChanges) {
+            CutoutViewLayoutParams params = getLayoutParamsForCurrentItem();
+            if (params != null) {
+                return params.indicatorDrawableId;
+            }
+        }
         return defaultChildParams.indicatorDrawableId;
     }
 
@@ -271,6 +324,14 @@ public class CutoutViewIndicator extends LinearLayout {
      */
     public void setCellLength(int cellLength) {
         defaultChildParams.cellLength = cellLength;
+
+        if (!cascadeChanges) {
+            CutoutViewLayoutParams params = getLayoutParamsForCurrentItem();
+            if (params != null) {
+                params.cellLength = cellLength;
+            }
+        }
+
         requestLayout();
     }
 
@@ -283,6 +344,14 @@ public class CutoutViewIndicator extends LinearLayout {
      */
     public void setInternalSpacing(int internalSpacing) {
         defaultChildParams.internalSpacing = internalSpacing;
+
+        if (!cascadeChanges) {
+            CutoutViewLayoutParams params = getLayoutParamsForCurrentItem();
+            if (params != null) {
+                params.internalSpacing = internalSpacing;
+            }
+        }
+
         requestLayout();
     }
 
@@ -298,6 +367,14 @@ public class CutoutViewIndicator extends LinearLayout {
      */
     public void setPerpendicularLength(int perpendicularLength) {
         defaultChildParams.perpendicularLength = perpendicularLength;
+
+        if (!cascadeChanges) {
+            CutoutViewLayoutParams params = getLayoutParamsForCurrentItem();
+            if (params != null) {
+                params.perpendicularLength = perpendicularLength;
+            }
+        }
+
         requestLayout();
     }
 
@@ -307,6 +384,12 @@ public class CutoutViewIndicator extends LinearLayout {
      * @return current length of one cell in pixels
      */
     public int getCellLength() {
+        if (!cascadeChanges) {
+            CutoutViewLayoutParams params = getLayoutParamsForCurrentItem();
+            if (params != null) {
+                return params.cellLength;
+            }
+        }
         return defaultChildParams.cellLength;
     }
 
@@ -316,6 +399,12 @@ public class CutoutViewIndicator extends LinearLayout {
      * @return current space between cells in pixels
      */
     public int getInternalSpacing() {
+        if (!cascadeChanges) {
+            CutoutViewLayoutParams params = getLayoutParamsForCurrentItem();
+            if (params != null) {
+                return params.internalSpacing;
+            }
+        }
         return defaultChildParams.internalSpacing;
     }
 
@@ -325,6 +414,12 @@ public class CutoutViewIndicator extends LinearLayout {
      * @return current perpendicular length of one cell in pixels
      */
     public int getPerpendicularLength() {
+        if (!cascadeChanges) {
+            CutoutViewLayoutParams params = getLayoutParamsForCurrentItem();
+            if (params != null) {
+                return params.perpendicularLength;
+            }
+        }
         return defaultChildParams.perpendicularLength;
     }
 
@@ -389,6 +484,21 @@ public class CutoutViewIndicator extends LinearLayout {
                 }
             }
         }
+    }
+
+    @Nullable
+    protected CutoutViewLayoutParams getLayoutParamsForCurrentItem() {
+        CutoutViewLayoutParams params = null;
+        if (viewPager != null) {
+            int position = viewPager.getCurrentItem();
+            if (position > -1) {
+                IndicatorViewHolder holder = getViewHolderAt(position);
+                if (holder != null) {
+                    params = (CutoutViewLayoutParams) holder.itemView.getLayoutParams();
+                }
+            }
+        }
+        return params;
     }
 
     @Nullable
