@@ -4,11 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 
@@ -39,11 +38,12 @@ public class MainActivity extends AppCompatActivity {
         SimplePagerAdapter adapter = defineAdapter();
         initPager(viewPager, adapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        initButtons(fab, adapter);
-
         CutoutViewIndicator cvi = (CutoutViewIndicator) findViewById(R.id.cutoutViewIndicator);
         initIndicator(cvi, viewPager);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        CompoundButton button = (CompoundButton) findViewById(R.id.unifiedSwitch);
+        initButtons(fab, button, cvi);
 
         NumberPicker spacing = (NumberPicker) findViewById(R.id.spacingPicker);
         NumberPicker width = (NumberPicker) findViewById(R.id.widthPicker);
@@ -51,11 +51,11 @@ public class MainActivity extends AppCompatActivity {
         initPickers(spacing, width, height, cvi);
     }
 
-    private void initButtons(FloatingActionButton fab, final @NonNull PagerAdapter adapter) {
-        fab.setOnClickListener(new View.OnClickListener() {
+    private void initButtons(FloatingActionButton fab, CompoundButton button, final CutoutViewIndicator cvi) {
+        button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                adapter.notifyDataSetChanged();
+            public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+                cvi.cascadeParamChanges(isChecked);
             }
         });
     }

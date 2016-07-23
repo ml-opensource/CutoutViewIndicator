@@ -13,7 +13,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/mainViewPager"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="80dp"
         android:layout_marginTop="100dp"
         />
 
@@ -34,14 +34,17 @@
         />
 
     <GridLayout
+        android:id="@+id/gridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/cutoutViewIndicator"
+        android:padding="4dp"
         android:columnCount="3"
         android:rowCount="2"
         android:gravity="center"
         android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         >
 
         <NumberPicker
@@ -81,5 +84,29 @@
             />
 
     </GridLayout>
+
+    <Switch
+        android:id="@+id/unifiedSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cutoutViewIndicator"
+        android:layout_toRightOf="@id/gridLayout"
+        android:layout_toEndOf="@id/gridLayout"
+        android:layout_marginLeft="31dp"
+        android:layout_marginStart="31dp"
+        android:checked="true"
+        />
+
+    <TextView
+        android:id="@+id/changeAllLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/label_unify"
+        android:textColor="@color/colorPrimary"
+        android:layout_below="@id/unifiedSwitch"
+        android:layout_toRightOf="@id/gridLayout"
+        android:layout_toEndOf="@id/gridLayout"
+        />
 
 </RelativeLayout>
