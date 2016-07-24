@@ -153,11 +153,11 @@ public class CutoutViewIndicator extends LinearLayout {
 
             // The superclass will have resolved orientation by now.
             if (getOrientation() == HORIZONTAL) {
-                setPerpendicularLength(a.getDimensionPixelSize(R.styleable.CutoutViewIndicator_rcv_height, 0));
-                setCellLength(a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_rcv_width, 0));
+                setPerpendicularLength(a.getDimensionPixelSize(R.styleable.CutoutViewIndicator_rcv_height, WRAP_CONTENT));
+                setCellLength(a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_rcv_width, WRAP_CONTENT));
             } else {
-                setPerpendicularLength(a.getDimensionPixelSize(R.styleable.CutoutViewIndicator_rcv_width, 0));
-                setCellLength(a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_rcv_height, 0));
+                setPerpendicularLength(a.getDimensionPixelSize(R.styleable.CutoutViewIndicator_rcv_width, WRAP_CONTENT));
+                setCellLength(a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_rcv_height, WRAP_CONTENT));
             }
 
             if (isInEditMode()) {
@@ -358,10 +358,14 @@ public class CutoutViewIndicator extends LinearLayout {
     public void setCellLength(int cellLength) {
         defaultChildParams.cellLength = cellLength;
 
+        boolean isHeight = getOrientation() == VERTICAL;
+        defaultChildParams.setParamDimension(cellLength, isHeight);
+
         if (!cascadeChanges) {
             CutoutViewLayoutParams params = getLayoutParamsForCurrentItem();
             if (params != null) {
                 params.cellLength = cellLength;
+                params.setParamDimension(cellLength, isHeight);
             }
         }
 
@@ -401,10 +405,14 @@ public class CutoutViewIndicator extends LinearLayout {
     public void setPerpendicularLength(int perpendicularLength) {
         defaultChildParams.perpendicularLength = perpendicularLength;
 
+        boolean isHeight = getOrientation() == HORIZONTAL;
+        defaultChildParams.setParamDimension(perpendicularLength, isHeight);
+
         if (!cascadeChanges) {
             CutoutViewLayoutParams params = getLayoutParamsForCurrentItem();
             if (params != null) {
                 params.perpendicularLength = perpendicularLength;
+                params.setParamDimension(perpendicularLength, isHeight);
             }
         }
 

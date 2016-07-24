@@ -36,6 +36,20 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
      */
     public int perpendicularLength;
 
+    /**
+     * Utility method for setting height and width in an orientation-independent way
+     *
+     * @param dimension the new value for either height or width, in pixels
+     * @param isHeight true if this is height, false if this is width
+     */
+    public void setParamDimension(int dimension, boolean isHeight) {
+        if (isHeight) {
+            height = dimension;
+        } else {
+            width = dimension;
+        }
+    }
+
     public CutoutViewLayoutParams(Context c, AttributeSet attrs) {
         super(c, attrs);
     }
