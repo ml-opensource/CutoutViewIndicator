@@ -107,8 +107,9 @@ public class CutoutViewIndicator extends LinearLayout {
                 // Quantity isn't changing.
             }
 
-            // Seriously. They called this the 'CurrentItem'. Can you believe it?
-            int currentPageNumber = (int) getCurrentPageNumber();
+            // Here we just truncate to appease the API. A side effect is that any
+            // non-integer position info will be lost in the process.
+            int currentPageNumber = (int) getCurrentIndicatorPosition();
             // Anyway, we need to ensure that item is selected.
             pageChangeListener.onPageSelected(currentPageNumber);
         }
@@ -275,6 +276,7 @@ public class CutoutViewIndicator extends LinearLayout {
 
     /**
      * Gets the index of the page that's currently selected.
+     * The value returned is guaranteed to be in the range <b>{@code 0<=position<pageCount}</b>
      * <p>
      *     The floating point value returned here represents the exact epicenter of the
      *     current indicator, which may indeed be partially on two child views at the
@@ -290,10 +292,11 @@ public class CutoutViewIndicator extends LinearLayout {
      * @return the {@link ViewPager#getCurrentItem()} if {@link #viewPager} is non-null,
      * 0 otherwise
      */
-    private float getCurrentPageNumber() {
+    private float getCurrentIndicatorPosition() {
         if (isInEditMode()) {
             return getPageCount() * (float) Math.random();
         }
+        // Seriously. They called this the 'CurrentItem'. Can you believe it?
         return viewPager == null ? 0 : viewPager.getCurrentItem();
     }
 
@@ -543,7 +546,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * </p>
      */
     public void ensureOnlyOneItemIsSelected() {
-        float current = getCurrentPageNumber();
+        float current = getCurrentIndicatorPosition();
         for (int i = 0; i < getChildCount(); i++) {
             IndicatorViewHolder child = getViewHolderAt(i);
             if (child != null) {
@@ -556,7 +559,7 @@ public class CutoutViewIndicator extends LinearLayout {
     @Nullable
     protected CutoutViewLayoutParams getLayoutParamsForCurrentItem() {
         CutoutViewLayoutParams params = null;
-        float position = getCurrentPageNumber();
+        float position = getCurrentIndicatorPosition();
         if (position >= 0) {
             IndicatorViewHolder holder = getViewHolderAt((int) position);
             if (holder != null) {
