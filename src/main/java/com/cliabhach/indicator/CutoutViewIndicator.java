@@ -253,11 +253,11 @@ public class CutoutViewIndicator extends LinearLayout {
      *                         indicator will be drawn
      */
     protected void showOffsetIndicator(int position, float percentageOffset) {
-        View child = getChildAt(position);
+        IndicatorViewHolder child = getViewHolderAt(position);
         if (Math.abs(percentageOffset) < 1) {
             // We have something to draw
-            if (child instanceof ImageView) {
-                OffSetters.offsetImageBy((ImageView) child, getOrientation(), percentageOffset);
+            if (child != null) {
+                child.offsetImageBy(getOrientation(), percentageOffset);
             }
         }
     }
@@ -473,9 +473,11 @@ public class CutoutViewIndicator extends LinearLayout {
      * @param newPager the new ViewPager that this'll sync with. Pass null to disable.
      */
     public void setViewPager(@Nullable ViewPager newPager) {
-        if (viewPager != null && viewPager.getAdapter() != null) {
+        if (viewPager != null) {
             viewPager.removeOnPageChangeListener(pageChangeListener);
-            viewPager.getAdapter().unregisterDataSetObserver(dataSetObserver);
+            if (viewPager.getAdapter() != null) {
+                viewPager.getAdapter().unregisterDataSetObserver(dataSetObserver);
+            }
         }
         viewPager = newPager;
         if (newPager != null && newPager.getAdapter() != null) {
