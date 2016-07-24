@@ -108,7 +108,7 @@ public class CutoutViewIndicator extends LinearLayout {
             }
 
             // Seriously. They called this the 'CurrentItem'. Can you believe it?
-            int currentPageNumber = getCurrentPageNumber();
+            int currentPageNumber = (int) getCurrentPageNumber();
             // Anyway, we need to ensure that item is selected.
             pageChangeListener.onPageSelected(currentPageNumber);
         }
@@ -275,11 +275,25 @@ public class CutoutViewIndicator extends LinearLayout {
 
     /**
      * Gets the index of the page that's currently selected.
+     * <p>
+     *     The floating point value returned here represents the exact epicenter of the
+     *     current indicator, which may indeed be partially on two child views at the
+     *     same time. Callers should use their best judgement to determine whether to
+     *     consider both views current if it falls between integers, or do so for just
+     *     one of them.
+     * </p>
+     * <p>
+     *     If this view {@link #isInEditMode() is being edited}, the method
+     *     will return a random float in the range from 0 to {@link #getPageCount()}.
+     * </p>
      *
      * @return the {@link ViewPager#getCurrentItem()} if {@link #viewPager} is non-null,
      * 0 otherwise
      */
-    private int getCurrentPageNumber() {
+    private float getCurrentPageNumber() {
+        if (isInEditMode()) {
+            return getPageCount() * (float) Math.random();
+        }
         return viewPager == null ? 0 : viewPager.getCurrentItem();
     }
 
@@ -521,16 +535,20 @@ public class CutoutViewIndicator extends LinearLayout {
 
     /**
      * Call this to hide the indicator on all views except for the one corresponding to the currently displaying item.
+     * <p>
+     *     This method is relatively expensive and should only really be called
+     *     when no other animation is in progress on this view. To animate changes
+     *     smoothly it is recommended to use the slightly less comprehensive
+     *     {@link #showOffsetIndicator(int, float)} instead.
+     * </p>
      */
     public void ensureOnlyOneItemIsSelected() {
-        int current = getCurrentPageNumber();
+        float current = getCurrentPageNumber();
         for (int i = 0; i < getChildCount(); i++) {
-            if (i != current) {
-                IndicatorViewHolder child = getViewHolderAt(i);
-                if (child != null) {
-                    // offset by 1 puts it just off-view (i.e. hiding it)
-                    child.offsetImageBy(getOrientation(), 1);
-                }
+            IndicatorViewHolder child = getViewHolderAt(i);
+            if (child != null) {
+                // offset outside the range -1..1 puts it just off-view (i.e. hiding it)
+                child.offsetImageBy(getOrientation(), current - i);
             }
         }
     }
@@ -538,9 +556,9 @@ public class CutoutViewIndicator extends LinearLayout {
     @Nullable
     protected CutoutViewLayoutParams getLayoutParamsForCurrentItem() {
         CutoutViewLayoutParams params = null;
-        int position = getCurrentPageNumber();
-        if (position > -1) {
-            IndicatorViewHolder holder = getViewHolderAt(position);
+        float position = getCurrentPageNumber();
+        if (position >= 0) {
+            IndicatorViewHolder holder = getViewHolderAt((int) position);
             if (holder != null) {
                 params = (CutoutViewLayoutParams) holder.itemView.getLayoutParams();
             }
