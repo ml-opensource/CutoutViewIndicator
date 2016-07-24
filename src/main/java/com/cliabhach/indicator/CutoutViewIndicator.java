@@ -58,6 +58,12 @@ public class CutoutViewIndicator extends LinearLayout {
     protected boolean usePositiveOffset;
 
     protected ViewPager.OnPageChangeListener pageChangeListener = new OnViewPagerChangeListener(this);
+    /**
+     * This value is strictly for showing a good tools-style preview of this view. If
+     * {@link #isInEditMode()} is false, this value should never be used.
+     */
+    private int editModePageCount;
+
     protected DataSetObserver dataSetObserver = new DataSetObserver() {
         /**
          * This method is called when the entire data set has changed,
@@ -69,7 +75,7 @@ public class CutoutViewIndicator extends LinearLayout {
         public void onChanged() {
             super.onChanged();
             int childCount = getChildCount();
-            int pageCount = viewPager.getAdapter().getCount();
+            int pageCount = getPageCount();
 
             // Unlike in RecyclerView, the individual IndicatorViewHolders are considered interchangeable.
             // Therefore the only thing that matters here is how many views there are supposed to be on screen
@@ -102,7 +108,7 @@ public class CutoutViewIndicator extends LinearLayout {
             }
 
             // Seriously. They called this the 'CurrentItem'. Can you believe it?
-            int currentPageNumber = viewPager.getCurrentItem();
+            int currentPageNumber = getCurrentPageNumber();
             // Anyway, we need to ensure that item is selected.
             pageChangeListener.onPageSelected(currentPageNumber);
         }
@@ -152,6 +158,10 @@ public class CutoutViewIndicator extends LinearLayout {
             } else {
                 setPerpendicularLength(a.getDimensionPixelSize(R.styleable.CutoutViewIndicator_rcv_width, 0));
                 setCellLength(a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_rcv_height, 0));
+            }
+
+            if (isInEditMode()) {
+                editModePageCount = a.getInteger(R.styleable.CutoutViewIndicator_rcv_tools_indicator_count, 2);
             }
 
             setCellBackgroundId(a.getResourceId(R.styleable.CutoutViewIndicator_rcv_drawable_unselected, 0));
@@ -261,6 +271,29 @@ public class CutoutViewIndicator extends LinearLayout {
     public void cascadeParamChanges(boolean cascade) {
         this.cascadeChanges = cascade;
         requestLayout();
+    }
+
+    /**
+     * Gets the index of the page that's currently selected.
+     *
+     * @return the {@link ViewPager#getCurrentItem()} if {@link #viewPager} is non-null,
+     * 0 otherwise
+     */
+    private int getCurrentPageNumber() {
+        return viewPager == null ? 0 : viewPager.getCurrentItem();
+    }
+
+    /**
+     * Gets the total number of pages. In {@link #isInEditMode() edit mode}
+     * this will return 1 or {@link #editModePageCount}, whichever is higher.
+     *
+     * @return the number of pages found.
+     */
+    protected int getPageCount() {
+        if (isInEditMode()) {
+            return Math.max(1, editModePageCount);
+        }
+        return viewPager.getAdapter().getCount();
     }
 
     public void enablePositiveOffset(boolean usePositiveOffset) {
@@ -458,6 +491,14 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (isInEditMode()) {
+            dataSetObserver.onChanged();
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
@@ -472,15 +513,13 @@ public class CutoutViewIndicator extends LinearLayout {
      * Call this to hide the indicator on all views except for the one corresponding to the currently displaying item.
      */
     public void ensureOnlyOneItemIsSelected() {
-        if (viewPager != null) {
-            int current = viewPager.getCurrentItem();
-            for (int i = 0; i < getChildCount(); i++) {
-                if (i != current) {
-                    IndicatorViewHolder child = getViewHolderAt(i);
-                    if (child != null) {
-                        // offset by 1 puts it just off-view (i.e. hiding it)
-                        child.offsetImageBy(getOrientation(), 1);
-                    }
+        int current = getCurrentPageNumber();
+        for (int i = 0; i < getChildCount(); i++) {
+            if (i != current) {
+                IndicatorViewHolder child = getViewHolderAt(i);
+                if (child != null) {
+                    // offset by 1 puts it just off-view (i.e. hiding it)
+                    child.offsetImageBy(getOrientation(), 1);
                 }
             }
         }
@@ -489,13 +528,11 @@ public class CutoutViewIndicator extends LinearLayout {
     @Nullable
     protected CutoutViewLayoutParams getLayoutParamsForCurrentItem() {
         CutoutViewLayoutParams params = null;
-        if (viewPager != null) {
-            int position = viewPager.getCurrentItem();
-            if (position > -1) {
-                IndicatorViewHolder holder = getViewHolderAt(position);
-                if (holder != null) {
-                    params = (CutoutViewLayoutParams) holder.itemView.getLayoutParams();
-                }
+        int position = getCurrentPageNumber();
+        if (position > -1) {
+            IndicatorViewHolder holder = getViewHolderAt(position);
+            if (holder != null) {
+                params = (CutoutViewLayoutParams) holder.itemView.getLayoutParams();
             }
         }
         return params;
