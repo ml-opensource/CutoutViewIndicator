@@ -25,11 +25,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
         android:padding="8dp"
         husk:rcv_drawable="@drawable/rectangle_primary"
         husk:rcv_internal_margin="7dp"
         husk:rcv_height="8dp"
         husk:rcv_width="40dp"
+        husk:rcv_tools_indicator_count="5"
         husk:rcv_drawable_unselected="@drawable/rectangle_secondary"
         />
 
@@ -42,7 +44,7 @@
         android:rowCount="2"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/cutoutViewIndicator"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         >
