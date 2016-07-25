@@ -16,14 +16,16 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
+ * A RecyclerView-inspired ViewGroup for showing an indicator traversing multiple child Views ('cells').
+ * <p>
  * There's a nice monospace line drawing in the javadoc for {@link #showOffsetIndicator(int, float)} that basically sums up
- * this ViewGroup.
+ * its appearance when operating under an {@link ImageViewGenerator}.
+ * </p>
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
@@ -63,6 +65,13 @@ public class CutoutViewIndicator extends LinearLayout {
      * {@link #isInEditMode()} is false, this value should never be used.
      */
     private int editModePageCount;
+
+    /**
+     * This object is responsible for creating new cells
+     * @see #showOffsetIndicator(int, float)
+     */
+    @NonNull
+    protected LayeredViewGenerator generator = new ImageViewGenerator();
 
     protected DataSetObserver dataSetObserver = new DataSetObserver() {
         /**
@@ -211,19 +220,30 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     /**
-     * Creates a new {@link LayeredImageViewHolder} by default. Override to change that.
+     * Set a new generator that will be called upon when a new cell
+     * is needed. More or less the same as RecyclerView's Adapter.
+     * <p>
+     *     Defaults to being a {@link ImageViewGenerator}, which
+     *     should be good enough for most purposes.
+     * </p>
+     *
+     * @param generator the new generator. May not be null.
+     * @see #showOffsetIndicator(int, float)
+     */
+    protected void setGenerator(@NonNull LayeredViewGenerator generator) {
+        this.generator = generator;
+    }
+
+    /**
+     * Asks the {@link #generator} to create a new cell.
      *
      * @param position used as 'index' parameter to {@link #addView(View, int)}
+     * @see LayeredViewGenerator#createIndicatorFor(ViewGroup, int)
+     * @see #showOffsetIndicator(int, float)
      */
+    @NonNull
     protected LayeredView createIndicatorFor(int position) {
-        CutoutViewLayoutParams lp = generateDefaultLayoutParams();
-
-        ImageView child = new ImageView(getContext()); // inflater.inflate(R.layout.cell_layered, this, false);
-        child.setScaleType(ImageView.ScaleType.MATRIX);
-        child.setLayoutParams(lp);
-        child.setBackgroundResource(lp.cellBackgroundId);
-        child.setImageResource(lp.indicatorDrawableId);
-        return new LayeredImageViewHolder(child);
+        return generator.createIndicatorFor(this, position);
     }
 
     /**
@@ -511,7 +531,7 @@ public class CutoutViewIndicator extends LinearLayout {
                         getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
 
-                    ensureOnlyOneItemIsSelected();
+                    ensureOnlyCurrentItemsSelected();
                 }
             });
         }
@@ -533,7 +553,7 @@ public class CutoutViewIndicator extends LinearLayout {
             bindChild(i, child);
         }
         super.onLayout(changed, l, t, r, b);
-        ensureOnlyOneItemIsSelected();
+        ensureOnlyCurrentItemsSelected();
     }
 
     /**
@@ -545,7 +565,7 @@ public class CutoutViewIndicator extends LinearLayout {
      *     {@link #showOffsetIndicator(int, float)} instead.
      * </p>
      */
-    public void ensureOnlyOneItemIsSelected() {
+    public void ensureOnlyCurrentItemsSelected() {
         float current = getCurrentIndicatorPosition();
         for (int i = 0; i < getChildCount(); i++) {
             LayeredView child = getViewHolderAt(i);

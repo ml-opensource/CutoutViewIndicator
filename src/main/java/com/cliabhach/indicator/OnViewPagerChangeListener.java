@@ -56,7 +56,7 @@ class OnViewPagerChangeListener implements ViewPager.OnPageChangeListener {
     public void onPageScrollStateChanged(int state) {
         if (state == ViewPager.SCROLL_STATE_IDLE) {
             // verify that all non-current views are free from indicators
-            cvi.ensureOnlyOneItemIsSelected();
+            cvi.ensureOnlyCurrentItemsSelected();
         }
     }
 }
