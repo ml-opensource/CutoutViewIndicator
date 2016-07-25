@@ -40,7 +40,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * </p>
      */
     @NonNull
-    protected SparseArrayCompat<IndicatorViewHolder> holders = new SparseArrayCompat<>(5);
+    protected SparseArrayCompat<LayeredView> holders = new SparseArrayCompat<>(5);
 
     @NonNull
     protected CutoutViewLayoutParams defaultChildParams;
@@ -86,11 +86,11 @@ public class CutoutViewIndicator extends LinearLayout {
                 // We're adding new views
                 for (int i = childCount; i < pageCount; i++) {
                     // This is a cached view
-                    IndicatorViewHolder ivh = holders.get(i);
+                    LayeredView ivh = holders.get(i);
 
-                    if (ivh == null || ivh.itemView.getParent() != null) {
+                    if (ivh == null || ivh.getItemView().getParent() != null) {
                         // Current viewHolder is nonexistent or already in use elsewhere...create and add a new one!
-                        if (ivh != null && ivh.itemView.getParent() == CutoutViewIndicator.this) {
+                        if (ivh != null && ivh.getItemView().getParent() == CutoutViewIndicator.this) {
                             Log.w(TAG, "It would appear that the view at " + i + " was not removed properly.");
                         }
 
@@ -98,7 +98,7 @@ public class CutoutViewIndicator extends LinearLayout {
                         holders.put(i, ivh);
                     }
 
-                    addView(ivh.itemView, i);
+                    addView(ivh.getItemView(), i);
                 }
             } else if (newViews < 0) {
                 // We're removing views
@@ -215,7 +215,7 @@ public class CutoutViewIndicator extends LinearLayout {
      *
      * @param position used as 'index' parameter to {@link #addView(View, int)}
      */
-    protected IndicatorViewHolder<ImageView> createIndicatorFor(int position) {
+    protected LayeredView createIndicatorFor(int position) {
         CutoutViewLayoutParams lp = generateDefaultLayoutParams();
 
         ImageView child = new ImageView(getContext()); // inflater.inflate(R.layout.cell_layered, this, false);
@@ -254,7 +254,7 @@ public class CutoutViewIndicator extends LinearLayout {
      *                         indicator will be drawn
      */
     protected void showOffsetIndicator(int position, float percentageOffset) {
-        IndicatorViewHolder child = getViewHolderAt(position);
+        LayeredView child = getViewHolderAt(position);
         if (Math.abs(percentageOffset) < 1) {
             // We have something to draw
             if (child != null) {
@@ -548,7 +548,7 @@ public class CutoutViewIndicator extends LinearLayout {
     public void ensureOnlyOneItemIsSelected() {
         float current = getCurrentIndicatorPosition();
         for (int i = 0; i < getChildCount(); i++) {
-            IndicatorViewHolder child = getViewHolderAt(i);
+            LayeredView child = getViewHolderAt(i);
             if (child != null) {
                 // offset outside the range -1..1 puts it just off-view (i.e. hiding it)
                 child.offsetImageBy(getOrientation(), current - i);
@@ -561,16 +561,16 @@ public class CutoutViewIndicator extends LinearLayout {
         CutoutViewLayoutParams params = null;
         float position = getCurrentIndicatorPosition();
         if (position >= 0) {
-            IndicatorViewHolder holder = getViewHolderAt((int) position);
+            LayeredView holder = getViewHolderAt((int) position);
             if (holder != null) {
-                params = (CutoutViewLayoutParams) holder.itemView.getLayoutParams();
+                params = (CutoutViewLayoutParams) holder.getItemView().getLayoutParams();
             }
         }
         return params;
     }
 
     @Nullable
-    private IndicatorViewHolder getViewHolderAt(int position) {
+    private LayeredView getViewHolderAt(int position) {
         return holders.get(position);
     }
 
@@ -580,7 +580,7 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     @Override
-    protected CutoutViewLayoutParams generateDefaultLayoutParams() {
+    public CutoutViewLayoutParams generateDefaultLayoutParams() {
         return new CutoutViewLayoutParams(defaultChildParams);
     }
 

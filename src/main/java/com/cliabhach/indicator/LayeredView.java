@@ -1,5 +1,7 @@
 package com.cliabhach.indicator;
 
+import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.LinearLayout;
 
 /**
@@ -15,4 +17,10 @@ public interface LayeredView {
      * @param percentage  percentage of width/height to offset by - positive means down/right, negative means up/left
      */
     void offsetImageBy(int orientation, float percentage);
+
+    /**
+     * @return the actual view represented by this object
+     */
+    @NonNull
+    View getItemView();
 }

@@ -20,4 +20,10 @@ public abstract class IndicatorViewHolder<Root extends View> implements LayeredV
     public IndicatorViewHolder(@NonNull Root itemView) {
         this.itemView = itemView;
     }
+
+    @Override
+    @NonNull
+    public Root getItemView() {
+        return itemView;
+    }
 }
