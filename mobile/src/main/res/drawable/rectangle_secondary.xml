@@ -7,5 +7,5 @@
         android:height="4dp"
         android:width="4dp"
         />
-    <solid android:color="@color/colorSecondary" />
+    <solid android:color="@color/colorPrimary" />
 </shape>
