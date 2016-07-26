@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 cvi.cascadeParamChanges(isChecked);
             }
         });
+        fab.setOnClickListener(new SwitchIndicatorsListener(cvi));
     }
 
     @NonNull
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initIndicator(CutoutViewIndicator cvi, ViewPager viewPager) {
+        cvi.cascadeParamChanges(true);
         cvi.setViewPager(viewPager);
     }
 
