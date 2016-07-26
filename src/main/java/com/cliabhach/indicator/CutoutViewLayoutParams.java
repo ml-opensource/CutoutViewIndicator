@@ -58,16 +58,20 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
         super(source);
         if (source instanceof CutoutViewLayoutParams) {
             CutoutViewLayoutParams cutoutSource = (CutoutViewLayoutParams) source;
-            cellBackgroundId = cutoutSource.cellBackgroundId;
-            indicatorDrawableId = cutoutSource.indicatorDrawableId;
-            internalSpacing = cutoutSource.internalSpacing;
-            cellLength = cutoutSource.cellLength;
-            perpendicularLength = cutoutSource.perpendicularLength;
+            setFrom(cutoutSource);
         }
     }
 
     public CutoutViewLayoutParams(int width, int height) {
         super(width, height);
+    }
+
+    public void setFrom(@NonNull CutoutViewLayoutParams cutoutSource) {
+        cellBackgroundId = cutoutSource.cellBackgroundId;
+        indicatorDrawableId = cutoutSource.indicatorDrawableId;
+        internalSpacing = cutoutSource.internalSpacing;
+        cellLength = cutoutSource.cellLength;
+        perpendicularLength = cutoutSource.perpendicularLength;
     }
 
     /**

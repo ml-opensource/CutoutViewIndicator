@@ -44,6 +44,10 @@ public class CutoutViewIndicator extends LinearLayout {
     @NonNull
     protected SparseArrayCompat<LayeredView> holders = new SparseArrayCompat<>(5);
 
+    /**
+     * Default configuration used as a base for {@link #generateDefaultLayoutParams()}
+     * and {@link #bindChild(int, View)}
+     */
     @NonNull
     protected CutoutViewLayoutParams defaultChildParams;
 
@@ -103,7 +107,7 @@ public class CutoutViewIndicator extends LinearLayout {
                             Log.w(TAG, "It would appear that the view at " + i + " was not removed properly.");
                         }
 
-                        ivh = createIndicatorFor(i);
+                        ivh = createCellFor(i);
                         holders.put(i, ivh);
                     }
 
@@ -217,6 +221,8 @@ public class CutoutViewIndicator extends LinearLayout {
         }
         lp.setMargins(left, top, 0, 0);
         lp.gravity = Gravity.CENTER;
+
+        generator.onBindChild(child, lp);
     }
 
     /**
@@ -230,7 +236,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * @param generator the new generator. May not be null.
      * @see #showOffsetIndicator(int, float)
      */
-    protected void setGenerator(@NonNull LayeredViewGenerator generator) {
+    public void setGenerator(@NonNull LayeredViewGenerator generator) {
         this.generator = generator;
     }
 
@@ -238,12 +244,12 @@ public class CutoutViewIndicator extends LinearLayout {
      * Asks the {@link #generator} to create a new cell.
      *
      * @param position used as 'index' parameter to {@link #addView(View, int)}
-     * @see LayeredViewGenerator#createIndicatorFor(ViewGroup, int)
+     * @see LayeredViewGenerator#createCellFor(ViewGroup, int)
      * @see #showOffsetIndicator(int, float)
      */
     @NonNull
-    protected LayeredView createIndicatorFor(int position) {
-        return generator.createIndicatorFor(this, position);
+    protected LayeredView createCellFor(int position) {
+        return generator.createCellFor(this, position);
     }
 
     /**
@@ -284,6 +290,15 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     /**
+     * Setter for {@link #defaultChildParams}
+     *
+     * @param defaultChildParams sets default for all newly-created cells
+     */
+    public void setDefaultChildParams(@NonNull CutoutViewLayoutParams defaultChildParams) {
+        this.defaultChildParams = defaultChildParams;
+    }
+
+    /**
      * Use this to change whether the setters and getters apply to all views in this layout,
      * or just to the currently selected one.
      *
@@ -291,6 +306,32 @@ public class CutoutViewIndicator extends LinearLayout {
      */
     public void cascadeParamChanges(boolean cascade) {
         this.cascadeChanges = cascade;
+        requestLayout();
+    }
+
+    /**
+     * Wrapper around {@link #setDefaultChildParams(CutoutViewLayoutParams)}
+     * that also applies these params to each of the child views.
+     */
+    public void setAllChildParamsTo(@NonNull CutoutViewLayoutParams params) {
+        boolean wasNotCascading = !cascadeChanges;
+        if (wasNotCascading) {
+            cascadeChanges = true;
+        }
+
+        setDefaultChildParams(params);
+        for (int i = 0; i < holders.size(); i++) {
+            LayeredView layeredView = holders.valueAt(i);
+            if (layeredView != null) {
+                CutoutViewLayoutParams childParams = (CutoutViewLayoutParams) layeredView.getItemView().getLayoutParams();
+                childParams.setFrom(params);
+            }
+        }
+
+        if (wasNotCascading) {
+            cascadeChanges = false;
+        }
+
         requestLayout();
     }
 

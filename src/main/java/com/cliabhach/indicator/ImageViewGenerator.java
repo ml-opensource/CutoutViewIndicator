@@ -1,6 +1,7 @@
 package com.cliabhach.indicator;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -21,7 +22,7 @@ public class ImageViewGenerator implements LayeredViewGenerator {
      */
     @NonNull
     @Override
-    public LayeredView createIndicatorFor(ViewGroup parent, int position) {
+    public LayeredView createCellFor(ViewGroup parent, int position) {
         CutoutViewLayoutParams lp = ((CutoutViewIndicator) parent).generateDefaultLayoutParams();
 
         ImageView child = new ImageView(parent.getContext());
@@ -30,5 +31,13 @@ public class ImageViewGenerator implements LayeredViewGenerator {
         child.setBackgroundResource(lp.cellBackgroundId);
         child.setImageResource(lp.indicatorDrawableId);
         return new LayeredImageViewHolder(child);
+    }
+
+    @Override
+    public void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp) {
+        child.setBackgroundResource(lp.cellBackgroundId);
+        if (child instanceof ImageView) {
+            ((ImageView) child).setImageResource(lp.indicatorDrawableId);
+        }
     }
 }
