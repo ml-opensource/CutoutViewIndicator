@@ -26,12 +26,17 @@ class SwitchIndicatorsListener implements View.OnClickListener {
         CutoutViewLayoutParams rectangles = cvi.generateDefaultLayoutParams();
         rectangles.indicatorDrawableId = R.drawable.rectangle_accent;
         rectangles.cellBackgroundId = R.drawable.rectangle_secondary;
-        storage.addFirst(rectangles);
+        rectangles.perpendicularLength = cvi.getResources().getDimensionPixelSize(R.dimen.rectangle_transverse);
+        rectangles.cellLength = cvi.getResources().getDimensionPixelOffset(R.dimen.rectangle_length);
+        storage.addLast(rectangles);
 
         CutoutViewLayoutParams circles = cvi.generateDefaultLayoutParams();
         circles.indicatorDrawableId = R.drawable.circle_accent;
         circles.cellBackgroundId = R.drawable.circle_secondary;
-        storage.addLast(circles);
+        int circleDiameter = cvi.getResources().getDimensionPixelSize(R.dimen.circle_diameter);
+        circles.perpendicularLength = circleDiameter;
+        circles.cellLength = circleDiameter;
+        storage.addFirst(circles);
     }
 
     @Override

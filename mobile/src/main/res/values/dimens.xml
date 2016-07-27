@@ -6,6 +6,8 @@
     <dimen name="rectangle_length">30dp</dimen>
     <dimen name="rectangle_transverse">6dp</dimen>
 
+    <dimen name="circle_diameter">24dp</dimen>
+
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="rectangle_border">0dp</dimen>
 </resources>
