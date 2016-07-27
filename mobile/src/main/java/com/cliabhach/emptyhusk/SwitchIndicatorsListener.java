@@ -1,5 +1,6 @@
 package com.cliabhach.emptyhusk;
 
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.util.CircularArray;
 import android.view.View;
@@ -15,7 +16,7 @@ import com.cliabhach.indicator.CutoutViewLayoutParams;
  */
 class SwitchIndicatorsListener implements View.OnClickListener {
     @NonNull
-    private final CutoutViewIndicator cvi;
+    protected final CutoutViewIndicator cvi;
 
     @NonNull
     CircularArray<CutoutViewLayoutParams> storage = new CircularArray<>();
@@ -39,6 +40,7 @@ class SwitchIndicatorsListener implements View.OnClickListener {
         storage.addFirst(circles);
     }
 
+    @CallSuper
     @Override
     public void onClick(View v) {
         cvi.setAllChildParamsTo(nextParams());

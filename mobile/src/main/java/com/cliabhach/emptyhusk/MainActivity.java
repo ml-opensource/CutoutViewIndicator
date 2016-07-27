@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
@@ -58,7 +59,29 @@ public class MainActivity extends AppCompatActivity {
                 cvi.cascadeParamChanges(isChecked);
             }
         });
-        fab.setOnClickListener(new SwitchIndicatorsListener(cvi));
+        fab.setOnClickListener(new SwitchIndicatorsListener(cvi) {
+            @Override
+            public void onClick(View v) {
+                super.onClick(v);
+                setPickerValuesFrom(cvi);
+            }
+        });
+    }
+
+    private void setPickerValuesFrom(@NonNull CutoutViewIndicator cvi) {
+        NumberPicker spacing = (NumberPicker) findViewById(R.id.spacingPicker);
+        NumberPicker width = (NumberPicker) findViewById(R.id.widthPicker);
+        NumberPicker height = (NumberPicker) findViewById(R.id.heightPicker);
+
+        if (spacing != null) {
+            spacing.setValue(deriveDPFrom(this, cvi.getInternalSpacing()));
+        }
+        if (width != null) {
+            width.setValue(deriveDPFrom(this, cvi.getCellLength()));
+        }
+        if (height != null) {
+            height.setValue(deriveDPFrom(this, cvi.getPerpendicularLength()));
+        }
     }
 
     @NonNull
@@ -81,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
             final CutoutViewIndicator cvi
     ) {
         setRangeOn(spacing);
-        spacing.setValue(deriveDPFrom(this, cvi.getInternalSpacing()));
         spacing.setOnValueChangedListener(new BoundValueListener() {
             @Override
             protected void onNewValue(int px) {
@@ -89,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         setRangeOn(width);
-        width.setValue(deriveDPFrom(this, cvi.getCellLength()));
         width.setOnValueChangedListener(new BoundValueListener() {
             @Override
             protected void onNewValue(int px) {
@@ -97,12 +118,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         setRangeOn(height);
-        height.setValue(deriveDPFrom(this, cvi.getPerpendicularLength()));
         height.setOnValueChangedListener(new BoundValueListener() {
             protected void onNewValue(int px) {
                 cvi.setPerpendicularLength(px);
             }
         });
+        // Initial values can only be set after the ranges have been defined
+        setPickerValuesFrom(cvi);
     }
 
     private void setRangeOn(NumberPicker picker) {
