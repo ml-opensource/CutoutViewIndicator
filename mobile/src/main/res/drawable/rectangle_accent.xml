@@ -11,8 +11,8 @@
         >
         <solid android:color="@color/colorAccent" />
         <size
-            android:width="30dp"
-            android:height="6dp"
+            android:width="@dimen/rectangle_length"
+            android:height="@dimen/rectangle_transverse"
             />
     </shape>
 </inset>

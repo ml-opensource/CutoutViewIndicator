@@ -29,8 +29,8 @@
         android:padding="8dp"
         husk:rcv_drawable="@drawable/rectangle_accent"
         husk:rcv_internal_margin="7dp"
-        husk:rcv_height="8dp"
-        husk:rcv_width="40dp"
+        husk:rcv_height="@dimen/rectangle_transverse"
+        husk:rcv_width="@dimen/rectangle_length"
         husk:rcv_tools_indicator_count="5"
         husk:rcv_drawable_unselected="@drawable/rectangle_secondary"
         />
