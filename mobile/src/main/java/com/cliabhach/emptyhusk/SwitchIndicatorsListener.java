@@ -24,13 +24,6 @@ class SwitchIndicatorsListener implements View.OnClickListener {
     public SwitchIndicatorsListener(@NonNull CutoutViewIndicator cvi) {
         this.cvi = cvi;
 
-        CutoutViewLayoutParams rectangles = cvi.generateDefaultLayoutParams();
-        rectangles.indicatorDrawableId = R.drawable.rectangle_accent;
-        rectangles.cellBackgroundId = R.drawable.rectangle_secondary;
-        rectangles.perpendicularLength = cvi.getResources().getDimensionPixelSize(R.dimen.rectangle_transverse);
-        rectangles.cellLength = cvi.getResources().getDimensionPixelOffset(R.dimen.rectangle_length);
-        storage.addLast(rectangles);
-
         CutoutViewLayoutParams circles = cvi.generateDefaultLayoutParams();
         circles.indicatorDrawableId = R.drawable.circle_accent;
         circles.cellBackgroundId = R.drawable.circle_secondary;
@@ -38,6 +31,14 @@ class SwitchIndicatorsListener implements View.OnClickListener {
         circles.perpendicularLength = circleDiameter;
         circles.cellLength = circleDiameter;
         storage.addFirst(circles);
+
+        // The rectangle params should be at the end of the array when this constructor returns.
+        CutoutViewLayoutParams rectangles = cvi.generateDefaultLayoutParams();
+        rectangles.indicatorDrawableId = R.drawable.rectangle_accent;
+        rectangles.cellBackgroundId = R.drawable.rectangle_secondary;
+        rectangles.perpendicularLength = cvi.getResources().getDimensionPixelSize(R.dimen.rectangle_transverse);
+        rectangles.cellLength = cvi.getResources().getDimensionPixelOffset(R.dimen.rectangle_length);
+        storage.addLast(rectangles);
     }
 
     @CallSuper
