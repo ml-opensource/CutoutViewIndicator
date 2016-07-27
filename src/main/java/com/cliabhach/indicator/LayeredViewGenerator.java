@@ -29,7 +29,7 @@ public interface LayeredViewGenerator {
     LayeredView createCellFor(ViewGroup parent, int position);
 
     /**
-     * This will be called during the {@link CutoutViewIndicator}'s layout pass
+     * This will be called during the {@link CutoutViewIndicator}'s measure pass
      * before laying out {@code child}. Use it to make any last-minute alterations
      * to the child's layout. Inspired by RecyclerView.Adapter's onBindViewHolder()
      * method.

@@ -582,17 +582,18 @@ public class CutoutViewIndicator extends LinearLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (isInEditMode()) {
             dataSetObserver.onChanged();
+        } else {
+            for (int i = 0; i < getChildCount(); i++) {
+                View child = getChildAt(i);
+                // Note that the superclass calls measure on the child for us
+                bindChild(i, child);
+            }
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
-            // Note that the superclass calls layout on the child for us
-            bindChild(i, child);
-        }
         super.onLayout(changed, l, t, r, b);
         ensureOnlyCurrentItemsSelected();
     }
