@@ -1,6 +1,7 @@
 package com.cliabhach.emptyhusk;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.mainViewPager);
-        SimplePagerAdapter adapter = defineAdapter();
+        SimplePagerAdapter adapter = defineAdapter(getResources());
         initPager(viewPager, adapter);
 
         CutoutViewIndicator cvi = (CutoutViewIndicator) findViewById(R.id.cutoutViewIndicator);
@@ -85,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private SimplePagerAdapter defineAdapter() {
-        String[] pages = {"1", "2", "3", "4", "5", "6"};
+    private SimplePagerAdapter defineAdapter(@NonNull Resources resources) {
+        String[] pages = resources.getStringArray(R.array.introductory_messages);
         return new SimplePagerAdapter(pages);
     }
 
