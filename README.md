@@ -1,6 +1,6 @@
 # CutoutViewIndicator-Demo
 
-A simple Android application to show off the features of fuzz-productions/CutoutViewIndicator
+A simple Android application to show off the features of [CutoutViewIndicator][1]
 
 The app in use:
 
@@ -11,3 +11,5 @@ rectangles, however, is orange. As the animated gif plays, we see
 the ViewPager page to new views. The orange bar underneath reliably
 indicates exactly which page is currently showing, mimicking the
 slightest perturbation in the ViewPager](http://i.imgur.com/fKOez3z.gif)
+
+ [1]: https://github.com/fuzz-productions/CutoutViewIndicator
