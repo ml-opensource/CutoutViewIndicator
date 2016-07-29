@@ -1,4 +1,4 @@
-package com.cliabhach.indicator;
+package com.fuzz.indicator;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

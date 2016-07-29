@@ -1,4 +1,4 @@
-package com.cliabhach.indicator;
+package com.fuzz.indicator;
 
 import android.support.v4.view.ViewPager;
 

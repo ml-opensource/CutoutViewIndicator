@@ -1,4 +1,4 @@
-package com.cliabhach.indicator;
+package com.fuzz.indicator;
 
 import android.widget.ImageView;
 
