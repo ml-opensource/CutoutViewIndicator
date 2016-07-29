@@ -1,12 +1,12 @@
-package com.cliabhach.emptyhusk;
+package com.fuzz.emptyhusk;
 
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.util.CircularArray;
 import android.view.View;
 
-import com.cliabhach.indicator.CutoutViewIndicator;
-import com.cliabhach.indicator.CutoutViewLayoutParams;
+import com.fuzz.indicator.CutoutViewIndicator;
+import com.fuzz.indicator.CutoutViewLayoutParams;
 
 /**
  * Little onClickListener for toggling through a range of different

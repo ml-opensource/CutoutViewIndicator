@@ -1,4 +1,4 @@
-package com.cliabhach.emptyhusk;
+package com.fuzz.emptyhusk;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

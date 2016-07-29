@@ -1,4 +1,4 @@
-package com.cliabhach.emptyhusk;
+package com.fuzz.emptyhusk;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -13,7 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 
-import com.cliabhach.indicator.CutoutViewIndicator;
+import com.fuzz.indicator.CutoutViewIndicator;
 
 public class MainActivity extends AppCompatActivity {
 

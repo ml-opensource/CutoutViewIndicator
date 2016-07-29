@@ -1,4 +1,4 @@
-package com.cliabhach.emptyhusk;
+package com.fuzz.emptyhusk;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

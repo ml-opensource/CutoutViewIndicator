@@ -6,7 +6,7 @@
     android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cliabhach.emptyhusk.MainActivity"
+    tools:context="com.fuzz.emptyhusk.MainActivity"
     tools:showIn="@layout/activity_main"
     >
 
@@ -17,7 +17,7 @@
         android:layout_marginTop="100dp"
         />
 
-    <com.cliabhach.indicator.CutoutViewIndicator
+    <com.fuzz.indicator.CutoutViewIndicator
         android:id="@+id/cutoutViewIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
