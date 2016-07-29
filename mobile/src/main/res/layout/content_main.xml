@@ -43,7 +43,7 @@
         android:orientation="horizontal"
         android:padding="8dp"
         husk:rcv_drawable="@drawable/rectangle_accent"
-        husk:rcv_internal_margin="7dp"
+        husk:rcv_internal_margin="@dimen/rectangle_internal_spacing"
         husk:rcv_height="@dimen/rectangle_transverse"
         husk:rcv_width="@dimen/rectangle_length"
         husk:rcv_tools_indicator_count="5"

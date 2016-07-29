@@ -66,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
         NumberPicker width = (NumberPicker) findViewById(R.id.widthPicker);
         NumberPicker height = (NumberPicker) findViewById(R.id.heightPicker);
         initPickers(spacing, width, height, cvi);
+
+        if (viewPager != null) {
+            viewPager.setCurrentItem(1);
+        }
     }
 
     private void initButtons(FloatingActionButton fab, CompoundButton button, final CutoutViewIndicator cvi) {

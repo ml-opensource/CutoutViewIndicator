@@ -16,11 +16,11 @@
 -->
 <resources>
     <array name="introductory_messages">
-        <item>"See the row of views below this ViewPager?"</item>
+        <item>"No, the other direction!"</item>
+        <item>"Swipe sideways on this ViewPager here."</item>
+        <item>"See the row of views below it?"</item>
         <item>"That's an instance of my \'CutoutViewIndicator\'."</item>
         <item>"Try playing with the cells' size and spacing."</item>
         <item>"Change to a different set of indicators by tapping that floating button at the bottom"</item>
-        <item>"5"</item>
-        <item>"6"</item>
     </array>
 </resources>
