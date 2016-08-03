@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
     buildToolsVersion '24.0.1'
+
     defaultConfig {
-        applicationId "com.cliabhach.emptyhusk"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "0.1"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -33,23 +35,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        main.res.srcDirs = ["src/main/res"]
+        main.java.srcDirs = ["src/main/java"]
+    }
 }
 
-def supportVersion = "23.4.0"
-
 dependencies {
-
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    wearApp project(':wear')
-    //compile 'com.google.android.gms:play-services:9.2.0'
-
-    compile project(":library")
-    //noinspection GradleDependency (distracting false positives)
-    compile "com.android.support:appcompat-v7:$supportVersion"
-    //noinspection GradleDependency (distracting false positives)
-    compile "com.android.support:design:$supportVersion"
-
+    // Required for ViewPager-aware listeners and so forth
+    compile 'com.android.support:appcompat-v7:23.4.0'
     testCompile 'junit:junit:4.12'
 }
