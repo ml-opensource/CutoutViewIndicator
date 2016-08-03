@@ -16,7 +16,7 @@ Note that only ImageView cells are supported right now.
 Pictures:
 ---------
 
-The app in use:
+The sample mobile app in use:
 
 ![An Android device screen, its background a light blue. Near the top 
 lies a dark blue ViewPager - just 20 dp below it is a row of narrow
