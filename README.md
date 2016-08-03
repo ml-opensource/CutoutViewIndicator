@@ -98,7 +98,7 @@ Right now it only supports Android SDK 15 and up
 _probably_ Nougat), but there's little stopping it from being backported
 all the way to APIv11.
 
-Grab a copy of the demo application (source available [here][4]) to try
+Grab a copy of the demo application (live apk coming soon) to try
 it in action.
 
 Credit:
@@ -110,7 +110,5 @@ especially [ViewPagerIndicator][5].
 
  [1]: https://developer.android.com/reference/android/support/v4/view/ViewPager.html
  [2]: https://github.com/eccyan/SpinningTabStrip
- [3]: src/main/java/com/fuzz/indicator/CutoutViewIndicator.java#L392
- [4]: https://github.com/fuzz-productions/CutoutViewIndicator-Demo
+ [3]: library/src/main/java/com/fuzz/indicator/CutoutViewIndicator.java#L392
  [5]: https://github.com/JakeWharton/ViewPagerIndicator
- [6]: https://github.com/fuzz-productions/CutoutViewIndicator
