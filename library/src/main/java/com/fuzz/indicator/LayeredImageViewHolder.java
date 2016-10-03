@@ -18,6 +18,9 @@ package com.fuzz.indicator;
 import android.widget.ImageView;
 
 /**
+ * A simple LayeredView implementation that performs a 2D-shift of
+ * ImageView content over its background.
+ *
  * @author Philip Cohn-Cort (Fuzz)
  */
 public class LayeredImageViewHolder extends IndicatorViewHolder<ImageView> {

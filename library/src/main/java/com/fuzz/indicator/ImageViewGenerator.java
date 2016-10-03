@@ -45,6 +45,21 @@ public class ImageViewGenerator implements LayeredViewGenerator {
         child.setLayoutParams(lp);
         child.setBackgroundResource(lp.cellBackgroundId);
         child.setImageResource(lp.indicatorDrawableId);
+        return createLayeredViewFor(child);
+    }
+
+    /**
+     * This method is here to allow subclasses ease of overriding the exact
+     * type of {@link LayeredView} returned by {@link #createCellFor(ViewGroup, int)}.
+     * <p>
+     *     Could be handy for tests too.
+     * </p>
+     * @param child    the {@code View} part of the returned value
+     * @return a LayeredView wrapping {@code child}. If {@code child}
+     * implements LayeredView in some way, it may be returned directly.
+     */
+    @NonNull
+    protected LayeredView createLayeredViewFor(@NonNull ImageView child) {
         return new LayeredImageViewHolder(child);
     }
 
