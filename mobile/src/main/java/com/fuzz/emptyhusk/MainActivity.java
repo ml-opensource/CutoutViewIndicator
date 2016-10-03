@@ -59,8 +59,10 @@ public class MainActivity extends AppCompatActivity {
         initIndicator(cvi, viewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        CompoundButton button = (CompoundButton) findViewById(R.id.unifiedSwitch);
-        initButtons(fab, button, cvi);
+        CompoundButton unifiedButton = (CompoundButton) findViewById(R.id.unifiedSwitch);
+        CompoundButton orientationButton = (CompoundButton) findViewById(R.id.orientationSwitch);
+        View gridLayout = findViewById(R.id.gridLayout);
+        initButtons(fab, unifiedButton, orientationButton, gridLayout, cvi);
 
         NumberPicker spacing = (NumberPicker) findViewById(R.id.spacingPicker);
         NumberPicker width = (NumberPicker) findViewById(R.id.widthPicker);
@@ -72,13 +74,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initButtons(FloatingActionButton fab, CompoundButton button, final CutoutViewIndicator cvi) {
-        button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    private void initButtons(
+            FloatingActionButton fab,
+            CompoundButton unified,
+            CompoundButton orientationButton,
+            final View anchor,
+            final CutoutViewIndicator cvi
+    ) {
+        unified.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton view, boolean isChecked) {
                 cvi.cascadeParamChanges(isChecked);
             }
         });
+        orientationButton.setOnCheckedChangeListener(new ToggleAlignmentListener(cvi, anchor));
         fab.setOnClickListener(new SwitchIndicatorsListener(cvi) {
             @Override
             public void onClick(View v) {
