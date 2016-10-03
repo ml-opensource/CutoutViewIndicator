@@ -106,7 +106,7 @@
         android:id="@+id/unifiedSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cutoutViewIndicator"
+        android:layout_alignTop="@id/gridLayout"
         android:layout_toRightOf="@id/gridLayout"
         android:layout_toEndOf="@id/gridLayout"
         android:layout_marginLeft="31dp"
