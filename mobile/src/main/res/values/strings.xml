@@ -21,4 +21,5 @@
     <string name="label_height">Height</string>
     <string name="label_width">Width</string>
     <string name="label_unify">Change All</string>
+    <string name="label_orientation">Vertical?</string>
 </resources>

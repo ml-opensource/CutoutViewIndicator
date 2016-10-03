@@ -29,7 +29,7 @@
         android:id="@+id/mainViewPager"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="@dimen/top_margin"
         />
 
     <com.fuzz.indicator.CutoutViewIndicator
@@ -121,6 +121,28 @@
         android:padding="8dp"
         android:text="@string/label_unify"
         android:layout_below="@id/unifiedSwitch"
+        android:layout_toRightOf="@id/gridLayout"
+        android:layout_toEndOf="@id/gridLayout"
+        />
+
+    <Switch
+        android:id="@+id/orientationSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/gridLayout"
+        android:layout_toRightOf="@id/gridLayout"
+        android:layout_below="@id/changeAllLabel"
+        android:layout_marginLeft="31dp"
+        android:layout_marginStart="31dp"
+        />
+
+    <TextView
+        android:id="@+id/orientationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/label_orientation"
+        android:layout_below="@id/orientationSwitch"
         android:layout_toRightOf="@id/gridLayout"
         android:layout_toEndOf="@id/gridLayout"
         />
