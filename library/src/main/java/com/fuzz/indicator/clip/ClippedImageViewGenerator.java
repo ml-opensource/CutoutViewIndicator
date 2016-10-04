@@ -13,25 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fuzz.emptyhusk;
+package com.fuzz.indicator.clip;
 
+import android.support.annotation.NonNull;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.fuzz.indicator.IndicatorViewHolder;
+import com.fuzz.indicator.ImageViewGenerator;
 
 /**
- * Reinterpretation of {@link com.fuzz.indicator.LayeredImageViewHolder} with clipping
- * support.
+ * Proxy variant of {@link ImageViewGenerator} that creates
+ * ClippedImageViews
+ * in {@link #createChildFor(ViewGroup, int)}.
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class ClippedImageViewHolder extends IndicatorViewHolder<ImageView> {
-    public ClippedImageViewHolder(ImageView child) {
-        super(child);
-    }
-
+public class ClippedImageViewGenerator extends ImageViewGenerator {
+    @NonNull
     @Override
-    public void offsetImageBy(int orientation, float percentage) {
-        // TODO: Write then call a new offset method in the Offsetters class
+    protected ImageView createChildFor(@NonNull ViewGroup parent, int position) {
+        // TODO: create and return new ClippedImageView here
+        return super.createChildFor(parent, position);
     }
 }

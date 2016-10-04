@@ -41,7 +41,7 @@ public interface LayeredViewGenerator {
      * @return a new {@code LayeredView}, which really shouldn't be null.
      */
     @NonNull
-    LayeredView createCellFor(ViewGroup parent, int position);
+    LayeredView createCellFor(@NonNull ViewGroup parent, int position);
 
     /**
      * This will be called during the {@link CutoutViewIndicator}'s measure pass

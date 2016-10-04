@@ -37,15 +37,31 @@ public class ImageViewGenerator implements LayeredViewGenerator {
      */
     @NonNull
     @Override
-    public LayeredView createCellFor(ViewGroup parent, int position) {
+    public LayeredView createCellFor(@NonNull ViewGroup parent, int position) {
         CutoutViewLayoutParams lp = ((CutoutViewIndicator) parent).generateDefaultLayoutParams();
 
-        ImageView child = new ImageView(parent.getContext());
+        ImageView child = createChildFor(parent, position);
         child.setScaleType(ImageView.ScaleType.MATRIX);
         child.setLayoutParams(lp);
         child.setBackgroundResource(lp.cellBackgroundId);
         child.setImageResource(lp.indicatorDrawableId);
         return createLayeredViewFor(child);
+    }
+
+    /**
+     * This method is here to allow subclasses to easily generate their
+     * own ImageView subclasses, without needing to worry about the
+     * details of {@link CutoutViewLayoutParams}.
+     * @param parent      the non-null ViewGroup which, at a later point, will
+     *                    contain the view returned by this method.
+     * @param position    when the returned view is added to {@code parent},
+     *                    it will be placed at this index
+     * @return a non-null view which fulfills the requirements above. Default
+     *         implementation returns a new ImageView.
+     */
+    @NonNull
+    protected ImageView createChildFor(@NonNull ViewGroup parent, int position) {
+        return new ImageView(parent.getContext());
     }
 
     /**
