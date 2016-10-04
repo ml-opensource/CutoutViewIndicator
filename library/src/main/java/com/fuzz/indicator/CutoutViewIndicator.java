@@ -174,6 +174,7 @@ public class CutoutViewIndicator extends LinearLayout {
         init(context, attrs);
     }
 
+    @SuppressWarnings("ResourceType")
     protected void init(Context context, AttributeSet attrs) {
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CutoutViewIndicator);
@@ -247,12 +248,28 @@ public class CutoutViewIndicator extends LinearLayout {
      *     Defaults to being a {@link ImageViewGenerator}, which
      *     should be good enough for most purposes.
      * </p>
+     * This method ends by calling {@link #rebuildChildViews()}.
      *
      * @param generator the new generator. May not be null.
      * @see #showOffsetIndicator(int, float)
      */
     public void setGenerator(@NonNull LayeredViewGenerator generator) {
         this.generator = generator;
+        rebuildChildViews();
+    }
+
+    /**
+     * Utility method for invalidating the {@link #generator} (so to speak).
+     * <p>
+     *     It'll ensure that the child views match both what the current
+     *     {@link LayeredViewGenerator} creates AND the params defined by
+     *     {@link #defaultChildParams}.
+     * </p>
+     */
+    public void rebuildChildViews() {
+        holders.clear();
+        removeAllViews();
+        dataSetObserver.onChanged();
     }
 
     /**
