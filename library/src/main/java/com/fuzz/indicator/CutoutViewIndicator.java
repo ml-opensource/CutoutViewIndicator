@@ -462,7 +462,9 @@ public class CutoutViewIndicator extends LinearLayout {
      *     All cells are the same proportions by default.
      * </p>
      *
-     * @param cellLength any positive number of pixels
+     * @param cellLength any positive number of pixels,
+     *                   {@link ViewGroup.LayoutParams#WRAP_CONTENT WRAP_CONTENT},
+     *                   or {@link ViewGroup.LayoutParams#MATCH_PARENT MATCH_PARENT}
      * @see #setPerpendicularLength(int)
      */
     public void setCellLength(int cellLength) {
@@ -509,7 +511,9 @@ public class CutoutViewIndicator extends LinearLayout {
      *     All cells are the same proportions by default.
      * </p>
      *
-     * @param perpendicularLength any positive number of pixels
+     * @param perpendicularLength any positive number of pixels,
+     *                            {@link ViewGroup.LayoutParams#WRAP_CONTENT WRAP_CONTENT},
+     *                            or {@link ViewGroup.LayoutParams#MATCH_PARENT MATCH_PARENT}
      * @see #setCellLength(int)
      */
     public void setPerpendicularLength(int perpendicularLength) {
