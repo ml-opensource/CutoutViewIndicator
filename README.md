@@ -11,7 +11,8 @@ these params and Android's View save/restore state logic will keep
 them in order.
 
 You can define each cell directly in your xml file, or add them manually.
-Note that only ImageView cells are supported right now.
+Note that right now, the Generators shipped with this library only
+support ImageViews.
 
 Pictures:
 ---------
@@ -89,13 +90,16 @@ set your own Generator on the object.
 cvi.setGenerator(new GifGenerator());
 ```
 
+`ImageViewGenerator` is designed for extensibility - consider
+subclassing your custom Generator from that if its views extend
+ImageView.
 
 Caveats
 -------
 
 Right now it only supports Android SDK 15 and up
 (that makes it compatible with Jelly Bean, Lollipop, Marshmallow, and
-_probably_ Nougat), but there's little stopping it from being backported
+Nougat), but there's little stopping it from being backported
 all the way to APIv11.
 
 Grab a copy of the demo application (live apk coming soon) to try
