@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.fuzz.indicator.ImageViewGenerator;
+import com.fuzz.indicator.widget.ClippedImageView;
 
 /**
  * Proxy variant of {@link ImageViewGenerator} that creates
@@ -32,7 +33,6 @@ public class ClippedImageViewGenerator extends ImageViewGenerator {
     @NonNull
     @Override
     protected ImageView createChildFor(@NonNull ViewGroup parent, int position) {
-        // TODO: create and return new ClippedImageView here
-        return super.createChildFor(parent, position);
+        return new ClippedImageView(parent.getContext());
     }
 }
