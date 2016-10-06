@@ -16,8 +16,13 @@
 package com.fuzz.indicator;
 
 import android.graphics.Matrix;
+import android.support.annotation.NonNull;
+import android.text.Spannable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.fuzz.indicator.text.MigratoryRange;
+import com.fuzz.indicator.text.MigratorySpan;
 
 /**
  * Collection of utility methods for offsetting specific views.
@@ -49,5 +54,21 @@ public class OffSetters {
         }
         mat.setTranslate(offsetX, offsetY);
         imageView.setImageMatrix(mat);
+    }
+
+    public static void offsetSpansBy(@NonNull Spannable spannable, int orientation, float percentage) {
+        int length = spannable.length();
+
+        MigratorySpan[] knownSpans = spannable.getSpans(0, length, MigratorySpan.class);
+        if (knownSpans.length > 0) {
+            MigratoryRange<Float> fullSize = MigratoryRange.from(0, length);
+            for (MigratorySpan knownSpan : knownSpans) {
+                offsetSpan(spannable, percentage, length, fullSize, knownSpan);
+            }
+        }
+    }
+
+    public static void offsetSpan(@NonNull Spannable spannable, float percentage, int length, MigratoryRange<Float> fullSize, MigratorySpan knownSpan) {
+        // TODO: Offset the span
     }
 }
