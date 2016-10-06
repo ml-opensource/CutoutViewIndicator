@@ -69,6 +69,10 @@ public class OffSetters {
     }
 
     public static void offsetSpan(@NonNull Spannable spannable, float percentage, int length, MigratoryRange<Float> fullSize, MigratorySpan knownSpan) {
-        // TODO: Offset the span
+        MigratoryRange<Float> covered = knownSpan.getCoverage().translate(percentage);
+        int spanStart = fullSize.clamp(length * covered.getLower()).intValue();
+        int spanEnd = fullSize.clamp(length * covered.getUpper()).intValue();
+        int flags = knownSpan.preferredFlags(spannable.getSpanFlags(knownSpan));
+        spannable.setSpan(knownSpan, spanStart, spanEnd, flags);
     }
 }

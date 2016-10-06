@@ -69,12 +69,12 @@ public final class MigratoryRange<T extends Number & Comparable<T>> {
     }
 
     @NonNull
-    T getLower() {
+    public T getLower() {
         return lower;
     }
 
     @NonNull
-    T getUpper() {
+    public T getUpper() {
         return upper;
     }
 
