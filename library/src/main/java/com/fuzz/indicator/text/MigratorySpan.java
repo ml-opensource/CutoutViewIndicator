@@ -18,6 +18,8 @@ package com.fuzz.indicator.text;
 import android.support.annotation.NonNull;
 
 /**
+ * Interface to be implemented by spans used in {@link LayeredTextViewHolder}.
+ *
  * These are designed to be translated (in a 2-dimensional plane) above
  * their associated {@link android.text.Spannable Spannables}.
  *
