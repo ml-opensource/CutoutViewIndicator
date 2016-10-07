@@ -30,6 +30,10 @@ import android.widget.NumberPicker.OnValueChangeListener;
 
 import com.fuzz.indicator.CutoutViewIndicator;
 
+/**
+ * Entry point into the sample application. This is designed to cover all the basic
+ * functionality of {@link CutoutViewIndicator}, without being too big or complex.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static int deriveDPFrom(Context context, int pixelCount) {
@@ -161,6 +165,17 @@ public class MainActivity extends AppCompatActivity {
         picker.setMaxValue(200);
     }
 
+    /**
+     * Custom {@code OnValueChangeListener} which treats values passed into
+     * {@link #onValueChange(NumberPicker, int, int)} as quantities of
+     * device-independent pixels (a.k.a dp).
+     * <p>
+     *     A converted, device-dependent quantity of pixels is passed into
+     *     {@link #onNewValue(int)}.
+     * </p>
+     * @see #derivePXFrom(Context, int)
+     * @see #deriveDPFrom(Context, int)
+     */
     private abstract static class BoundValueListener implements OnValueChangeListener {
 
         @Override
@@ -171,6 +186,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        /**
+         * @param px    a chosen number of pixels, 0 or greater
+         */
         protected abstract void onNewValue(int px);
     }
 }
