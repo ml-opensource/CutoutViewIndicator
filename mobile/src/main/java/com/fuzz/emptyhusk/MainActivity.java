@@ -21,10 +21,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.fuzz.emptyhusk.choosegenerator.GeneratorChoiceFragment;
+import com.fuzz.emptyhusk.choosegenerator.OnSelectedListener;
 import com.fuzz.indicator.CutoutViewIndicator;
+import com.fuzz.indicator.LayeredViewGenerator;
 
 /**
  * Entry point into the sample application. This is designed to cover all the basic
@@ -47,6 +52,20 @@ public class MainActivity extends AppCompatActivity {
     protected MainViewBinding binding;
 
     protected PickerDelegate pickerDelegate;
+
+    protected OnSelectedListener<Class<? extends LayeredViewGenerator>> onGeneratorSelectedListener
+            = new OnSelectedListener<Class<? extends LayeredViewGenerator>>() {
+        @Override
+        public void onSelected(@NonNull Class<? extends LayeredViewGenerator> chosen) {
+            try {
+                binding.cvi.setGenerator(chosen.newInstance());
+            } catch (Exception e) {
+                if (BuildConfig.DEBUG) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +91,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean consumed = false;
+        switch (item.getItemId()) {
+            case R.id.changeGenerator:
+                GeneratorChoiceFragment fragment = GeneratorChoiceFragment.newInstance(binding.cvi.getGenerator().getClass());
+                fragment.setOnSelectedListener(onGeneratorSelectedListener);
+                getFragmentManager()
+                        .beginTransaction()
+                        .add(fragment, GeneratorChoiceFragment.TAG)
+                        .addToBackStack(GeneratorChoiceFragment.TAG)
+                        .commit();
+                consumed = true;
+                break;
+        }
+
+        return consumed && super.onOptionsItemSelected(item);
+    }
 
     private void initButtons() {
         binding.unifiedButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

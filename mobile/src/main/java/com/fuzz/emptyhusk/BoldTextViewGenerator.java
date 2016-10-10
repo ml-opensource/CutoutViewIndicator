@@ -30,7 +30,7 @@ import static android.graphics.Typeface.BOLD;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-class BoldTextViewGenerator extends TextViewGenerator {
+public class BoldTextViewGenerator extends TextViewGenerator {
     @NonNull
     @Override
     protected Spannable getTextFor(@NonNull Context context, int position) {
