@@ -17,8 +17,10 @@ package com.fuzz.emptyhusk;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 
 import com.fuzz.indicator.text.MigratoryStyleSpan;
 import com.fuzz.indicator.text.TextViewGenerator;
@@ -30,7 +32,7 @@ import static android.graphics.Typeface.BOLD;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-class BoldTextViewGenerator extends TextViewGenerator {
+public class BoldTextViewGenerator extends TextViewGenerator {
     @NonNull
     @Override
     protected Spannable getTextFor(@NonNull Context context, int position) {
@@ -39,9 +41,21 @@ class BoldTextViewGenerator extends TextViewGenerator {
         SpannableString ssb = new SpannableString(introStrings[position]);
         MigratoryStyleSpan span = new MigratoryStyleSpan(BOLD);
 
+        // Order matters when setting spans. The base color must be in place first
+
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorSecondary));
+        ssb.setSpan(colorSpan, 0, ssb.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+        // Only then should custom MigratorySpans be set.
+
         int end = (int) (ssb.length() * span.getCoverage().diff());
         ssb.setSpan(span, 0, end, span.preferredFlags(0));
 
+
+        MigratoryForegroundColorSpan boldColorSpan = new MigratoryForegroundColorSpan(ContextCompat.getColor(context, R.color.colorAccent));
+        ssb.setSpan(boldColorSpan, 0, end, boldColorSpan.preferredFlags(0));
+
         return ssb;
     }
+
 }

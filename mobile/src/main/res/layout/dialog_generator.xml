@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright 2016 Philip Cohn-Cort
 
@@ -13,15 +14,14 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<resources>
-    <string name="app_name">EmptyHusk</string>
-    <string name="title_activity_main">CutoutViewIndicator Demo</string>
+<android.support.v7.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recyclerview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:listitem="@layout/cell_generator"
+    >
 
-    <string name="label_margin">Spacing</string>
-    <string name="label_height">Height</string>
-    <string name="label_width">Width</string>
-    <string name="label_unify">Change All</string>
-    <string name="label_orientation">Vertical?</string>
-
-    <string name="action_change_generator">Change Generator....</string>
-</resources>
+</android.support.v7.widget.RecyclerView>

@@ -273,6 +273,18 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     /**
+     * Returns a reference to the generator used to create and bind
+     * cells. Default value is an instance of {@link ImageViewGenerator}.
+     *
+     * @return the generator currently in use
+     * @see #setGenerator(LayeredViewGenerator)
+     */
+    @NonNull
+    public LayeredViewGenerator getGenerator() {
+        return generator;
+    }
+
+    /**
      * Asks the {@link #generator} to create a new cell.
      *
      * @param position used as 'index' parameter to {@link #addView(View, int)}
