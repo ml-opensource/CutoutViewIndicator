@@ -45,7 +45,7 @@ public class GeneratorChoiceAdapter extends RecyclerView.Adapter {
     public GeneratorChoiceAdapter() {
         choices.add(new GeneratorChoice(ImageViewGenerator.class, "Creates simple ImageViews. These are offset with X or Y translations. A classic choice with static background and dynamic content."));
         choices.add(new GeneratorChoice(ClippedImageViewGenerator.class, "Creates ClippedImageViews. These are offset with X or Y translations. Stylish, yet ever so slightly heavier memory-wise than ImageViewGenerator."));
-        choices.add(new GeneratorChoice(BoldTextViewGenerator.class, "Creates TextViews with bold text. These are offset based on the index within the TextViews' text. Rather new and difficult to master."));
+        choices.add(new GeneratorChoice(BoldTextViewGenerator.class, "Creates TextViews with bold text. The bold sections are offset in a dynamic manner within the TextViews' text. Rather new and difficult to master."));
     }
 
     public void setChosen(@NonNull Class<? extends LayeredViewGenerator> chosen) {
