@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 
-import com.fuzz.indicator.text.MigratoryRange;
-import com.fuzz.indicator.text.MigratorySpan;
+import com.fuzz.indicator.style.MigratoryRange;
+import com.fuzz.indicator.style.MigratorySpan;
 
 /**
  * Migratory variant of {@link ForegroundColorSpan}.

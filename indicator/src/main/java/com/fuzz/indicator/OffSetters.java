@@ -21,8 +21,8 @@ import android.text.Spannable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.fuzz.indicator.text.MigratoryRange;
-import com.fuzz.indicator.text.MigratorySpan;
+import com.fuzz.indicator.style.MigratoryRange;
+import com.fuzz.indicator.style.MigratorySpan;
 
 /**
  * Collection of utility methods for offsetting specific views.
