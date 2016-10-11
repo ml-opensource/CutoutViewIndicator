@@ -45,7 +45,7 @@ dependencies {
     wearApp project(':wear')
     //compile 'com.google.android.gms:play-services:9.2.0'
 
-    compile project(":library")
+    compile project(":indicator")
     //noinspection GradleDependency (distracting false positives)
     compile "com.android.support:appcompat-v7:$supportVersion"
     //noinspection GradleDependency (distracting false positives)

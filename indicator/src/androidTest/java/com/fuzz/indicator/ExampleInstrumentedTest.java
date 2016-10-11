@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.cliabhach.indicator.test", appContext.getPackageName());
+        assertEquals("com.fuzz.indicator.test", appContext.getPackageName());
     }
 }
