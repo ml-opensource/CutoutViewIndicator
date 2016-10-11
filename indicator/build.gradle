@@ -17,19 +17,27 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
+def targetVersion = 24
+def supportVersion = '24.2.1'
+
 // Maven deployment info (the name of the artifact is derived from the containing folder's name)
 group = 'com.fuzz'
 version = '0.1'
 
+// Concept and execution for this configuration come from http://stackoverflow.com/q/29663918
+configurations {
+    javadocDeps
+}
+
 android {
-    compileSdkVersion 24
+    compileSdkVersion targetVersion
     buildToolsVersion '24.0.2'
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 24
+        minSdkVersion 14
+        targetSdkVersion targetVersion
         versionCode 1
-        versionName "0.1"
+        versionName "$version"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -53,6 +61,39 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     // Required for ViewPager-aware listeners and so forth
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile "com.android.support:appcompat-v7:$supportVersion"
     testCompile 'junit:junit:4.12'
+
+    //noinspection GradleDependency - the lint warning a few lines up will suffice.
+    javadocDeps "com.android.support:appcompat-v7:$supportVersion"
+    javadocDeps "com.android.support:support-v4:$supportVersion"
+}
+
+
+
+// Everything below this point is here to make Maven artifact creation easier.
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.javadocDeps
+    destinationDir = file("../javadoc/")
+    failOnError false
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+// A proper sources jar, with comments
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+// Request androidSources and javadoc artifacts
+artifacts {
+    archives androidSourcesJar
+    archives javadocJar
 }
