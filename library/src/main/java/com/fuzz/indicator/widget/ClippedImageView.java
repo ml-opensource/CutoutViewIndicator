@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
@@ -63,6 +64,18 @@ public class ClippedImageView extends ImageView {
      */
     protected Bitmap intermediary;
 
+    /**
+     * A reference to the most recent value to be passed into
+     * {@link #setBackgroundResource(int)}.
+     */
+    protected int backgroundResourceId;
+
+    /**
+     * A reference to the most recent value to be passed into
+     * {@link #setImageResource(int)}.
+     */
+    protected int primaryResourceId;
+
     public ClippedImageView(Context context) {
         super(context);
         paint.setAntiAlias(true);
@@ -85,15 +98,35 @@ public class ClippedImageView extends ImageView {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int prevHeight = getMeasuredHeight();
+        int prevWidth = getMeasuredWidth();
+
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        int postHeight = getMeasuredHeight();
+        int postWidth = getMeasuredWidth();
+
+        if (prevHeight != postHeight || prevWidth != postWidth) {
+            // Dimensions have changed.
+            if (getBackground() != null ) {
+                backgroundBitmap.recycle();
+                backgroundBitmap = extractBitmapFrom(getBackground(), postWidth, postHeight);
+            }
+            if (getDrawable() != null) {
+                primaryBitmap.recycle();
+                primaryBitmap = extractBitmapFrom(getDrawable(), postWidth, postHeight);
+            }
+        }
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         if (primaryBitmap != null && backgroundBitmap != null) {
 
             // Ensure background and foreground are scaled to the desired size
             int viewWidth = getMeasuredWidth();
             int viewHeight = getMeasuredHeight();
-
-            backgroundBitmap = Bitmap.createScaledBitmap(backgroundBitmap, viewWidth, viewHeight, false);
-            setPrimaryBitmap(Bitmap.createScaledBitmap(primaryBitmap, viewWidth, viewHeight, false));
 
             canvas.drawBitmap(clipImageInto(viewWidth, viewHeight), 0, 0, null);
         }
@@ -103,6 +136,7 @@ public class ClippedImageView extends ImageView {
     protected Bitmap clipImageInto(int viewWidth, int viewHeight) {
 
         intermediary = ensureBitmapIsUsable(intermediary, viewWidth, viewHeight);
+        intermediary.eraseColor(Color.TRANSPARENT);
 
         Canvas canvas = new Canvas(intermediary);
 
@@ -187,7 +221,10 @@ public class ClippedImageView extends ImageView {
     @Override
     public void setImageResource(int resId) {
         super.setImageResource(resId);
-        setPrimaryBitmapFrom(getDrawable());
+        if (primaryResourceId == 0 || primaryResourceId != resId) {
+            primaryResourceId = resId;
+            setPrimaryBitmapFrom(getDrawable());
+        }
     }
 
     @Override
@@ -240,7 +277,10 @@ public class ClippedImageView extends ImageView {
     @Override
     public void setBackgroundResource(int resid) {
         super.setBackgroundResource(resid);
-        setBackgroundBitmapFrom(getBackground());
+        if (backgroundResourceId == 0 || backgroundResourceId != resid) {
+            backgroundResourceId = resid;
+            setBackgroundBitmapFrom(getBackground());
+        }
     }
 
     @Override
@@ -262,15 +302,31 @@ public class ClippedImageView extends ImageView {
         } else if (drawable instanceof BitmapDrawable) {
             retVal = ((BitmapDrawable) drawable).getBitmap();
         } else {
-            try {
-                Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-                drawable.draw(canvas);
-                retVal = bitmap;
-            } catch (OutOfMemoryError oom) {
-                retVal = null;
+            int width = getMeasuredWidth();
+            if (width <= 0) {
+                width = drawable.getIntrinsicWidth();
             }
+            int height = getMeasuredHeight();
+            if (height <= 0) {
+                height = drawable.getIntrinsicHeight();
+            }
+            retVal = extractBitmapFrom(drawable, width, height);
+        }
+        return retVal;
+    }
+
+    @Nullable
+    private Bitmap extractBitmapFrom(@NonNull Drawable drawable, int width, int height) {
+        Bitmap retVal;
+        try {
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            bitmap.eraseColor(Color.TRANSPARENT);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+            retVal = bitmap;
+        } catch (OutOfMemoryError oom) {
+            retVal = null;
         }
         return retVal;
     }
