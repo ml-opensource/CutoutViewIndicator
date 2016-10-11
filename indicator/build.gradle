@@ -17,8 +17,17 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
+// Note that the versions here are determined as follows:
+/**
+ * targetVersion equals the most recent stable, released SDK version. The sources
+ * for that version must be open to the public.
+ */
 def targetVersion = 24
-def supportVersion = '24.2.1'
+/**
+ * supportVersion is the oldest version of the support libraries against which this
+ * codebase can compile.
+ */
+def supportVersion = '22.2.0'
 
 // Maven deployment info (the name of the artifact is derived from the containing folder's name)
 group = 'com.fuzz'
