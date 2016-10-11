@@ -1,4 +1,4 @@
-package com.fuzz.indicator.text;
+package com.fuzz.indicator.style;
 
 import android.os.Parcel;
 import android.support.annotation.NonNull;

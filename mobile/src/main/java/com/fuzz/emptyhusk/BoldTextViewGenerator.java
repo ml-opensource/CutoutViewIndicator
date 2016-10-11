@@ -22,7 +22,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 
-import com.fuzz.indicator.text.MigratoryStyleSpan;
+import com.fuzz.indicator.style.MigratoryStyleSpan;
 import com.fuzz.indicator.text.TextViewGenerator;
 
 import static android.graphics.Typeface.BOLD;
