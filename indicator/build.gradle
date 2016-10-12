@@ -31,7 +31,7 @@ def supportVersion = '22.2.0'
 
 // Maven deployment info (the name of the artifact is derived from the containing folder's name)
 group = 'com.fuzz'
-version = '0.1'
+version = '0.2'
 
 // Concept and execution for this configuration come from http://stackoverflow.com/q/29663918
 configurations {
