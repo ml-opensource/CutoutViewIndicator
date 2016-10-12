@@ -33,7 +33,7 @@ public class ImageViewGenerator implements LayeredViewGenerator {
     /**
      * Creates a new {@link LayeredImageViewHolder} by default. Override to change that.
      *
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @NonNull
     @Override

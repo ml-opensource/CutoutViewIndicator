@@ -73,7 +73,7 @@ public class CutoutViewIndicator extends LinearLayout {
      */
     protected boolean cascadeChanges;
     /**
-     * {@link com.eccyan.widget.SpinningViewPager} reports positions as one greater than other ViewPagers. When this variable
+     * {@code com.eccyan.widget.SpinningViewPager} reports positions as one greater than other ViewPagers. When this variable
      * is true, CutoutViewIndicator will correct for the discrepancy.
      */
     protected boolean usePositiveOffset;
@@ -288,6 +288,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * Asks the {@link #generator} to create a new cell.
      *
      * @param position used as 'index' parameter to {@link #addView(View, int)}
+     * @return a new cell, appropriate for that position
      * @see LayeredViewGenerator#createCellFor(ViewGroup, int)
      * @see #showOffsetIndicator(int, float)
      */
@@ -356,6 +357,8 @@ public class CutoutViewIndicator extends LinearLayout {
     /**
      * Wrapper around {@link #setDefaultChildParams(CutoutViewLayoutParams)}
      * that also applies these params to each of the child views.
+     *
+     * @param params the new parameters that all child views should use
      */
     public void setAllChildParamsTo(@NonNull CutoutViewLayoutParams params) {
         boolean wasNotCascading = !cascadeChanges;
@@ -456,6 +459,8 @@ public class CutoutViewIndicator extends LinearLayout {
 
     /**
      * This is the id of the drawable currently acting as indicator. If 0, no indicator will be shown.
+     *
+     * @return that id, or 0 if this was not previously {@link #setIndicatorDrawableId(int) set}
      */
     public int getIndicatorDrawableId() {
         if (!cascadeChanges) {
