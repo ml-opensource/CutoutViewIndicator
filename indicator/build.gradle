@@ -35,7 +35,10 @@ version = '0.1'
 
 // Concept and execution for this configuration come from http://stackoverflow.com/q/29663918
 configurations {
-    javadocDeps
+    javadocDeps {
+        // This simply ensures that all dependencies of 'compile' are included when building javadoc
+        extendsFrom compile
+    }
 }
 
 android {
@@ -73,9 +76,8 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportVersion"
     testCompile 'junit:junit:4.12'
 
-    //noinspection GradleDependency - the lint warning a few lines up will suffice.
-    javadocDeps "com.android.support:appcompat-v7:$supportVersion"
-    javadocDeps "com.android.support:support-v4:$supportVersion"
+    // Manually include the classes jars - javadoc can't be directly built from aars at this time
+    javadocDeps fileTree(dir: "$project.buildDir/intermediates/exploded-aar/", include:"**/classes.jar")
 }
 
 
@@ -84,10 +86,17 @@ dependencies {
 
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
+    // Some of the bootClasspath entries are aars - our javadoc generator ignores those
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     classpath += configurations.javadocDeps
     destinationDir = file("../javadoc/")
+    // Javadoc will error out for terrible reasons. We can't let it break the build indiscriminately
     failOnError false
+
+    // The JDK 8 doc lint tool is useless for validating html. Disable just that.
+    // Credit for this solution goes to http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html
+    // Incidentally, I have no idea what the second parameter ('-quiet') means in this context.
+    options.addStringOption('Xdoclint:all,-html', '-quiet')
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
