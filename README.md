@@ -30,6 +30,26 @@ slightest perturbation in the ViewPager](http://i.imgur.com/fKOez3z.gif)
 There's demo source code for mobile under the `mobile` directory; we're
 looking to expand compatibility to Android Wear and Android TV too.
 
+Adding to a gradle project:
+---------------------------
+
+In your app-level `build.gradle`: ensure your repository list includes
+jitpack.io, then add the artifact as a dependency.
+
+```
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+```
+```
+dependencies {
+    compile 'com.github.fuzz-productions:CutoutViewIndicator:v0.2'
+}
+```
+
+
 Sample code:
 ------------
 
@@ -94,13 +114,17 @@ cvi.setGenerator(new GifGenerator());
 subclassing your custom Generator from that if its views extend
 ImageView.
 
+The base library also ships with an experimental LayoutViewGenerator
+called `TextViewGenerator`. Check out the javadoc for details on how
+to work with it.
+
 Caveats
 -------
 
-Right now it only supports Android SDK 15 and up
-(that makes it compatible with Jelly Bean, Lollipop, Marshmallow, and
-Nougat), but there's little stopping it from being backported
-all the way to APIv11.
+Right now it only supports Android SDK 14 and up
+(that makes it compatible with Ice Cream Sandwich, Jelly Bean, Lollipop,
+Marshmallow, and Nougat), but there's little stopping it from being
+backported all the way to APIv11.
 
 Grab a copy of the demo application (live apk coming soon) to try
 it in action.
