@@ -23,7 +23,6 @@ import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -66,7 +65,8 @@ public class CutoutViewIndicator extends LinearLayout {
     @NonNull
     protected CutoutViewLayoutParams defaultChildParams;
 
-    protected ViewPager viewPager;
+    @NonNull
+    protected StateProxy stateProxy = new UnavailableProxy();
 
     /**
      * @see #cascadeParamChanges(boolean)
@@ -78,7 +78,6 @@ public class CutoutViewIndicator extends LinearLayout {
      */
     protected boolean usePositiveOffset;
 
-    protected ViewPager.OnPageChangeListener pageChangeListener = new OnViewPagerChangeListener(this);
     /**
      * This value is strictly for showing a good tools-style preview of this view. If
      * {@link #isInEditMode()} is false, this value should never be used.
@@ -135,11 +134,7 @@ public class CutoutViewIndicator extends LinearLayout {
                 // Quantity isn't changing.
             }
 
-            // Here we just truncate to appease the API. A side effect is that any
-            // non-integer position info will be lost in the process.
-            int currentPageNumber = (int) getCurrentIndicatorPosition();
-            // Anyway, we need to ensure that item is selected.
-            pageChangeListener.onPageSelected(currentPageNumber);
+            stateProxy.resendPositionInfo(getCurrentIndicatorPosition());
         }
 
         /**
@@ -397,15 +392,14 @@ public class CutoutViewIndicator extends LinearLayout {
      *     will return a random float in the range from 0 to {@link #getPageCount()}.
      * </p>
      *
-     * @return the {@link ViewPager#getCurrentItem()} if {@link #viewPager} is non-null,
+     * @return the {@link StateProxy#getCurrentPosition()} if {@link #stateProxy} is non-null,
      * 0 otherwise
      */
     private float getCurrentIndicatorPosition() {
         if (isInEditMode()) {
             return getPageCount() * (float) Math.random();
         }
-        // Seriously. They called this the 'CurrentItem'. Can you believe it?
-        return viewPager == null ? 0 : viewPager.getCurrentItem();
+        return stateProxy.getCurrentPosition();
     }
 
     /**
@@ -418,11 +412,31 @@ public class CutoutViewIndicator extends LinearLayout {
         if (isInEditMode()) {
             return Math.max(1, editModePageCount);
         }
-        return viewPager.getAdapter().getCount();
+        return stateProxy.getCellCount();
     }
 
+    /**
+     * @param usePositiveOffset    a new value for {@link #usePositiveOffset the associated field}
+     */
     public void enablePositiveOffset(boolean usePositiveOffset) {
         this.usePositiveOffset = usePositiveOffset;
+    }
+
+    /**
+     * @param proposed the value returned by {@link CutoutViewIndicator#stateProxy}
+     * @return the corrected value.
+     * @see CutoutViewIndicator#usePositiveOffset
+     */
+    public int fixPosition(int proposed) {
+        if (usePositiveOffset) {
+            // ViewPagers like SpinningViewPager are always off by one
+            proposed--;
+            // Ensure that it's positive
+            if (proposed < 0) {
+                proposed += getChildCount();
+            }
+        }
+        return proposed;
     }
 
     public void setCellBackgroundId(@DrawableRes int cellBackgroundId) {
@@ -601,20 +615,18 @@ public class CutoutViewIndicator extends LinearLayout {
      * {@link #setCellBackgroundId(int)})
      * to avoid redrawing or extra layout stuff.
      *
-     * @param newPager the new ViewPager that this'll sync with. Pass null to disable.
+     * @param newStateProxy the new StateProxy that this'll sync with. Pass null to disable.
      */
-    public void setViewPager(@Nullable ViewPager newPager) {
-        if (viewPager != null) {
-            viewPager.removeOnPageChangeListener(pageChangeListener);
-            if (viewPager.getAdapter() != null) {
-                viewPager.getAdapter().unregisterDataSetObserver(dataSetObserver);
-            }
+    public void setStateProxy(@Nullable StateProxy newStateProxy) {
+        stateProxy.disassociateFrom(dataSetObserver);
+
+        if (newStateProxy == null) {
+            newStateProxy = new UnavailableProxy();
         }
-        viewPager = newPager;
-        if (newPager != null && newPager.getAdapter() != null) {
-            newPager.removeOnPageChangeListener(pageChangeListener);
-            newPager.addOnPageChangeListener(pageChangeListener);
-            newPager.getAdapter().registerDataSetObserver(dataSetObserver);
+
+        stateProxy = newStateProxy;
+        if (newStateProxy.canObserve(dataSetObserver)) {
+            newStateProxy.associateWith(dataSetObserver);
             dataSetObserver.onChanged();
             getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -622,6 +634,7 @@ public class CutoutViewIndicator extends LinearLayout {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     } else {
+                        //noinspection deprecation
                         getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
 

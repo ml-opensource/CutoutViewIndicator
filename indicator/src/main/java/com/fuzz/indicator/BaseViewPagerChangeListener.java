@@ -15,25 +15,24 @@
  */
 package com.fuzz.indicator;
 
-import android.support.v4.view.ViewPager;
-
 /**
  * Change listener for easy integration between {@link CutoutViewIndicator}
- * and {@link ViewPager}.
+ * and {@link android.support.v4.view.ViewPager}.
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-class OnViewPagerChangeListener implements ViewPager.OnPageChangeListener {
+public abstract class BaseViewPagerChangeListener implements StateProxy.ProxyListener {
+
     private CutoutViewIndicator cvi;
 
-    public OnViewPagerChangeListener(CutoutViewIndicator cutoutViewIndicator) {
+    public BaseViewPagerChangeListener(CutoutViewIndicator cutoutViewIndicator) {
         this.cvi = cutoutViewIndicator;
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (cvi.getIndicatorDrawableId() != 0) {
-            position = fixPosition(position);
+            position = cvi.fixPosition(position);
 
             // Cover the provided position...
             cvi.showOffsetIndicator(position, positionOffset);
@@ -48,33 +47,18 @@ class OnViewPagerChangeListener implements ViewPager.OnPageChangeListener {
         }
     }
 
-    /**
-     * @param proposed the value returned by {@link CutoutViewIndicator#viewPager}
-     * @return the corrected value.
-     * @see CutoutViewIndicator#usePositiveOffset
-     */
-    public int fixPosition(int proposed) {
-        if (cvi.usePositiveOffset) {
-            // ViewPagers like SpinningViewPager are always off by one
-            proposed--;
-            // Ensure that it's positive
-            if (proposed < 0) {
-                proposed += cvi.getChildCount();
-            }
-        }
-        return proposed;
-    }
-
     @Override
     public void onPageSelected(int position) {
-        cvi.showOffsetIndicator(fixPosition(position), 0);
+        cvi.showOffsetIndicator(cvi.fixPosition(position), 0);
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        if (state == ViewPager.SCROLL_STATE_IDLE) {
+        if (isIdle(state)) {
             // verify that all non-current views are free from indicators
             cvi.ensureOnlyCurrentItemsSelected();
         }
     }
+
+    protected abstract boolean isIdle(int scrollState);
 }
