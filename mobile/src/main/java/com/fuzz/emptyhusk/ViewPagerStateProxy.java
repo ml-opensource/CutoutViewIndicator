@@ -53,8 +53,9 @@ public class ViewPagerStateProxy extends StateProxy {
     }
 
     @Override
-    public void onSelected(float currentIndicatorPosition) {
-        pageChangeListener.onPageSelected((int) currentIndicatorPosition);
+    public void resendPositionInfo(float assumedIndicatorPosition) {
+        // We blindly trust that the assumed position is accurate.
+        pageChangeListener.onPageSelected((int) assumedIndicatorPosition);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class UnavailableProxy extends StateProxy {
     }
 
     @Override
-    public void onSelected(float currentIndicatorPosition) {
+    public void resendPositionInfo(float assumedIndicatorPosition) {
         // Do nothing
     }
 

@@ -46,9 +46,12 @@ public abstract class StateProxy {
      * This method is called when the {@link CutoutViewIndicator} has just
      * rebuilt its views.
      *
-     * @param currentIndicatorPosition    the position which was selected
+     * @param assumedIndicatorPosition    the position which the indicator
+     *                                    thinks is selected, may or may
+     *                                    not be the same as
+     *                                    {@link #getCurrentPosition()}.
      */
-    public abstract void onSelected(float currentIndicatorPosition);
+    public abstract void resendPositionInfo(float assumedIndicatorPosition);
 
     /**
      * This method is called when the {@link CutoutViewIndicator} is ready

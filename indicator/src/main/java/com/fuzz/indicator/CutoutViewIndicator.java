@@ -134,8 +134,7 @@ public class CutoutViewIndicator extends LinearLayout {
                 // Quantity isn't changing.
             }
 
-            // TODO: pull the fixPosition method into a separate interface, call ensureOnlyCurrentItemsSelected directly instead of going through the proxy
-            stateProxy.onSelected(getCurrentIndicatorPosition());
+            stateProxy.resendPositionInfo(getCurrentIndicatorPosition());
         }
 
         /**
