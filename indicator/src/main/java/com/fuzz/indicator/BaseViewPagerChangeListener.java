@@ -32,7 +32,7 @@ public abstract class BaseViewPagerChangeListener implements StateProxy.ProxyLis
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (cvi.getIndicatorDrawableId() != 0) {
-            position = fixPosition(position);
+            position = cvi.fixPosition(position);
 
             // Cover the provided position...
             cvi.showOffsetIndicator(position, positionOffset);
@@ -47,26 +47,9 @@ public abstract class BaseViewPagerChangeListener implements StateProxy.ProxyLis
         }
     }
 
-    /**
-     * @param proposed the value returned by {@link CutoutViewIndicator#stateProxy}
-     * @return the corrected value.
-     * @see CutoutViewIndicator#usePositiveOffset
-     */
-    public int fixPosition(int proposed) {
-        if (cvi.usePositiveOffset) {
-            // ViewPagers like SpinningViewPager are always off by one
-            proposed--;
-            // Ensure that it's positive
-            if (proposed < 0) {
-                proposed += cvi.getChildCount();
-            }
-        }
-        return proposed;
-    }
-
     @Override
     public void onPageSelected(int position) {
-        cvi.showOffsetIndicator(fixPosition(position), 0);
+        cvi.showOffsetIndicator(cvi.fixPosition(position), 0);
     }
 
     @Override

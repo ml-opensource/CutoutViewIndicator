@@ -415,8 +415,28 @@ public class CutoutViewIndicator extends LinearLayout {
         return stateProxy.getCellCount();
     }
 
+    /**
+     * @param usePositiveOffset    a new value for {@link #usePositiveOffset the associated field}
+     */
     public void enablePositiveOffset(boolean usePositiveOffset) {
         this.usePositiveOffset = usePositiveOffset;
+    }
+
+    /**
+     * @param proposed the value returned by {@link CutoutViewIndicator#stateProxy}
+     * @return the corrected value.
+     * @see CutoutViewIndicator#usePositiveOffset
+     */
+    public int fixPosition(int proposed) {
+        if (usePositiveOffset) {
+            // ViewPagers like SpinningViewPager are always off by one
+            proposed--;
+            // Ensure that it's positive
+            if (proposed < 0) {
+                proposed += getChildCount();
+            }
+        }
+        return proposed;
     }
 
     public void setCellBackgroundId(@DrawableRes int cellBackgroundId) {
