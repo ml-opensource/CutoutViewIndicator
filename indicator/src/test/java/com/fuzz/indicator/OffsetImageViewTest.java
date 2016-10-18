@@ -1,0 +1,74 @@
+package com.fuzz.indicator;
+
+import android.graphics.Matrix;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
+
+import static org.mockito.ArgumentMatchers.anyFloat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+/**
+ * I suppose this tests {@link OffSetters#offsetImageBy(ImageView, int, float, Matrix)}?
+ *
+ * @author Philip Cohn-Cort (Fuzz)
+ */
+@RunWith(Parameterized.class)
+public class OffsetImageViewTest {
+
+    public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
+    public static final int VERTICAL = LinearLayout.VERTICAL;
+
+    @Parameterized.Parameters(name = "Test{index} : {0}x{1} at {3}")
+    public static Iterable<? extends Object[]> data() {
+        return Arrays.asList(new Number[][]{
+                {0, 0, HORIZONTAL, 0},
+                {5, 5, HORIZONTAL, -.77f},
+                {100, 100, HORIZONTAL, 0},
+                {50, 0, HORIZONTAL, .999f},
+                {0, 50, HORIZONTAL, 0},
+                {25, 75, HORIZONTAL, 0.3f},
+                {-20, 0, HORIZONTAL, 0},
+                {7, 7, VERTICAL, 0},
+                {30, 0, VERTICAL, 0},
+                {60, 60, VERTICAL, -1f},
+                {100, 100, VERTICAL, -.2f},
+                {0, 0, VERTICAL, 0}
+        });
+    }
+
+    private final int width;
+    private final int height;
+    private final int orientation;
+    private final float percentage;
+
+    public OffsetImageViewTest(int width, int height, int orientation, float percentage) {
+        this.width = width;
+        this.height = height;
+        this.orientation = orientation;
+        this.percentage = percentage;
+    }
+
+    @Test
+    public void offsetImageBy() throws Exception {
+        ImageView imageView = mock(ImageView.class);
+        Matrix matrix = mock(Matrix.class);
+
+        when(imageView.getWidth()).thenReturn(width);
+        when(imageView.getHeight()).thenReturn(height);
+
+        OffSetters.offsetImageBy(imageView, orientation, percentage, matrix);
+
+        // How do we test the method is setting the right values without copying its logic to here?
+        verify(matrix).setTranslate(anyFloat(), anyFloat());
+        verify(imageView).setImageMatrix(matrix);
+    }
+
+}
