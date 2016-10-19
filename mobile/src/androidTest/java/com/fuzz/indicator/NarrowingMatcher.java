@@ -1,4 +1,4 @@
-package com.fuzz.emptyhusk;
+package com.fuzz.indicator;
 
 import android.view.View;
 

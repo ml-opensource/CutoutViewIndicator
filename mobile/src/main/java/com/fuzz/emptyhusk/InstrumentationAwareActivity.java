@@ -11,8 +11,8 @@ import android.support.v7.app.AppCompatActivity;
  */
 public class InstrumentationAwareActivity extends AppCompatActivity {
 
-    protected MainViewBinding binding;
-    protected PickerDelegate pickerDelegate;
+    public MainViewBinding binding;
+    public PickerDelegate pickerDelegate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
