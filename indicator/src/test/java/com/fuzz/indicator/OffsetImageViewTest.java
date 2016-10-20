@@ -31,7 +31,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * I suppose this tests {@link OffSetters#offsetImageBy(ImageView, int, float, Matrix)}?
+ * Tests logical assumptions in
+ * {@link OffSetters#offsetImageBy(ImageView, int, float, Matrix)}.
+ * Visual regressions are not checked, and neither is
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
