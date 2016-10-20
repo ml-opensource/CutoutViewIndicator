@@ -72,9 +72,11 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    // Required for ViewPager-aware listeners and so forth
+    // Required for explicit int parameters, nullability, and other IDE hints
     compile "com.android.support:support-annotations:$supportVersion"
+
     testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:2.2.5"
 
     // Manually include the classes jars - javadoc can't be directly built from aars at this time
     javadocDeps fileTree(dir: "$project.buildDir/intermediates/exploded-aar/", include:"**/classes.jar")

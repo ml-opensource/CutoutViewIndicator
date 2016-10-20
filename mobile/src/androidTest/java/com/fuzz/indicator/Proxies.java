@@ -15,18 +15,18 @@
  */
 package com.fuzz.indicator;
 
-import org.junit.Test;
-
-import static org.junit.Assert.*;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
 
 /**
- * Example local unit test, which will execute on the development machine (host).
+ * Utility methods for making new instances of {@link StateProxy} subclasses.
  *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * @author Philip Cohn-Cort (Fuzz)
  */
-public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+public class Proxies {
+    @NonNull
+    public static StateProxy proxyForXCells(@IntRange(from = 0) int x) {
+        int currentPosition = 0;
+        return new ConstantStateProxy(currentPosition, x);
     }
 }

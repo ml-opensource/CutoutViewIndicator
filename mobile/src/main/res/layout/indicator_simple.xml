@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright 2016 Philip Cohn-Cort
 
@@ -13,16 +14,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<resources>
-    <string name="app_name">EmptyHusk</string>
-    <string name="title_activity_main">CutoutViewIndicator Demo</string>
-    <string name="title_activity_instrumentation">CutoutViewIndicator Live Testing</string>
-
-    <string name="label_margin">Spacing</string>
-    <string name="label_height">Height</string>
-    <string name="label_width">Width</string>
-    <string name="label_unify">Change All</string>
-    <string name="label_orientation">Vertical?</string>
-
-    <string name="action_change_generator">Change Generator....</string>
-</resources>
+<com.fuzz.indicator.CutoutViewIndicator
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    />

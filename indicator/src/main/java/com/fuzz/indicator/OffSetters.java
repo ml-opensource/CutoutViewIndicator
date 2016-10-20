@@ -40,10 +40,10 @@ public class OffSetters {
      * @param imageView the view that will be changed
      * @param orientation direction to offset in. Use either {@link LinearLayout#VERTICAL} or {@link LinearLayout#HORIZONTAL}
      * @param percentage  percentage of width/height to offset by - positive means down/right, negative means up/left
+     * @param mat         a starting form for the matrix. Callers may choose to supply a new instance of {@link Matrix}
      * @see ImageView#setImageMatrix(Matrix)
      */
-    public static void offsetImageBy(ImageView imageView, int orientation, float percentage) {
-        Matrix mat = new Matrix();
+    public static void offsetImageBy(@NonNull ImageView imageView, int orientation, float percentage, @NonNull Matrix mat) {
         float offsetX, offsetY;
         if (orientation == LinearLayout.VERTICAL) {
             offsetX = 0;

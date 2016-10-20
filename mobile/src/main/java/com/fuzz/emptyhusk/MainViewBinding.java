@@ -19,6 +19,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.GridLayout;
 import android.widget.NumberPicker;
@@ -45,7 +46,11 @@ public class MainViewBinding {
     public final CompoundButton unifiedButton;
     public final CompoundButton orientationButton;
 
+    public final ViewGroup root;
+
     public MainViewBinding(View root) {
+        this.root = (ViewGroup) root;
+
         toolbar = (Toolbar) root.findViewById(R.id.toolbar);
         mainViewPager = (ViewPager) root.findViewById(R.id.mainViewPager);
         fab = (FloatingActionButton) root.findViewById(R.id.fab);
