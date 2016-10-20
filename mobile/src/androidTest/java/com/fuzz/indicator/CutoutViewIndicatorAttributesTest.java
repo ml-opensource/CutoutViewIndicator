@@ -15,17 +15,16 @@
  */
 package com.fuzz.indicator;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.widget.FrameLayout;
 
 import com.fuzz.emptyhusk.InstrumentationAwareActivity;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
 
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -48,30 +47,10 @@ public class CutoutViewIndicatorAttributesTest {
     public ActivityTestRule<InstrumentationAwareActivity> actRule
             = new ActivityTestRule<>(InstrumentationAwareActivity.class);
 
-    /**
-     * This rule will interrupt {@link #forUI} if that is waiting.
-     */
     @Rule
     public Timeout timeout = new Timeout(1500, TimeUnit.MILLISECONDS);
 
     private CutoutViewIndicator indicatorUnderTest;
-
-    /**
-     * This is always initialised in {@link #setUp()} - tests should count down
-     * whenever they finish their ui-specific code (which by nature of the indicator
-     * is on the main thread). If there is no ui-specific code, then you can safely
-     * ignore this field.
-     * <p>
-     *     The test thread should await that count down, and then run assertions
-     *     or whatever. Do not run assertions on the ui thread.
-     * </p>
-     */
-    private CountDownLatch forUI;
-
-    @Before
-    public void setUp() {
-        forUI = new CountDownLatch(1);
-    }
 
     /**
      * Very simple check here: we try to inflate a CutoutViewIndicator into
@@ -80,36 +59,30 @@ public class CutoutViewIndicatorAttributesTest {
      */
     @Test
     public void cviShouldInflateWithCorrectDefaults() throws Exception {
-        actRule.getActivity().runOnUiThread(new Runnable() {
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
-                indicatorUnderTest = actRule.getActivity().inflateLayout(com.fuzz.emptyhusk.R.layout.indicator_a, CutoutViewIndicator.class);
-                forUI.countDown();
+                indicatorUnderTest = actRule.getActivity().inflateLayout(com.fuzz.emptyhusk.R.layout.indicator_simple, CutoutViewIndicator.class);
             }
         });
-        try {
-            forUI.await();
-        } catch (InterruptedException ignored) {
-        } finally {
-            assertNotNull(indicatorUnderTest);
-            assertFalse(indicatorUnderTest.isInEditMode());
+        assertNotNull(indicatorUnderTest);
+        assertFalse(indicatorUnderTest.isInEditMode());
 
-            // Inflated attributes
-            assertEquals(0, indicatorUnderTest.getIndicatorDrawableId());
-            assertEquals(0, indicatorUnderTest.getInternalSpacing());
-            assertEquals(WRAP_CONTENT, indicatorUnderTest.getCellLength());
-            assertEquals(WRAP_CONTENT, indicatorUnderTest.getPerpendicularLength());
-            assertEquals(0, indicatorUnderTest.getCellBackgroundId());
+        // Inflated attributes
+        assertEquals(0, indicatorUnderTest.getIndicatorDrawableId());
+        assertEquals(0, indicatorUnderTest.getInternalSpacing());
+        assertEquals(WRAP_CONTENT, indicatorUnderTest.getCellLength());
+        assertEquals(WRAP_CONTENT, indicatorUnderTest.getPerpendicularLength());
+        assertEquals(0, indicatorUnderTest.getCellBackgroundId());
 
-            assertThat(indicatorUnderTest.getLayoutParams(), instanceOf(FrameLayout.LayoutParams.class));
+        assertThat(indicatorUnderTest.getLayoutParams(), instanceOf(FrameLayout.LayoutParams.class));
 
-            // Consequences of using an UnavailableProxy
-            assertEquals(0, indicatorUnderTest.getPageCount());
-            assertNotNull(indicatorUnderTest.getGenerator());
-            assertNull(indicatorUnderTest.getLayoutParamsForCurrentItem());
+        // Consequences of using an UnavailableProxy
+        assertEquals(0, indicatorUnderTest.getPageCount());
+        assertNotNull(indicatorUnderTest.getGenerator());
+        assertNull(indicatorUnderTest.getLayoutParamsForCurrentItem());
 
-            // Technically, this is a consequence of using UnavailableProxy PLUS no views in layout
-            assertEquals(0, indicatorUnderTest.getChildCount());
-        }
+        // Technically, this is a consequence of using UnavailableProxy PLUS no views in layout
+        assertEquals(0, indicatorUnderTest.getChildCount());
     }
 }
