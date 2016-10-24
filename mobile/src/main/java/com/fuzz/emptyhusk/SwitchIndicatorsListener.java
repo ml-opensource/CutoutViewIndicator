@@ -23,6 +23,8 @@ import android.view.View;
 import com.fuzz.indicator.CutoutViewIndicator;
 import com.fuzz.indicator.CutoutViewLayoutParams;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 /**
  * Little onClickListener for toggling through a range of different
  * indicator styles.
@@ -47,6 +49,14 @@ class SwitchIndicatorsListener implements View.OnClickListener {
         circles.perpendicularLength = circleDiameter;
         circles.cellLength = circleDiameter;
         storage.addFirst(circles);
+
+        CutoutViewLayoutParams stars = cvi.generateDefaultLayoutParams();
+        stars.indicatorDrawableId = android.R.drawable.star_on;
+        stars.cellBackgroundId = android.R.drawable.star_off;
+        stars.internalSpacing = (int) (Math.random() * 20);
+        stars.perpendicularLength = WRAP_CONTENT;
+        stars.cellLength = WRAP_CONTENT;
+        storage.addLast(stars);
 
         // The rectangle params should be at the end of the array when this constructor returns.
         CutoutViewLayoutParams rectangles = cvi.generateDefaultLayoutParams();
