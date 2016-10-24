@@ -110,11 +110,9 @@ public class ClippedImageView extends ImageView {
         if (prevHeight != postHeight || prevWidth != postWidth) {
             // Dimensions have changed.
             if (getBackground() != null ) {
-                backgroundBitmap.recycle();
                 backgroundBitmap = extractBitmapFrom(getBackground(), postWidth, postHeight);
             }
             if (getDrawable() != null) {
-                primaryBitmap.recycle();
                 primaryBitmap = extractBitmapFrom(getDrawable(), postWidth, postHeight);
             }
         }
