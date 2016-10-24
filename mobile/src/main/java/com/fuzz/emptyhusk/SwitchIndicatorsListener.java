@@ -15,6 +15,7 @@
  */
 package com.fuzz.emptyhusk;
 
+import android.os.Build;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.util.CircularArray;
@@ -42,7 +43,7 @@ class SwitchIndicatorsListener implements View.OnClickListener {
         this.cvi = cvi;
 
         CutoutViewLayoutParams circles = cvi.generateDefaultLayoutParams();
-        circles.indicatorDrawableId = R.drawable.circle_accent;
+        circles.indicatorDrawableId = R.drawable.inset_circle_accent;
         circles.cellBackgroundId = R.drawable.circle_secondary;
         circles.internalSpacing = 0;
         int circleDiameter = cvi.getResources().getDimensionPixelSize(R.dimen.circle_diameter);
@@ -57,6 +58,16 @@ class SwitchIndicatorsListener implements View.OnClickListener {
         stars.perpendicularLength = WRAP_CONTENT;
         stars.cellLength = WRAP_CONTENT;
         storage.addLast(stars);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CutoutViewLayoutParams vectors = cvi.generateDefaultLayoutParams();
+            vectors.indicatorDrawableId = R.drawable.check_box_outline_accent;
+            vectors.cellBackgroundId = R.drawable.ovoid_accent;
+            vectors.internalSpacing = 0;
+            vectors.perpendicularLength = WRAP_CONTENT;
+            vectors.cellLength = WRAP_CONTENT;
+            storage.addLast(vectors);
+        }
 
         // The rectangle params should be at the end of the array when this constructor returns.
         CutoutViewLayoutParams rectangles = cvi.generateDefaultLayoutParams();
