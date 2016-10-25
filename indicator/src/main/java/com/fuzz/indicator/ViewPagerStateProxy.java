@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fuzz.emptyhusk;
+package com.fuzz.indicator;
 
 import android.database.DataSetObserver;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
-
-import com.fuzz.indicator.CutoutViewIndicator;
-import com.fuzz.indicator.StateProxy;
 
 /**
  * {@link StateProxy} wrapper around a {@link ViewPager}. All calls
@@ -28,7 +25,7 @@ import com.fuzz.indicator.StateProxy;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class ViewPagerStateProxy extends StateProxy {
+public class ViewPagerStateProxy implements StateProxy {
 
     @NonNull
     private final ViewPager pager;

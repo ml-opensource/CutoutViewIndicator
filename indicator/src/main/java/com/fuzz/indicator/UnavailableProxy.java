@@ -22,7 +22,7 @@ import android.database.DataSetObserver;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class UnavailableProxy extends StateProxy {
+public class UnavailableProxy implements StateProxy {
 
     @Override
     public float getCurrentPosition() {

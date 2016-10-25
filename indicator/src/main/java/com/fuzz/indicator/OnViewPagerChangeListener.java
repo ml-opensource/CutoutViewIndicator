@@ -15,17 +15,19 @@
  */
 package com.fuzz.indicator;
 
+import android.support.v4.view.ViewPager;
+
 /**
  * Change listener for easy integration between {@link CutoutViewIndicator}
  * and {@link android.support.v4.view.ViewPager}.
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public abstract class BaseViewPagerChangeListener implements StateProxy.ProxyListener {
+public class OnViewPagerChangeListener implements ViewPager.OnPageChangeListener {
 
     private CutoutViewIndicator cvi;
 
-    public BaseViewPagerChangeListener(CutoutViewIndicator cutoutViewIndicator) {
+    public OnViewPagerChangeListener(CutoutViewIndicator cutoutViewIndicator) {
         this.cvi = cutoutViewIndicator;
     }
 
@@ -60,5 +62,7 @@ public abstract class BaseViewPagerChangeListener implements StateProxy.ProxyLis
         }
     }
 
-    protected abstract boolean isIdle(int scrollState);
+    protected boolean isIdle(int scrollState) {
+        return scrollState == ViewPager.SCROLL_STATE_IDLE;
+    }
 }
