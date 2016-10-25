@@ -193,6 +193,16 @@ public class CutoutViewIndicator extends LinearLayout {
             setCellBackgroundId(a.getResourceId(R.styleable.CutoutViewIndicator_rcv_drawable_unselected, 0));
             a.recycle();
         }
+        if (isInEditMode()) {
+            // We don't use setStateProxy because that could have side effects.
+            stateProxy = new UnavailableProxy() {
+                @Override
+                public void resendPositionInfo(float pos) {
+                    int atView = (int) pos;
+                    showOffsetIndicator(fixPosition(atView), pos - atView);
+                }
+            };
+        }
     }
 
     /**
@@ -672,13 +682,13 @@ public class CutoutViewIndicator extends LinearLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (isInEditMode()) {
+            // This is the only part of setStateProxy we care about in EditMode
             dataSetObserver.onChanged();
-        } else {
-            for (int i = 0; i < getChildCount(); i++) {
-                View child = getChildAt(i);
-                // Note that the superclass calls measure on the child for us
-                bindChild(i, child);
-            }
+        }
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            // Note that the superclass calls measure on the child for us
+            bindChild(i, child);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
