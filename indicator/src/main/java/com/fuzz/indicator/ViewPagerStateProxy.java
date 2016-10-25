@@ -25,7 +25,7 @@ import android.support.v4.view.ViewPager;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class ViewPagerStateProxy extends StateProxy {
+public class ViewPagerStateProxy implements StateProxy {
 
     @NonNull
     private final ViewPager pager;

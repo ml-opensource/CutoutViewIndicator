@@ -27,12 +27,12 @@ import android.database.DataSetObserver;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public abstract class StateProxy {
+public interface StateProxy {
 
     /**
      * @return the current position of the indicator
      */
-    public abstract float getCurrentPosition();
+    float getCurrentPosition();
 
     /**
      * See {@link CutoutViewIndicator#showOffsetIndicator(int, float)}
@@ -40,7 +40,7 @@ public abstract class StateProxy {
      *
      * @return how many cells should be shown in the indicator
      */
-    public abstract int getCellCount();
+    int getCellCount();
 
     /**
      * This method is called when the {@link CutoutViewIndicator} has just
@@ -51,7 +51,7 @@ public abstract class StateProxy {
      *                                    not be the same as
      *                                    {@link #getCurrentPosition()}.
      */
-    public abstract void resendPositionInfo(float assumedIndicatorPosition);
+    void resendPositionInfo(float assumedIndicatorPosition);
 
     /**
      * This method is called when the {@link CutoutViewIndicator} is ready
@@ -59,7 +59,7 @@ public abstract class StateProxy {
      *
      * @param observer    something internal to the {@link CutoutViewIndicator}
      */
-    public abstract void associateWith(DataSetObserver observer);
+    void associateWith(DataSetObserver observer);
 
     /**
      * This method is called when the {@link CutoutViewIndicator} is ready
@@ -67,7 +67,7 @@ public abstract class StateProxy {
      *
      * @param observer    something internal to the {@link CutoutViewIndicator}
      */
-    public abstract void disassociateFrom(DataSetObserver observer);
+    void disassociateFrom(DataSetObserver observer);
 
     /**
      * @param observer    a future parameter to {@link #associateWith(DataSetObserver)}
@@ -75,5 +75,5 @@ public abstract class StateProxy {
      * subsequent call to {@link #associateWith(DataSetObserver)} with the
      * same observer parameter.
      */
-    public abstract boolean canObserve(DataSetObserver observer);
+    boolean canObserve(DataSetObserver observer);
 }
