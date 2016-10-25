@@ -14,18 +14,16 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<shape
+<inset
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval"
     >
-    <size
-        android:height="@dimen/circle_diameter"
-        android:width="@dimen/circle_diameter"
-        />
-    <gradient
-        android:type="radial"
-        android:gradientRadius="@dimen/circle_fading_edge"
-        android:startColor="@color/colorSecondary"
-        android:endColor="@color/colorTertiary"
-        />
-</shape>
+    <shape
+        android:shape="oval"
+        >
+        <size
+            android:width="@dimen/circle_diameter"
+            android:height="@dimen/circle_diameter"
+            />
+        <solid android:color="@color/colorAccent" />
+    </shape>
+</inset>

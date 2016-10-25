@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2016 Philip Cohn-Cort
+  Copyright 2014 Google
+  Modifications Copyright 2016 Philip Cohn-Cort
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,18 +15,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<shape
+<vector
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0"
     >
-    <size
-        android:height="@dimen/circle_diameter"
-        android:width="@dimen/circle_diameter"
+    <path
+        android:fillColor="@color/colorAccent"
+        android:pathData="M19,5v14H5V5h14m0,-2H5c-1.1,0 -2,0.9 -2,2v14c0,1.1 0.9,2 2,2h14c1.1,0 2,-0.9 2,-2V5c0,-1.1 -0.9,-2 -2,-2z"
         />
-    <gradient
-        android:type="radial"
-        android:gradientRadius="@dimen/circle_fading_edge"
-        android:startColor="@color/colorSecondary"
-        android:endColor="@color/colorTertiary"
-        />
-</shape>
+</vector>
