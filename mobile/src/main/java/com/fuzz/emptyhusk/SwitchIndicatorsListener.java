@@ -62,7 +62,7 @@ class SwitchIndicatorsListener implements View.OnClickListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CutoutViewLayoutParams vectors = cvi.generateDefaultLayoutParams();
             vectors.indicatorDrawableId = R.drawable.check_box_outline_accent;
-            vectors.cellBackgroundId = R.drawable.ovoid_accent;
+            vectors.cellBackgroundId = R.drawable.circle_accent;
             vectors.internalSpacing = 0;
             vectors.perpendicularLength = WRAP_CONTENT;
             vectors.cellLength = WRAP_CONTENT;
