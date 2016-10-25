@@ -15,6 +15,7 @@
  */
 package com.fuzz.indicator;
 
+import android.graphics.Matrix;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,7 +25,7 @@ import android.widget.ImageView;
  *
  * Can be used like a {@link android.widget.ProgressBar}, only more straightforward.
  * <br/><br/>
- * Call {@link OffSetters#offsetImageBy(ImageView, int, float)} to offset an image over a static background.
+ * Call {@link OffSetters#offsetImageBy(ImageView, int, float, Matrix)} to offset an image over a static background.
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
