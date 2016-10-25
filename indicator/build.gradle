@@ -68,12 +68,15 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    // Required for explicit int parameters, nullability, and other IDE hints
-    compile "com.android.support:support-annotations:$supportVersion"
+
+    // Starting with support lib 24.2.0, ViewPager should be included with the following directive
+    //compile "com.android.support:support-core-ui:$supportVersion"
+
+    // Before that, though, this is the best way to include a ViewPager dependency.
+    compile "com.android.support:support-v4:$supportVersion"
 
     testCompile 'junit:junit:4.12'
     testCompile "org.mockito:mockito-core:2.2.5"
