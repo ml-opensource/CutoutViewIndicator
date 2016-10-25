@@ -23,6 +23,7 @@ import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -607,6 +608,30 @@ public class CutoutViewIndicator extends LinearLayout {
             }
         }
         return defaultChildParams.perpendicularLength;
+    }
+
+    /**
+     * {@link ViewPager}-specific alias for {@link #setStateProxy(StateProxy)}. Note
+     * that {@link CutoutViewIndicator} uses {@link StateProxy}s internally to get state
+     * information.
+     * <p>
+     * Call this after setting the other custom parameters ({@link #setIndicatorDrawableId(int)},
+     * {@link #setCellLength(int)}, {@link #setInternalSpacing(int)}, {@link #setPerpendicularLength(int)},
+     * {@link #setCellBackgroundId(int)})
+     * to avoid redrawing or extra layout stuff.
+     * </p>
+     *
+     * @param newPager    the new ViewPager that this'll sync with. Pass null to disable.
+     * @see ViewPagerStateProxy
+     */
+    public void setViewPager(@Nullable ViewPager newPager) {
+        StateProxy proxy;
+        if (newPager == null) {
+            proxy = null;
+        } else {
+            proxy = new ViewPagerStateProxy(newPager, this);
+        }
+        setStateProxy(proxy);
     }
 
     /**

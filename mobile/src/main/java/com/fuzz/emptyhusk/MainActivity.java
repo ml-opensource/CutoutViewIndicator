@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initIndicator(CutoutViewIndicator cvi, ViewPager viewPager) {
         cvi.cascadeParamChanges(true);
-        cvi.setStateProxy(new ViewPagerStateProxy(viewPager, cvi));
+        cvi.setViewPager(viewPager);
     }
 
 }

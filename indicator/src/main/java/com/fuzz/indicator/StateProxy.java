@@ -76,25 +76,4 @@ public abstract class StateProxy {
      * same observer parameter.
      */
     public abstract boolean canObserve(DataSetObserver observer);
-
-    /**
-     * Helper interface for remote implementations of
-     * {@link android.support.v4.view.ViewPager.OnPageChangeListener
-     * OnPageChangeListener}.
-     * <p>
-     *     Basically, this is a 1:1 copy of that interface so that
-     *     classes like {@link BaseViewPagerChangeListener} can
-     *     ensure that they have all the right methods without
-     *     explicitly depending on {@link android.support.v4.view.ViewPager
-     *     ViewPager}.
-     * </p>
-     */
-    protected interface ProxyListener {
-
-        void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
-
-        void onPageSelected(int currentPageNumber);
-
-        void onPageScrollStateChanged(int state);
-    }
 }
