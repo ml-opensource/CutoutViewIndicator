@@ -17,12 +17,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
-// Note that the versions here are determined as follows:
-/**
- * targetVersion equals the most recent stable, released SDK version. The sources
- * for that version must be open to the public.
- */
-def targetVersion = 24
+// For reference: project.ext variables are defined in the top-level build.gradle file
 /**
  * supportVersion is the oldest version of the support libraries against which this
  * codebase can compile.
@@ -42,12 +37,12 @@ configurations {
 }
 
 android {
-    compileSdkVersion targetVersion
-    buildToolsVersion '24.0.2'
+    compileSdkVersion project.ext.targetVersion
+    buildToolsVersion project.ext.buildVersion
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion targetVersion
+        targetSdkVersion project.ext.targetVersion
         versionCode 2
         versionName "$version"
 
