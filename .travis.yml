@@ -1,7 +1,7 @@
 language: android
 sudo: required
-dist: trusty
-# Debian-based deb integration, recommended by http://stackoverflow.com/a/38867935
+dist: precise
+# Debian-based deb installation of JDK8, recommended by http://stackoverflow.com/a/38867935
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install debian-keyring debian-archive-keyring
