@@ -1,4 +1,8 @@
 language: android
+sudo: required
+dist: trusty
+jdk:
+ - oraclejdk8
 android:
   components:
     # View the full list of Android SDK Tools by running
