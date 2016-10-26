@@ -1,8 +1,19 @@
 language: android
 sudo: required
 dist: trusty
+# Debian-based deb integration, recommended by http://stackoverflow.com/a/38867935
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install debian-keyring debian-archive-keyring
+  - sudo echo 'deb http://httpredir.debian.org/debian/ jessie-backports main' > /etc/apt/sources.list.d/debian-jessie-backports.list
+  # Overwrite existing file
+  - sudo echo "Package: *" > /etc/apt/preferences.d/debian-jessie-backports
+  # Append Pin and Pin-Priority
+  - sudo echo "Pin: release o=Debian,a=jessie-backports" >> /etc/apt/preferences.d/debian-jessie-backports
+  - sudo echo "Pin-Priority: -200" >> /etc/apt/preferences.d/debian-jessie-backports
+  - sudo apt-get -t jessie-backports install -y openjdk-8-jdk
 jdk:
- - oraclejdk8
+ - openjdk8
 android:
   components:
     # View the full list of Android SDK Tools by running
