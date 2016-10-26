@@ -29,11 +29,11 @@ android:
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
-    - sys-img-x86-android-24
+    - sys-img-armeabi-v7a-android-24
     #- sys-img-armeabi-v7a-android-14
 # Emulator setup
 before_script:
-  - echo no | android create avd --force -n test24 -t android-24 --abi x86
+  - echo no | android create avd --force -n test24 -t android-24 --abi armeabi-v7a
   - emulator -avd test24 -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
