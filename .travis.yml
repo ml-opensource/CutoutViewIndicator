@@ -5,7 +5,7 @@ dist: precise
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install debian-keyring debian-archive-keyring
-  - sudo echo 'deb http://httpredir.debian.org/debian/ jessie-backports main' > /etc/apt/sources.list.d/debian-jessie-backports.list
+  - echo 'deb http://httpredir.debian.org/debian/ jessie-backports main' | sudo tee /etc/apt/sources.list.d/debian-jessie-backports.list
   # Overwrite existing file
   - sudo cp .travis.debian-jessie-backports /etc/apt/preferences.d/debian-jessie-backports
   - sudo apt-get -t jessie-backports install -y openjdk-8-jdk
