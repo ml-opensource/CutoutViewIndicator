@@ -21,6 +21,7 @@ import android.widget.FrameLayout;
 
 import com.fuzz.emptyhusk.InstrumentationAwareActivity;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -28,6 +29,11 @@ import org.junit.rules.Timeout;
 import java.util.concurrent.TimeUnit;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static android.view.WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON;
+import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
+import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
+import static android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -48,9 +54,24 @@ public class CutoutViewIndicatorAttributesTest {
             = new ActivityTestRule<>(InstrumentationAwareActivity.class);
 
     @Rule
-    public Timeout timeout = new Timeout(1500, TimeUnit.MILLISECONDS);
+    public Timeout timeout = new Timeout(1, TimeUnit.MINUTES);
 
     private CutoutViewIndicator indicatorUnderTest;
+
+    @Before
+    public void setUp() throws Throwable {
+        actRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //Forcibly ignore any active keyguard
+                actRule.getActivity().getWindow().addFlags(FLAG_SHOW_WHEN_LOCKED
+                        | FLAG_DISMISS_KEYGUARD
+                        | FLAG_KEEP_SCREEN_ON
+                        | FLAG_TURN_SCREEN_ON
+                        | FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+            }
+        });
+    }
 
     /**
      * Very simple check here: we try to inflate a CutoutViewIndicator into

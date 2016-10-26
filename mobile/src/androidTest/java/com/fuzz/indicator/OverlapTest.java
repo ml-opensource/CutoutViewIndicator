@@ -15,6 +15,7 @@
  */
 package com.fuzz.indicator;
 
+import android.app.KeyguardManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
@@ -32,14 +33,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static android.content.Context.KEYGUARD_SERVICE;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.LayoutAssertions.noOverlaps;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
+import static android.view.WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON;
+import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
+import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
+import static android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
 import static com.fuzz.indicator.NarrowingMatcher.isTheSameAs;
 import static com.fuzz.indicator.Proxies.proxyForXCells;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -68,7 +77,7 @@ public class OverlapTest {
             = new ActivityTestRule<>(InstrumentationAwareActivity.class);
 
     @Rule
-    public Timeout timeout = new Timeout(1500, TimeUnit.MILLISECONDS);
+    public Timeout timeout = new Timeout(1, TimeUnit.MINUTES);
 
     private MainViewBinding binding;
 
@@ -76,8 +85,23 @@ public class OverlapTest {
     public int cellCount;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Throwable {
         binding = actRule.getActivity().binding;
+        actRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                KeyguardManager keyguardManager = (KeyguardManager) actRule.getActivity().getSystemService(KEYGUARD_SERVICE);
+                KeyguardManager.KeyguardLock lock = keyguardManager.newKeyguardLock(KEYGUARD_SERVICE);
+                lock.disableKeyguard();
+
+                //Forcibly ignore any active keyguard
+                actRule.getActivity().getWindow().addFlags(FLAG_SHOW_WHEN_LOCKED
+                        | FLAG_DISMISS_KEYGUARD
+                        | FLAG_KEEP_SCREEN_ON
+                        | FLAG_TURN_SCREEN_ON
+                        | FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+            }
+        });
     }
 
     /**
@@ -96,6 +120,10 @@ public class OverlapTest {
         });
         onView(
                 isTheSameAs(binding.cvi)
+        ).inRoot(
+                withDecorView(
+                        is(actRule.getActivity().getWindow().getDecorView())
+                )
         ).check(
                 noOverlaps(allOf(
                         withEffectiveVisibility(VISIBLE), not(isTheSameAs(binding.cvi))
