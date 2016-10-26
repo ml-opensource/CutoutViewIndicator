@@ -9,8 +9,7 @@ before_install:
   # Overwrite existing file
   - sudo cp .travis.debian-jessie-backports /etc/apt/preferences.d/debian-jessie-backports
   - sudo apt-get -t jessie-backports install -y openjdk-8-jdk
-jdk:
- - openjdk8
+  - jdk_switcher use openjdk8
 android:
   components:
     # View the full list of Android SDK Tools by running
