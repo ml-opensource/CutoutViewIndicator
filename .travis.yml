@@ -3,12 +3,8 @@ sudo: required
 dist: precise
 # Debian-based deb installation of JDK8, recommended by http://stackoverflow.com/a/38867935
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install debian-keyring debian-archive-keyring
-  - echo 'deb http://httpredir.debian.org/debian/ jessie-backports main' | sudo tee /etc/apt/sources.list.d/debian-jessie-backports.list
   - sudo apt-get update
-  - sudo apt-get install -y openjdk-8-jdk openjdk-8-jre openjdk-8-jdk-headless
-  - jdk_switcher use openjdk8
+  - jdk_switcher use oraclejdk8
 android:
   components:
     # View the full list of Android SDK Tools by running
