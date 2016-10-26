@@ -1,0 +1,35 @@
+language: android
+sudo: required
+dist: precise
+jdk:
+ - oraclejdk8
+android:
+  components:
+    # View the full list of Android SDK Tools by running
+    #android list sdk --no-ui --all --extended
+
+    # Make sure that the latest tools are available
+    - tools
+    - platform-tools
+
+    # Please try to keep these versions in sync with build.gradle
+    - platform-tools-24.0.3
+    - build-tools-24.0.3
+
+    # Need to include a platform for android.compileSdkVersion
+    - android-24
+
+    # Required for android wear (unused by mobile and tv)
+    - extra-google-google_play_services
+    # Required for android wear. Credit to http://stackoverflow.com/a/40083710
+    - extra-google-m2repository
+    # Needed for support library
+    - extra-android-m2repository
+    - addon-google_apis-google-24
+# Gradle caches more than Travis likes
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
