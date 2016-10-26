@@ -1,0 +1,45 @@
+language: android
+android:
+  components:
+    # View the full list of Android SDK Tools by running
+    #android list sdk --no-ui --all --extended
+
+    # Make sure that the latest tools are available
+    - tools
+    - platform-tools
+
+    # Please try to keep these versions in sync with build.gradle
+    - platform-tools-24.0.3
+    - build-tools-24.0.3
+
+    # Need to include one for android.compileSdkVersion...
+    - android-24
+    # ...and also one for each platform image in use
+    #- android-14
+
+    # Required for android wear (unused by mobile and tv)
+    - extra-google-google_play_services
+    # Maybe used by support library? No clue.
+    #- extra-google-m2repository
+    # Needed for support library
+    - extra-android-m2repository
+    - addon-google_apis-google-24
+
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+    - sys-img-x86-android-24
+    #- sys-img-armeabi-v7a-android-14
+# Emulator setup
+before_script:
+  - echo no | android create avd --force -n test24 -t android-24 --abi x86
+  #- echo no | android create avd --force -n test14 -t android-14 --abi armeabi-v7a
+  - emulator -avd test24 -no-audio -no-window &
+  #- emulator -avd test14 -no-audio -no-window &
+  - android-wait-for-emulator
+# Gradle caches more than Travis likes
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
