@@ -15,6 +15,7 @@
  */
 package com.fuzz.indicator;
 
+import android.app.KeyguardManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static android.content.Context.KEYGUARD_SERVICE;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.LayoutAssertions.noOverlaps;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
@@ -87,6 +89,10 @@ public class OverlapTest {
         actRule.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                KeyguardManager keyguardManager = (KeyguardManager) actRule.getActivity().getSystemService(KEYGUARD_SERVICE);
+                KeyguardManager.KeyguardLock lock = keyguardManager.newKeyguardLock(KEYGUARD_SERVICE);
+                lock.disableKeyguard();
+
                 //Forcibly ignore any active keyguard
                 actRule.getActivity().getWindow().addFlags(FLAG_SHOW_WHEN_LOCKED
                         | FLAG_DISMISS_KEYGUARD
