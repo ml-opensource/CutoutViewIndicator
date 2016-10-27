@@ -34,6 +34,8 @@ android:
 # Emulator setup
 before_script:
   - echo no | android create avd --force -n test24 -t android-24 --abi armeabi-v7a
+  # You must specify an avd when requesting emulator version info
+  - emulator -avd test24 -version
   - emulator -avd test24 -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
