@@ -10,6 +10,10 @@ android:
 
     # Make sure that the latest tools are available
     - tools
+    # The above triggers an update to the repo, but might not install
+    # the latest version of the tools. We need the latest emulator
+    # no matter what, so trigger another update to be absolutely sure
+    - tools
     - platform-tools
 
     # Please try to keep these versions in sync with build.gradle
@@ -36,7 +40,7 @@ before_script:
   - echo no | android create avd --force -n test24 -t android-24 --abi armeabi-v7a
   # You must specify an avd when requesting emulator version info
   - emulator -avd test24 -version
-  - emulator -avd test24 -no-audio -no-window &
+  - emulator -avd test24 -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 # Gradle caches more than Travis likes
