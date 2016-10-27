@@ -34,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.LayoutAssertions.noOverlaps;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.view.WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON;
@@ -112,6 +113,10 @@ public class OverlapTest {
         });
         onView(
                 isTheSameAs(binding.cvi)
+        ).inRoot(
+                withDecorView(
+                        isTheSameAs(binding.root.getRootView())
+                )
         ).check(
                 noOverlaps(allOf(
                         withEffectiveVisibility(VISIBLE), not(isTheSameAs(binding.cvi))
