@@ -36,6 +36,11 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.LayoutAssertions.noOverlaps;
 import static android.support.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
+import static android.view.WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON;
+import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
+import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
+import static android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
 import static com.fuzz.indicator.NarrowingMatcher.isTheSameAs;
 import static com.fuzz.indicator.Proxies.proxyForXCells;
 import static org.hamcrest.Matchers.allOf;
@@ -68,7 +73,7 @@ public class OverlapTest {
             = new ActivityTestRule<>(InstrumentationAwareActivity.class);
 
     @Rule
-    public Timeout timeout = new Timeout(5, TimeUnit.MINUTES);
+    public Timeout timeout = new Timeout(1, TimeUnit.MINUTES);
 
     private MainViewBinding binding;
 
@@ -76,8 +81,19 @@ public class OverlapTest {
     public int cellCount;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Throwable {
         binding = actRule.getActivity().binding;
+        actRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //Forcibly ignore any active keyguard
+                actRule.getActivity().getWindow().addFlags(FLAG_SHOW_WHEN_LOCKED
+                        | FLAG_DISMISS_KEYGUARD
+                        | FLAG_KEEP_SCREEN_ON
+                        | FLAG_TURN_SCREEN_ON
+                        | FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+            }
+        });
     }
 
     /**
