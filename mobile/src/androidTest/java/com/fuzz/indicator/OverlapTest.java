@@ -18,6 +18,7 @@ package com.fuzz.indicator;
 import android.app.KeyguardManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
+import android.view.View;
 
 import com.fuzz.emptyhusk.InstrumentationAwareActivity;
 import com.fuzz.emptyhusk.MainViewBinding;
@@ -29,6 +30,7 @@ import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -117,17 +119,39 @@ public class OverlapTest {
                 binding.cvi.ensureOnlyCurrentItemsSelected();
             }
         });
-        onView(
-                isTheSameAs(binding.cvi)
-        ).inRoot(
-                withDecorView(
-                        isTheSameAs(binding.root.getRootView())
-                )
-        ).check(
-                noOverlaps(allOf(
-                        withEffectiveVisibility(VISIBLE), not(isTheSameAs(binding.cvi))
-                ))
-        );
+        try {
+            onView(
+                    isTheSameAs(binding.cvi)
+            ).inRoot(
+                    withDecorView(
+                            isTheSameAs(binding.root.getRootView())
+                    )
+            ).check(
+                    noOverlaps(allOf(
+                            withEffectiveVisibility(VISIBLE), not(isTheSameAs(binding.cvi))
+                    ))
+            );
+        } catch (RuntimeException ignored) {
+            // Inspired by http://stackoverflow.com/a/19776489/3934789
+            Class globalClass = Class.forName("android.view.WindowManagerGlobal");
+            Object globalInstance = globalClass.getMethod("getInstance").invoke(null, (Object[])null);
+
+            Method getViewRootNames = globalClass.getMethod("getViewRootNames");
+            Method getRootView = globalClass.getMethod("getRootView", String.class);
+            String[] rootViewNames = (String[])getViewRootNames.invoke(globalInstance, (Object[])null);
+
+            StringBuilder foundRootViews = new StringBuilder();
+            for(String viewName : rootViewNames) {
+                View rootView = (View)getRootView.invoke(globalInstance, viewName);
+                foundRootViews
+                        .append('\n')
+                        .append("Found root view: ")
+                        .append(viewName)
+                        .append(" of type ")
+                        .append(rootView.getClass());
+            }
+            throw new RuntimeException("Known Windows: " + foundRootViews, ignored);
+        }
         assertEquals(cellCount, binding.cvi.getChildCount());
     }
 }
