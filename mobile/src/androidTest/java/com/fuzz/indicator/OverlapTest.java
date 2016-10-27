@@ -68,7 +68,7 @@ public class OverlapTest {
             = new ActivityTestRule<>(InstrumentationAwareActivity.class);
 
     @Rule
-    public Timeout timeout = new Timeout(1500, TimeUnit.MILLISECONDS);
+    public Timeout timeout = new Timeout(5, TimeUnit.MINUTES);
 
     private MainViewBinding binding;
 

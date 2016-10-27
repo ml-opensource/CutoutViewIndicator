@@ -48,7 +48,7 @@ public class CutoutViewIndicatorAttributesTest {
             = new ActivityTestRule<>(InstrumentationAwareActivity.class);
 
     @Rule
-    public Timeout timeout = new Timeout(1500, TimeUnit.MILLISECONDS);
+    public Timeout timeout = new Timeout(3, TimeUnit.MINUTES);
 
     private CutoutViewIndicator indicatorUnderTest;
 
