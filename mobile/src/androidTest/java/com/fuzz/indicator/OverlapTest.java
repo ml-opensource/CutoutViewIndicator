@@ -119,12 +119,13 @@ public class OverlapTest {
                 binding.cvi.ensureOnlyCurrentItemsSelected();
             }
         });
+        View decorView = binding.root.getRootView();
         try {
             onView(
                     isTheSameAs(binding.cvi)
             ).inRoot(
                     withDecorView(
-                            isTheSameAs(binding.root.getRootView())
+                            isTheSameAs(decorView)
                     )
             ).check(
                     noOverlaps(allOf(
@@ -150,7 +151,12 @@ public class OverlapTest {
                         .append(" with classname ")
                         .append(rootView.getClass());
             }
-            throw new RuntimeException("Known Windows: " + foundRootViews + "; Caused by " + ignored.getMessage(), ignored);
+            throw new RuntimeException(
+                    "Known Windows: " + foundRootViews + "; Caused by a DecorView with "
+                            + "application-window-token=" + decorView.getApplicationWindowToken()
+                            + ", window-token=" + decorView.getWindowToken()
+                            + ", has-window-focus=" + decorView.hasWindowFocus()
+            );
         }
         assertEquals(cellCount, binding.cvi.getChildCount());
     }
