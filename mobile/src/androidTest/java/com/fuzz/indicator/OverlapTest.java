@@ -147,10 +147,10 @@ public class OverlapTest {
                         .append('\n')
                         .append("Found root view: ")
                         .append(viewName)
-                        .append(" of type ")
+                        .append(" with classname ")
                         .append(rootView.getClass());
             }
-            throw new RuntimeException("Known Windows: " + foundRootViews, ignored);
+            throw new RuntimeException("Known Windows: " + foundRootViews + "; Caused by " + ignored.getMessage(), ignored);
         }
         assertEquals(cellCount, binding.cvi.getChildCount());
     }
