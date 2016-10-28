@@ -1,4 +1,0 @@
-[submodule "indicator"]
-	path = indicator
-	branch = master
-	url = https://github.com/fuzz-productions/CutoutViewIndicator.git

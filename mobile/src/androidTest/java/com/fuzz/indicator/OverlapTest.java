@@ -32,14 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.assertion.LayoutAssertions.noOverlaps;
-import static android.support.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE;
-import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
-import static com.fuzz.indicator.NarrowingMatcher.isTheSameAs;
+import static com.fuzz.indicator.BetterLayoutAssertions.verifyNoOverlaps;
 import static com.fuzz.indicator.Proxies.proxyForXCells;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -68,7 +62,7 @@ public class OverlapTest {
             = new ActivityTestRule<>(InstrumentationAwareActivity.class);
 
     @Rule
-    public Timeout timeout = new Timeout(1500, TimeUnit.MILLISECONDS);
+    public Timeout timeout = new Timeout(1, TimeUnit.MINUTES);
 
     private MainViewBinding binding;
 
@@ -76,7 +70,7 @@ public class OverlapTest {
     public int cellCount;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Throwable {
         binding = actRule.getActivity().binding;
     }
 
@@ -94,12 +88,9 @@ public class OverlapTest {
                 binding.cvi.ensureOnlyCurrentItemsSelected();
             }
         });
-        onView(
-                isTheSameAs(binding.cvi)
-        ).check(
-                noOverlaps(allOf(
-                        withEffectiveVisibility(VISIBLE), not(isTheSameAs(binding.cvi))
-                ))
+        // ViewMatcher is fundamentally incompatible with Travis CI. Avoid simultaneous use at all costs.
+        verifyNoOverlaps(
+                binding.cvi
         );
         assertEquals(cellCount, binding.cvi.getChildCount());
     }

@@ -27,7 +27,7 @@ import android.database.DataSetObserver;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class ConstantStateProxy extends StateProxy {
+public class ConstantStateProxy implements StateProxy {
     private final int current;
     private final int max;
 

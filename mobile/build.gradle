@@ -16,13 +16,20 @@
 
 apply plugin: 'com.android.application'
 
+// For reference: project.ext variables are defined in the top-level build.gradle file
+/**
+ * supportVersion denotes the most recent stable version of the support libraries
+ * compatible with project.ext.targetVersion and project.ext.buildVersion
+ */
+def supportVersion = "24.2.1"
+
 android {
-    compileSdkVersion 24
-    buildToolsVersion '24.0.2'
+    compileSdkVersion project.ext.targetVersion
+    buildToolsVersion project.ext.buildVersion
     defaultConfig {
         applicationId "com.cliabhach.emptyhusk"
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion project.ext.targetVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -34,8 +41,6 @@ android {
         }
     }
 }
-
-def supportVersion = "24.2.1"
 
 dependencies {
 

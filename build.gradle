@@ -21,7 +21,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.2.2'
 
         // Enable deployment of the library via maven
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
@@ -34,6 +34,19 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+    }
+    ext {
+        // Note that the javadoc explains how the value for each of these variables is chosen:
+        /**
+         * targetVersion equals the most recent stable, released SDK version. The sources
+         * for that version must be open to the public.
+         */
+        targetVersion = 24
+        /**
+         * buildVersion references the latest version of the android build tools that is both
+         * stable and compatible with $targetVersion
+         */
+        buildVersion = '24.0.3'
     }
 }
 
