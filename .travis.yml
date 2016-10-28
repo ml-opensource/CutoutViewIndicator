@@ -23,7 +23,7 @@ android:
     # Need to include a platform for android.compileSdkVersion
     - android-24
     # Plus one for the emulator
-    - android-16
+    - android-21
 
     # Required for android wear (unused by mobile and tv)
     - extra-google-google_play_services
@@ -35,13 +35,13 @@ android:
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
-    - sys-img-armeabi-v7a-android-16
+    - sys-img-armeabi-v7a-android-21
 # Emulator setup
 before_script:
-  - echo no | android create avd --force -n test16 -t android-16 --abi armeabi-v7a
+  - echo no | android create avd --force -n test21 -t android-21 --abi armeabi-v7a
   # You must specify an avd when requesting emulator version info
-  - emulator -avd test16 -version
-  - emulator -avd test16 -no-window &
+  - emulator -avd test21 -version
+  - emulator -avd test21 -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 # Gradle caches more than Travis likes
