@@ -15,7 +15,6 @@
  */
 package com.fuzz.indicator;
 
-import android.app.KeyguardManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
@@ -33,12 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static android.content.Context.KEYGUARD_SERVICE;
-import static android.view.WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON;
-import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
-import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
-import static android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
 import static com.fuzz.indicator.BetterLayoutAssertions.verifyNoOverlaps;
 import static com.fuzz.indicator.Proxies.proxyForXCells;
 import static org.junit.Assert.assertEquals;
@@ -79,21 +72,6 @@ public class OverlapTest {
     @Before
     public void setUp() throws Throwable {
         binding = actRule.getActivity().binding;
-        actRule.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                KeyguardManager keyguardManager = (KeyguardManager) actRule.getActivity().getSystemService(KEYGUARD_SERVICE);
-                KeyguardManager.KeyguardLock lock = keyguardManager.newKeyguardLock(KEYGUARD_SERVICE);
-                lock.disableKeyguard();
-
-                //Forcibly ignore any active keyguard
-                actRule.getActivity().getWindow().addFlags(FLAG_SHOW_WHEN_LOCKED
-                        | FLAG_DISMISS_KEYGUARD
-                        | FLAG_KEEP_SCREEN_ON
-                        | FLAG_TURN_SCREEN_ON
-                        | FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
-            }
-        });
     }
 
     /**
