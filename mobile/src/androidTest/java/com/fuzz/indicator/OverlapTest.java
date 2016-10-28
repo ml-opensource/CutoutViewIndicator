@@ -34,21 +34,13 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.KEYGUARD_SERVICE;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.assertion.LayoutAssertions.noOverlaps;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
-import static android.support.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE;
-import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.view.WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON;
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
 import static android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
-import static com.fuzz.indicator.NarrowingMatcher.isTheSameAs;
+import static com.fuzz.indicator.BetterLayoutAssertions.verifyNoOverlaps;
 import static com.fuzz.indicator.Proxies.proxyForXCells;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -118,16 +110,9 @@ public class OverlapTest {
                 binding.cvi.ensureOnlyCurrentItemsSelected();
             }
         });
-        onView(
-                isTheSameAs(binding.cvi)
-        ).inRoot(
-                withDecorView(
-                        is(actRule.getActivity().getWindow().getDecorView())
-                )
-        ).check(
-                noOverlaps(allOf(
-                        withEffectiveVisibility(VISIBLE), not(isTheSameAs(binding.cvi))
-                ))
+        // ViewMatcher is fundamentally incompatible with Travis CI. Avoid simultaneous use at all costs.
+        verifyNoOverlaps(
+                binding.cvi
         );
         assertEquals(cellCount, binding.cvi.getChildCount());
     }
