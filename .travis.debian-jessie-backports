@@ -1,3 +1,0 @@
-Package: *
-Pin: release o=Debian,a=jessie-backports
-Pin-Priority: -200
