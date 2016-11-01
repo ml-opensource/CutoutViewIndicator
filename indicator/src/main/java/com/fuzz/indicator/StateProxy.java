@@ -46,12 +46,14 @@ public interface StateProxy {
      * This method is called when the {@link CutoutViewIndicator} has just
      * rebuilt its views.
      *
+     * @param cvi                         the CutoutViewIndicator to which
+     *                                    new info should be sent
      * @param assumedIndicatorPosition    the position which the indicator
      *                                    thinks is selected, may or may
      *                                    not be the same as
      *                                    {@link #getCurrentPosition()}.
      */
-    void resendPositionInfo(float assumedIndicatorPosition);
+    void resendPositionInfo(CutoutViewIndicator cvi, float assumedIndicatorPosition);
 
     /**
      * This method is called when the {@link CutoutViewIndicator} is ready

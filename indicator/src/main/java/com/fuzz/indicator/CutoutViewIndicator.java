@@ -49,6 +49,18 @@ public class CutoutViewIndicator extends LinearLayout {
     private static final String TAG = CutoutViewIndicator.class.getSimpleName();
 
     /**
+     * Specialised implementation of {@link UnavailableProxy} for use with
+     * {@linkplain #isInEditMode() the preview tools}.
+     */
+    protected static final UnavailableProxy EDIT_MODE_PROXY = new UnavailableProxy() {
+        @Override
+        public void resendPositionInfo(CutoutViewIndicator cvi, float pos) {
+            int atView = (int) pos;
+            cvi.showOffsetIndicator(cvi.fixPosition(atView), pos - atView);
+        }
+    };
+
+    /**
      * This holds onto the views that may be attached to this ViewGroup. It's initialised
      * with space for 5 values because practical experience says that space for 10 would
      * be excessive.
@@ -135,7 +147,7 @@ public class CutoutViewIndicator extends LinearLayout {
                 // Quantity isn't changing.
             }
 
-            stateProxy.resendPositionInfo(getCurrentIndicatorPosition());
+            stateProxy.resendPositionInfo(CutoutViewIndicator.this, getCurrentIndicatorPosition());
         }
 
         /**
@@ -194,14 +206,7 @@ public class CutoutViewIndicator extends LinearLayout {
             a.recycle();
         }
         if (isInEditMode()) {
-            // We don't use setStateProxy because that could have side effects.
-            stateProxy = new UnavailableProxy() {
-                @Override
-                public void resendPositionInfo(float pos) {
-                    int atView = (int) pos;
-                    showOffsetIndicator(fixPosition(atView), pos - atView);
-                }
-            };
+            setStateProxy(EDIT_MODE_PROXY);
         }
     }
 

@@ -51,7 +51,17 @@ public class OnViewPagerChangeListener implements ViewPager.OnPageChangeListener
 
     @Override
     public void onPageSelected(int position) {
-        cvi.showOffsetIndicator(cvi.fixPosition(position), 0);
+        onPageSelected(cvi, position);
+    }
+
+    /**
+     * Integration implementation of {@link #onPageSelected(int)} for use with
+     * {@link ViewPagerStateProxy#resendPositionInfo(CutoutViewIndicator, float)}.
+     * @param cvi         which CutoutViewIndicator to call methods on.
+     * @param position    a specified position within the indicator.
+     */
+    public void onPageSelected(CutoutViewIndicator cvi, float position) {
+        cvi.showOffsetIndicator(cvi.fixPosition((int)position), position - (int)position);
     }
 
     @Override

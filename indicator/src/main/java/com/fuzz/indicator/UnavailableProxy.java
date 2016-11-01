@@ -35,7 +35,7 @@ public class UnavailableProxy implements StateProxy {
     }
 
     @Override
-    public void resendPositionInfo(float assumedIndicatorPosition) {
+    public void resendPositionInfo(CutoutViewIndicator cvi, float assumedIndicatorPosition) {
         // Do nothing
     }
 
