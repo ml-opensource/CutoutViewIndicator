@@ -50,7 +50,7 @@ public class ViewPagerStateProxy implements StateProxy {
     }
 
     @Override
-    public void resendPositionInfo(float assumedIndicatorPosition) {
+    public void resendPositionInfo(CutoutViewIndicator cvi, float assumedIndicatorPosition) {
         // We blindly trust that the assumed position is accurate.
         pageChangeListener.onPageSelected((int) assumedIndicatorPosition);
     }

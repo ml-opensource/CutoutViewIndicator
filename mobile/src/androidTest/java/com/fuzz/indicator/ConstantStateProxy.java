@@ -47,8 +47,8 @@ public class ConstantStateProxy implements StateProxy {
     }
 
     @Override
-    public void resendPositionInfo(float assumedIndicatorPosition) {
-        // TODO: refactor API so that the CutoutViewIndicator itself is guaranteed accessible from this method
+    public void resendPositionInfo(CutoutViewIndicator cvi, float position) {
+        cvi.showOffsetIndicator(cvi.fixPosition((int) position), position - (int) position);
     }
 
     @Override
