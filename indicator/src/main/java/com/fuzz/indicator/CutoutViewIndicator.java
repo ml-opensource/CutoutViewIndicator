@@ -206,8 +206,7 @@ public class CutoutViewIndicator extends LinearLayout {
             a.recycle();
         }
         if (isInEditMode()) {
-            // We don't use setStateProxy because that could have side effects.
-            stateProxy = EDIT_MODE_PROXY;
+            setStateProxy(EDIT_MODE_PROXY);
         }
     }
 
