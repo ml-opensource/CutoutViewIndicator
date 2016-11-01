@@ -25,4 +25,5 @@
     <string name="label_orientation">Vertical?</string>
 
     <string name="action_change_generator">Change Generator....</string>
+    <string name="action_show_vertical_recyclerview">Vertical RecyclerView</string>
 </resources>

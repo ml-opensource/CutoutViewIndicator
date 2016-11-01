@@ -335,7 +335,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * @param percentageOffset how much of the indicator to draw (given as a value between -1 and 1). If out of range, no
      *                         indicator will be drawn
      */
-    protected void showOffsetIndicator(int position, float percentageOffset) {
+    public void showOffsetIndicator(int position, float percentageOffset) {
         LayeredView child = getViewHolderAt(position);
         if (Math.abs(percentageOffset) < 1) {
             // We have something to draw

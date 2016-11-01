@@ -16,6 +16,7 @@
 package com.fuzz.emptyhusk;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +29,8 @@ import android.widget.CompoundButton;
 
 import com.fuzz.emptyhusk.choosegenerator.GeneratorChoiceFragment;
 import com.fuzz.emptyhusk.choosegenerator.OnSelectedListener;
+import com.fuzz.emptyhusk.prefab.PlainActivity;
+import com.fuzz.emptyhusk.prefab.VerticalDotsFragment;
 import com.fuzz.indicator.CutoutViewIndicator;
 import com.fuzz.indicator.LayeredViewGenerator;
 
@@ -110,6 +113,11 @@ public class MainActivity extends AppCompatActivity {
                         .add(fragment, GeneratorChoiceFragment.TAG)
                         .addToBackStack(GeneratorChoiceFragment.TAG)
                         .commit();
+                consumed = true;
+                break;
+            case R.id.verticalRecycling:
+                Intent verticalIntent = PlainActivity.request(this, VerticalDotsFragment.class);
+                startActivity(verticalIntent);
                 consumed = true;
                 break;
         }
