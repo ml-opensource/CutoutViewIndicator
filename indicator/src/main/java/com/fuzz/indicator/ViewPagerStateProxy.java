@@ -31,7 +31,7 @@ public class ViewPagerStateProxy implements StateProxy {
     private final ViewPager pager;
 
     @NonNull
-    private ViewPager.OnPageChangeListener pageChangeListener;
+    private OnViewPagerChangeListener pageChangeListener;
 
     public ViewPagerStateProxy(@NonNull ViewPager pager, @NonNull CutoutViewIndicator cvi) {
         this.pager = pager;
@@ -52,7 +52,7 @@ public class ViewPagerStateProxy implements StateProxy {
     @Override
     public void resendPositionInfo(CutoutViewIndicator cvi, float assumedIndicatorPosition) {
         // We blindly trust that the assumed position is accurate.
-        pageChangeListener.onPageSelected((int) assumedIndicatorPosition);
+        pageChangeListener.onPageSelected(cvi, assumedIndicatorPosition);
     }
 
     @Override
