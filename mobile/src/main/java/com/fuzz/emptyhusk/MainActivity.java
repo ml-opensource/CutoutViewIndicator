@@ -116,8 +116,21 @@ public class MainActivity extends AppCompatActivity {
                 consumed = true;
                 break;
             case R.id.verticalRecycling:
-                Intent verticalIntent = PlainActivity.request(this, VerticalDotsFragment.class);
+                Intent verticalIntent = PlainActivity.request(
+                        this,
+                        VerticalDotsFragment.class,
+                        VerticalDotsFragment.buildArguments(8, R.layout.cell_color_spacer)
+                );
                 startActivity(verticalIntent);
+                consumed = true;
+                break;
+            case R.id.tinySegmentedRecycling:
+                Intent tinySegmentedIntent = PlainActivity.request(
+                        this,
+                        VerticalDotsFragment.class,
+                        VerticalDotsFragment.buildArguments(26, R.layout.cell_tiny_color_spacer)
+                );
+                startActivity(tinySegmentedIntent);
                 consumed = true;
                 break;
         }

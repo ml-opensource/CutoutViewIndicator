@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fuzz.emptyhusk.R;
-
 import java.util.Random;
 
 /**
@@ -18,10 +16,12 @@ public class MultiColoredAdapter extends RecyclerView.Adapter {
 
     private final int pageCount;
     private SparseIntArray colors;
+    private int childLayoutId;
 
-    public MultiColoredAdapter(int pageCount) {
+    public MultiColoredAdapter(int pageCount, int childLayoutId) {
         this.pageCount = pageCount;
         colors = new SparseIntArray(pageCount);
+        this.childLayoutId = childLayoutId;
         Random rand = new Random();
         for (int i = 0; i < pageCount; i++) {
             int red = rand.nextInt(256);
@@ -35,7 +35,7 @@ public class MultiColoredAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        View inflated = inflater.inflate(R.layout.cell_color_spacer, parent, false);
+        View inflated = inflater.inflate(childLayoutId, parent, false);
 
         return new RecyclerView.ViewHolder(inflated) {};
     }

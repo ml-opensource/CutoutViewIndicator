@@ -15,11 +15,13 @@ import com.fuzz.emptyhusk.R;
  */
 public class PlainActivity extends Activity {
 
-    private static final String ARG_FRAGMENT_CLASS = "Fragment_class";
+    private static final String ARG_FRAGMENT_CLASS = "fragment_class";
+    private static final String ARG_FRAGMENT_ARGS = "fragment_args";
 
-    public static Intent request(@NonNull Context origin, @NonNull Class<? extends Fragment> fragClass) {
+    public static Intent request(@NonNull Context origin, @NonNull Class<? extends Fragment> fragClass, @NonNull Bundle fragArgs) {
         Intent intent = new Intent(origin, PlainActivity.class);
         intent.putExtra(ARG_FRAGMENT_CLASS, fragClass);
+        intent.putExtra(ARG_FRAGMENT_ARGS, fragArgs);
         return intent;
     }
 
@@ -39,8 +41,10 @@ public class PlainActivity extends Activity {
 
         setContentView(R.layout.activity_plain);
 
+        Bundle args = getIntent().getBundleExtra(ARG_FRAGMENT_ARGS);
+
         Class<? extends Fragment> fragmentClass = getPrimaryFragmentClass();
-        Fragment fragment = Fragment.instantiate(this, fragmentClass.getName(), savedInstanceState);
+        Fragment fragment = Fragment.instantiate(this, fragmentClass.getName(), args);
 
         getFragmentManager()
                 .beginTransaction()
