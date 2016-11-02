@@ -44,8 +44,6 @@ class RecyclerStateProxy implements StateProxy {
     public float getStartOfCoveredPositions() {
         LinearLayoutManager layout = (LinearLayoutManager) recyclerView.getLayoutManager();
         int first = layout.findFirstVisibleItemPosition();
-        int last = layout.findLastVisibleItemPosition();
-        int numOfVisibleViews = Math.abs(last - first) + 1;
 
         ViewHolder firstViewHolder = recyclerView.findViewHolderForLayoutPosition(first);
 
@@ -56,20 +54,17 @@ class RecyclerStateProxy implements StateProxy {
         float startFraction = first;
 
         if (firstViewHolder != null) {
-            int firstLength;
-            int totalLength;
+            int childLength;
             float start;
             if (layout.getOrientation() == LinearLayoutManager.VERTICAL) {
-                firstLength = firstViewHolder.itemView.getHeight();
+                childLength = firstViewHolder.itemView.getHeight();
                 start = firstViewHolder.itemView.getY();
-                totalLength = recyclerView.getHeight();
             } else {
-                firstLength = firstViewHolder.itemView.getWidth();
+                childLength = firstViewHolder.itemView.getWidth();
                 start = firstViewHolder.itemView.getX();
-                totalLength = recyclerView.getWidth();
             }
 
-            startFraction -= start / totalLength;
+            startFraction -= start / childLength;
         }
 
         return startFraction;
