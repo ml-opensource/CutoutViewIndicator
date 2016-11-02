@@ -54,7 +54,10 @@ public class VerticalDotsFragment extends Fragment {
     private void initIndicator(@NonNull RecyclerView recyclerView, @NonNull CutoutViewIndicator cvi) {
         cvi.setGenerator(new ImageViewGenerator());
 
-        CVIScrollListener listener = new CVIScrollListener(cvi, 0, 0, 0);
+        int initialDx = recyclerView.getScrollX();
+        int initialDy = recyclerView.getScrollY();
+
+        CVIScrollListener listener = new CVIScrollListener(cvi, initialDx, initialDy);
         RecyclerStateProxy proxy = new RecyclerStateProxy(recyclerView, cvi, listener);
         cvi.setStateProxy(proxy);
         recyclerView.addOnScrollListener(listener);

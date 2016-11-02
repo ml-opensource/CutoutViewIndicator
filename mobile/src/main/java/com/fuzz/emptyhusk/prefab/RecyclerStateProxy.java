@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.AdapterDataObserver;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 
 import com.fuzz.indicator.CutoutViewIndicator;
 import com.fuzz.indicator.StateProxy;
@@ -33,18 +34,45 @@ class RecyclerStateProxy implements StateProxy {
 
     @Override
     public float getCurrentPosition() {
-        return getCurrentPositionWith(((LinearLayoutManager) recyclerView.getLayoutManager()));
+        return getStartOfCoveredPositions();
     }
 
     /**
-     * TODO: represent covered area with a {@link com.fuzz.indicator.style.MigratoryRange}.
-     * @param layout    layoutManager in use
+     * Assumption: 1 unit = layout.getTotalSpace() = child.getHeight/getWidth = cellLength
      * @return how much space is covered.
      */
-    public static float getCurrentPositionWith(LinearLayoutManager layout) {
+    public float getStartOfCoveredPositions() {
+        LinearLayoutManager layout = (LinearLayoutManager) recyclerView.getLayoutManager();
         int first = layout.findFirstVisibleItemPosition();
         int last = layout.findLastVisibleItemPosition();
-        return (first + last) / 2;
+        int numOfVisibleViews = Math.abs(last - first) + 1;
+
+        ViewHolder firstViewHolder = recyclerView.findViewHolderForLayoutPosition(first);
+
+        /**
+         * If there's no first view, then just return -1
+         * (no position found, which is what first should equal under those circumstances)
+         */
+        float startFraction = first;
+
+        if (firstViewHolder != null) {
+            int firstLength;
+            int totalLength;
+            float start;
+            if (layout.getOrientation() == LinearLayoutManager.VERTICAL) {
+                firstLength = firstViewHolder.itemView.getHeight();
+                start = firstViewHolder.itemView.getY();
+                totalLength = recyclerView.getHeight();
+            } else {
+                firstLength = firstViewHolder.itemView.getWidth();
+                start = firstViewHolder.itemView.getX();
+                totalLength = recyclerView.getWidth();
+            }
+
+            startFraction -= start / totalLength;
+        }
+
+        return startFraction;
     }
 
     @Override
@@ -53,7 +81,7 @@ class RecyclerStateProxy implements StateProxy {
     }
 
     @Override
-    public void resendPositionInfo(float position) {
+    public void resendPositionInfo(CutoutViewIndicator cvi, float position) {
         listener.centerIndicatorAround(position);
     }
 

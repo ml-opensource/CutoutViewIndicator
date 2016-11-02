@@ -321,12 +321,15 @@ public class CutoutViewIndicator extends LinearLayout {
      * </p>
      * <p>
      * <pre>
+     *             width of {@link CutoutViewLayoutParams#indicatorDrawableId the indicator}
+     *              ┏━━━━━━━━━┻━━━━━━━━━┓
      *      position=0         position=1         position=2         position=3
      *     ┌──────────────┐   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
      *     │░░░░░░░░▓▓▓▓▓▓│   │▓▓▓▓▓▓▓▓▓░░░░░│   │░░░░░░░░░░░░░░│   │░░░░░░░░░░░░░░│
      *     │░░░░░░░░▓▓▓▓▓▓│   │▓▓▓▓▓▓▓▓▓░░░░░│   │░░░░░░░░░░░░░░│   │░░░░░░░░░░░░░░│
      *     └──────────────┘   └──────────────┘   └──────────────┘   └──────────────┘
      *      offset=8/14        offset=-8/14       offset=-22/14      offset=-36/14
+     *              ┗━━━━━{@link #getCurrentIndicatorPosition() start}
      * </pre>
      * <p>
      * </p>
@@ -337,7 +340,7 @@ public class CutoutViewIndicator extends LinearLayout {
      */
     public void showOffsetIndicator(int position, float percentageOffset) {
         LayeredView child = getViewHolderAt(position);
-        if (Math.abs(percentageOffset) < 1) {
+        if (true) {
             // We have something to draw
             if (child != null) {
                 child.offsetImageBy(getOrientation(), percentageOffset);
@@ -397,8 +400,8 @@ public class CutoutViewIndicator extends LinearLayout {
      * Gets the index of the page that's currently selected.
      * The value returned is guaranteed to be in the range <b>{@code 0<=position<pageCount}</b>
      * <p>
-     *     The floating point value returned here represents the exact epicenter of the
-     *     current indicator, which may indeed be partially on two child views at the
+     *     The floating point value returned here represents the exact start of the
+     *     current indicator, which in turn may be partially on two child views at the
      *     same time. Callers should use their best judgement to determine whether to
      *     consider both views current if it falls between integers, or do so for just
      *     one of them.
