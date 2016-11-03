@@ -15,8 +15,6 @@ import com.fuzz.indicator.CutoutViewIndicator;
 class CVIScrollListener extends RecyclerView.OnScrollListener {
     private CutoutViewIndicator cvi;
 
-    private static final String TAG = CVIScrollListener.class.getSimpleName();
-
     protected int cumulativeScrollDx;
     protected int cumulativeScrollDy;
 

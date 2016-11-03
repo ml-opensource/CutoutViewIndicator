@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent verticalIntent = PlainActivity.request(
                         this,
                         VerticalDotsFragment.class,
-                        VerticalDotsFragment.buildArguments(8, R.layout.cell_color_spacer)
+                        VerticalDotsFragment.buildStandardFragment()
                 );
                 startActivity(verticalIntent);
                 consumed = true;
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent tinySegmentedIntent = PlainActivity.request(
                         this,
                         VerticalDotsFragment.class,
-                        VerticalDotsFragment.buildArguments(26, R.layout.cell_tiny_color_spacer)
+                        VerticalDotsFragment.buildTinySegmentedFragment()
                 );
                 startActivity(tinySegmentedIntent);
                 consumed = true;

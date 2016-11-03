@@ -26,6 +26,7 @@
     <dimen name="rectangle_border">0dp</dimen>
 
     <dimen name="circle_diameter">24dp</dimen>
+    <dimen name="circle_diameter_elongated">148dp</dimen>
     <dimen name="circle_radius">12dp</dimen>
     <!-- The distance at which the internal gradient color should start to dissolve -->
     <dimen name="circle_fading_edge">18dp</dimen>

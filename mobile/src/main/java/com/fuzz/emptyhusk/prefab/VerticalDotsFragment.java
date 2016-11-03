@@ -2,6 +2,7 @@ package com.fuzz.emptyhusk.prefab;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,11 +27,24 @@ import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 public class VerticalDotsFragment extends Fragment {
     private static final String ARG_CHILD_LAYOUT_ID = "child_layout_id";
     private static final String ARG_CHILD_QUANTITY = "child_quantity";
+    private static final String ARG_DRAWABLE_ID = "drawable_id";
 
-    public static @NonNull Bundle buildArguments(int childQuantity, @LayoutRes int childLayoutId) {
+    @NonNull
+    public static Bundle buildStandardFragment() {
+        return buildArguments(8, R.layout.cell_color_spacer, R.drawable.inset_circle_accent);
+    }
+
+    @NonNull
+    public static Bundle buildTinySegmentedFragment() {
+        return buildArguments(23, R.layout.cell_tiny_color_spacer, R.drawable.longer_accent);
+    }
+
+    @NonNull
+    public static Bundle buildArguments(int childQuantity, @LayoutRes int childLayoutId, @DrawableRes int drawableId) {
         Bundle args = new Bundle();
         args.putInt(ARG_CHILD_QUANTITY, childQuantity);
         args.putInt(ARG_CHILD_LAYOUT_ID, childLayoutId);
+        args.putInt(ARG_DRAWABLE_ID, drawableId);
         return args;
     }
 
@@ -40,6 +54,10 @@ public class VerticalDotsFragment extends Fragment {
 
     public int getChildLayoutId() {
         return getArguments().getInt(ARG_CHILD_LAYOUT_ID);
+    }
+
+    public int getDrawableId() {
+        return getArguments().getInt(ARG_DRAWABLE_ID);
     }
 
     @Nullable
@@ -72,6 +90,7 @@ public class VerticalDotsFragment extends Fragment {
      */
     private void initIndicator(@NonNull RecyclerView recyclerView, @NonNull CutoutViewIndicator cvi) {
         cvi.setGenerator(new ImageViewGenerator());
+        cvi.setIndicatorDrawableId(getDrawableId());
 
         int initialDx = recyclerView.getScrollX();
         int initialDy = recyclerView.getScrollY();
