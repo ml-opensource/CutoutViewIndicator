@@ -74,7 +74,9 @@ public class NarrowerSegmentsFragment extends Fragment {
                         //noinspection deprecation
                         recyclerView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
-                    // TODO: set a custom generator on cvi here
+                    ProportionalImageViewGenerator gen = new ProportionalImageViewGenerator();
+                    gen.setProportionalTo(recyclerView);
+                    cvi.setGenerator(gen);
                 }
             });
         }
