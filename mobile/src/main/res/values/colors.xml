@@ -17,9 +17,11 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#e65100</color>
+    <color name="colorAccent">#E65100</color>
     <color name="colorSecondary">#8BC34A</color>
     <color name="colorTertiary">#B3F1FF</color>
+
+    <color name="transparentColorAccent">#CCE65100</color>
 
     <color name="lightBlue">#B3E5FC</color>
 </resources>

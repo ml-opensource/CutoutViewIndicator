@@ -16,13 +16,17 @@
 -->
 <inset
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="4dp"
+    android:insetTop="4dp"
+    android:insetRight="4dp"
+    android:insetBottom="4dp"
     >
     <shape
         android:shape="oval"
         >
         <size
-            android:width="@dimen/circle_diameter"
-            android:height="@dimen/circle_diameter"
+            android:width="@dimen/inset_circle_diameter"
+            android:height="@dimen/inset_circle_diameter"
             />
         <solid android:color="@color/colorAccent" />
     </shape>
