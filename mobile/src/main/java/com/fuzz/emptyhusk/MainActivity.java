@@ -29,6 +29,7 @@ import android.widget.CompoundButton;
 
 import com.fuzz.emptyhusk.choosegenerator.GeneratorChoiceFragment;
 import com.fuzz.emptyhusk.choosegenerator.OnSelectedListener;
+import com.fuzz.emptyhusk.prefab.NarrowerSegmentsFragment;
 import com.fuzz.emptyhusk.prefab.PlainActivity;
 import com.fuzz.emptyhusk.prefab.VerticalDotsFragment;
 import com.fuzz.indicator.CutoutViewIndicator;
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent verticalIntent = PlainActivity.request(
                         this,
                         VerticalDotsFragment.class,
-                        VerticalDotsFragment.buildStandardFragment()
+                        null
                 );
                 startActivity(verticalIntent);
                 consumed = true;
@@ -127,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.tinySegmentedRecycling:
                 Intent tinySegmentedIntent = PlainActivity.request(
                         this,
-                        VerticalDotsFragment.class,
-                        VerticalDotsFragment.buildTinySegmentedFragment()
+                        NarrowerSegmentsFragment.class,
+                        null
                 );
                 startActivity(tinySegmentedIntent);
                 consumed = true;

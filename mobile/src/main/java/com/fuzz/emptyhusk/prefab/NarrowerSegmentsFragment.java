@@ -16,6 +16,7 @@
 package com.fuzz.emptyhusk.prefab;
 
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,10 +25,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import com.fuzz.emptyhusk.R;
 import com.fuzz.indicator.CutoutViewIndicator;
-import com.fuzz.indicator.ImageViewGenerator;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 
@@ -37,18 +38,14 @@ import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class VerticalDotsFragment extends Fragment {
+public class NarrowerSegmentsFragment extends Fragment {
 
     public int getChildQuantity() {
-        return 8;
+        return 23;
     }
 
     public int getChildLayoutId() {
-        return R.layout.cell_color_spacer;
-    }
-
-    public int getDrawableId() {
-        return R.drawable.inset_circle_accent;
+        return R.layout.cell_narrow_color_spacer;
     }
 
     @Nullable
@@ -58,14 +55,29 @@ public class VerticalDotsFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        View view = getView();
+        if (view != null) {
+            final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+            initRecycler(recyclerView);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        initRecycler(recyclerView);
+            final CutoutViewIndicator cvi = (CutoutViewIndicator) view.findViewById(R.id.cutoutViewIndicator);
+            initIndicator(recyclerView, cvi);
 
-        CutoutViewIndicator cvi = (CutoutViewIndicator) view.findViewById(R.id.cutoutViewIndicator);
-        initIndicator(recyclerView, cvi);
+            recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    } else {
+                        //noinspection deprecation
+                        recyclerView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    }
+                    // TODO: set a custom generator on cvi here
+                }
+            });
+        }
     }
 
     private void initRecycler(@NonNull RecyclerView recyclerView) {
@@ -79,9 +91,8 @@ public class VerticalDotsFragment extends Fragment {
      * @param recyclerView    an initialised RecyclerView
      * @param cvi             a new CutoutViewIndicator
      */
-    private void initIndicator(@NonNull RecyclerView recyclerView, @NonNull CutoutViewIndicator cvi) {
-        cvi.setGenerator(new ImageViewGenerator());
-        cvi.setIndicatorDrawableId(getDrawableId());
+    private void initIndicator(@NonNull final RecyclerView recyclerView, @NonNull final CutoutViewIndicator cvi) {
+        cvi.setIndicatorDrawableId(0);
 
         int initialDx = recyclerView.getScrollX();
         int initialDy = recyclerView.getScrollY();
