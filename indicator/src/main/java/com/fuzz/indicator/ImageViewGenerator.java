@@ -45,7 +45,10 @@ public class ImageViewGenerator implements LayeredViewGenerator {
         child.setLayoutParams(lp);
         child.setBackgroundResource(lp.cellBackgroundId);
         child.setImageResource(lp.indicatorDrawableId);
-        return createLayeredViewFor(child);
+
+        LayeredView layeredView = createLayeredViewFor(child);
+        lp.setViewHolder(layeredView);
+        return layeredView;
     }
 
     /**

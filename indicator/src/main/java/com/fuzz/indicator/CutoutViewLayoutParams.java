@@ -18,9 +18,13 @@ package com.fuzz.indicator;
 import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Plain Old Java Object representing the configuration of the child views inside
@@ -37,11 +41,15 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
     @DrawableRes
     public int indicatorDrawableId;
 
+    @NonNull
+    protected WeakReference<LayeredView> viewHolder = new WeakReference<>(null);
 
 
     public int internalSpacing;
     /**
-     * This is the resolved dimension (in pixels)
+     * This is the resolved length of the view (in pixels)
+     *
+     * @see #perpendicularLength
      */
     public int cellLength;
     /**
@@ -81,12 +89,40 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
         super(width, height);
     }
 
+    /**
+     * Use this to set the attached {@link LayeredView} reference. This can
+     * be retrieved by {@link LayeredViewGenerator} implementations during
+     * {@link LayeredViewGenerator#onBindChild(View, CutoutViewLayoutParams)}
+     * if they so wish.
+     *
+     * @param layeredView    a LayeredView that would hopefully be defined
+     *                       such that {@link LayeredView#getItemView()}
+     *                       returns the same object that these LayoutParams
+     *                       are set on.
+     */
+    public void setViewHolder(@Nullable LayeredView layeredView) {
+        this.viewHolder = new WeakReference<>(layeredView);
+    }
+
+    /**
+     * Getter counterpart to {@link #setViewHolder(LayeredView)}. In general,
+     * it is safe to assume that the value returned here is the same as that
+     * most recently set.
+     *
+     * @return the associated LayeredView if it has not been garbage-collected.
+     */
+    @Nullable
+    public LayeredView getViewHolder() {
+        return viewHolder.get();
+    }
+
     public void setFrom(@NonNull CutoutViewLayoutParams cutoutSource) {
         cellBackgroundId = cutoutSource.cellBackgroundId;
         indicatorDrawableId = cutoutSource.indicatorDrawableId;
         internalSpacing = cutoutSource.internalSpacing;
         cellLength = cutoutSource.cellLength;
         perpendicularLength = cutoutSource.perpendicularLength;
+        viewHolder = cutoutSource.viewHolder;
     }
 
     /**

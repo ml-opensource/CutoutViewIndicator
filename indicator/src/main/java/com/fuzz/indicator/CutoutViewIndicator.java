@@ -138,11 +138,16 @@ public class CutoutViewIndicator extends LinearLayout {
                         holders.put(i, ivh);
                     }
 
+                    // This will invalidate the added view, triggering a call to this class's onMeasure()
                     addView(ivh.getItemView(), i);
                 }
             } else if (newViews < 0) {
                 // We're removing views
                 removeViews(pageCount, -newViews);
+                // Make sure to null out those references to ViewHolders
+                for (int i = pageCount; i < childCount; i++) {
+                    unbindChild(holders.get(i));
+                }
             } else {
                 // Quantity isn't changing.
             }
@@ -253,6 +258,19 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     /**
+     * Unbinding counterpart to {@link #bindChild(int, View)}.
+     *
+     * @param ivh    a {@link LayeredView} originally returned
+     *               by {@link #createCellFor(int)}.
+     */
+    public void unbindChild(LayeredView ivh) {
+        ViewGroup.LayoutParams lp = ivh.getItemView().getLayoutParams();
+        if (checkLayoutParams(lp)) {
+            ((CutoutViewLayoutParams) lp).setViewHolder(null);
+        }
+    }
+
+    /**
      * Set a new generator that will be called upon when a new cell
      * is needed. More or less the same as RecyclerView's Adapter.
      * <p>
@@ -305,7 +323,10 @@ public class CutoutViewIndicator extends LinearLayout {
      */
     @NonNull
     protected LayeredView createCellFor(int position) {
-        return generator.createCellFor(this, position);
+        LayeredView cell = generator.createCellFor(this, position);
+        CutoutViewLayoutParams lp = (CutoutViewLayoutParams) cell.getItemView().getLayoutParams();
+        lp.setViewHolder(cell);
+        return cell;
     }
 
     /**
