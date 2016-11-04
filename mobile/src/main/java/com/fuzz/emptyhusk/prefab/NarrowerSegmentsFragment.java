@@ -94,7 +94,7 @@ public class NarrowerSegmentsFragment extends Fragment {
      * @param cvi             a new CutoutViewIndicator
      */
     private void initIndicator(@NonNull final RecyclerView recyclerView, @NonNull final CutoutViewIndicator cvi) {
-        cvi.setIndicatorDrawableId(0);
+        cvi.setInternalSpacing(4);
 
         int initialDx = recyclerView.getScrollX();
         int initialDy = recyclerView.getScrollY();
