@@ -14,14 +14,18 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#E65100</color>
-    <color name="colorSecondary">#8BC34A</color>
-    <color name="colorTertiary">#B3F1FF</color>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"
+    >
 
-    <color name="transparentColorAccent">#CCE65100</color>
+    <size
+        android:height="@dimen/circle_diameter"
+        android:width="@dimen/circle_diameter"
+        />
 
-    <color name="lightBlue">#B3E5FC</color>
-</resources>
+    <solid
+        android:color="@color/colorPrimaryDark"
+        />
+
+</shape>

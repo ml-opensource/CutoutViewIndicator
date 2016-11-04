@@ -40,6 +40,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".prefab.PlainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity
             android:name=".InstrumentationAwareActivity"
             android:label="@string/title_activity_instrumentation"
             android:theme="@style/AppTheme.NoActionBar"

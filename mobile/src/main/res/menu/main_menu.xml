@@ -19,4 +19,12 @@
         android:id="@+id/changeGenerator"
         android:title="@string/action_change_generator"
         />
+    <item
+        android:id="@+id/verticalRecycling"
+        android:title="@string/action_show_vertical_recyclerview"
+        />
+    <item
+        android:id="@+id/tinySegmentedRecycling"
+        android:title="@string/action_show_tiny_vertical_recyclerview"
+        />
 </menu>

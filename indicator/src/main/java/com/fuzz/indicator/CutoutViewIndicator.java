@@ -138,11 +138,16 @@ public class CutoutViewIndicator extends LinearLayout {
                         holders.put(i, ivh);
                     }
 
+                    // This will invalidate the added view, triggering a call to this class's onMeasure()
                     addView(ivh.getItemView(), i);
                 }
             } else if (newViews < 0) {
                 // We're removing views
                 removeViews(pageCount, -newViews);
+                // Make sure to null out those references to ViewHolders
+                for (int i = pageCount; i < childCount; i++) {
+                    unbindChild(holders.get(i));
+                }
             } else {
                 // Quantity isn't changing.
             }
@@ -253,6 +258,19 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     /**
+     * Unbinding counterpart to {@link #bindChild(int, View)}.
+     *
+     * @param ivh    a {@link LayeredView} originally returned
+     *               by {@link #createCellFor(int)}.
+     */
+    public void unbindChild(LayeredView ivh) {
+        ViewGroup.LayoutParams lp = ivh.getItemView().getLayoutParams();
+        if (checkLayoutParams(lp)) {
+            ((CutoutViewLayoutParams) lp).setViewHolder(null);
+        }
+    }
+
+    /**
      * Set a new generator that will be called upon when a new cell
      * is needed. More or less the same as RecyclerView's Adapter.
      * <p>
@@ -305,7 +323,10 @@ public class CutoutViewIndicator extends LinearLayout {
      */
     @NonNull
     protected LayeredView createCellFor(int position) {
-        return generator.createCellFor(this, position);
+        LayeredView cell = generator.createCellFor(this, position);
+        CutoutViewLayoutParams lp = (CutoutViewLayoutParams) cell.getItemView().getLayoutParams();
+        lp.setViewHolder(cell);
+        return cell;
     }
 
     /**
@@ -321,12 +342,15 @@ public class CutoutViewIndicator extends LinearLayout {
      * </p>
      * <p>
      * <pre>
+     *             width of {@link CutoutViewLayoutParams#indicatorDrawableId the indicator}
+     *              ┏━━━━━━━━━┻━━━━━━━━━┓
      *      position=0         position=1         position=2         position=3
      *     ┌──────────────┐   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
      *     │░░░░░░░░▓▓▓▓▓▓│   │▓▓▓▓▓▓▓▓▓░░░░░│   │░░░░░░░░░░░░░░│   │░░░░░░░░░░░░░░│
      *     │░░░░░░░░▓▓▓▓▓▓│   │▓▓▓▓▓▓▓▓▓░░░░░│   │░░░░░░░░░░░░░░│   │░░░░░░░░░░░░░░│
      *     └──────────────┘   └──────────────┘   └──────────────┘   └──────────────┘
      *      offset=8/14        offset=-8/14       offset=-22/14      offset=-36/14
+     *              ┗━━━━━{@link #getCurrentIndicatorPosition() start}
      * </pre>
      * <p>
      * </p>
@@ -335,9 +359,9 @@ public class CutoutViewIndicator extends LinearLayout {
      * @param percentageOffset how much of the indicator to draw (given as a value between -1 and 1). If out of range, no
      *                         indicator will be drawn
      */
-    protected void showOffsetIndicator(int position, float percentageOffset) {
+    public void showOffsetIndicator(int position, float percentageOffset) {
         LayeredView child = getViewHolderAt(position);
-        if (Math.abs(percentageOffset) < 1) {
+        if (true) {
             // We have something to draw
             if (child != null) {
                 child.offsetImageBy(getOrientation(), percentageOffset);
@@ -397,8 +421,8 @@ public class CutoutViewIndicator extends LinearLayout {
      * Gets the index of the page that's currently selected.
      * The value returned is guaranteed to be in the range <b>{@code 0<=position<pageCount}</b>
      * <p>
-     *     The floating point value returned here represents the exact epicenter of the
-     *     current indicator, which may indeed be partially on two child views at the
+     *     The floating point value returned here represents the exact start of the
+     *     current indicator, which in turn may be partially on two child views at the
      *     same time. Callers should use their best judgement to determine whether to
      *     consider both views current if it falls between integers, or do so for just
      *     one of them.

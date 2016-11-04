@@ -112,9 +112,6 @@ public class ClippedImageView extends ImageView {
             if (getBackground() != null ) {
                 backgroundBitmap = extractBitmapFrom(getBackground(), postWidth, postHeight);
             }
-            if (getDrawable() != null) {
-                primaryBitmap = extractBitmapFrom(getDrawable(), postWidth, postHeight);
-            }
         }
     }
 
@@ -300,13 +297,13 @@ public class ClippedImageView extends ImageView {
         } else if (drawable instanceof BitmapDrawable) {
             retVal = ((BitmapDrawable) drawable).getBitmap();
         } else {
-            int width = getMeasuredWidth();
+            int width = drawable.getIntrinsicWidth();
             if (width <= 0) {
-                width = drawable.getIntrinsicWidth();
+                width = Math.max(getMeasuredWidth(), 1);
             }
-            int height = getMeasuredHeight();
+            int height = drawable.getIntrinsicHeight();
             if (height <= 0) {
-                height = drawable.getIntrinsicHeight();
+                height = Math.max(getMeasuredHeight(), 1);
             }
             retVal = extractBitmapFrom(drawable, width, height);
         }

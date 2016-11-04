@@ -27,8 +27,12 @@
 
     <dimen name="circle_diameter">24dp</dimen>
     <dimen name="circle_radius">12dp</dimen>
+
+    <dimen name="inset_circle_diameter">16dp</dimen>
     <!-- The distance at which the internal gradient color should start to dissolve -->
     <dimen name="circle_fading_edge">18dp</dimen>
+
+    <dimen name="narrow_cell_height">100dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="top_margin">100dp</dimen>
