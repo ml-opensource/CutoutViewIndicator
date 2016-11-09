@@ -364,7 +364,7 @@ public class CutoutViewIndicator extends LinearLayout {
         if (true) {
             // We have something to draw
             if (child != null) {
-                child.offsetImageBy(getOrientation(), percentageOffset);
+                child.offsetContentBy(getOrientation(), percentageOffset);
             }
         }
     }
@@ -743,7 +743,7 @@ public class CutoutViewIndicator extends LinearLayout {
             LayeredView child = getViewHolderAt(i);
             if (child != null) {
                 // offset outside the range -1..1 puts it just off-view (i.e. hiding it)
-                child.offsetImageBy(getOrientation(), current - i);
+                child.offsetContentBy(getOrientation(), current - i);
             }
         }
     }

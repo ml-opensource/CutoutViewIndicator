@@ -31,7 +31,7 @@ public class LayeredImageViewHolder extends IndicatorViewHolder<ImageView> {
     }
 
     @Override
-    public void offsetImageBy(int orientation, float percentage) {
+    public void offsetContentBy(int orientation, float percentage) {
         OffSetters.offsetImageBy(itemView, orientation, percentage, new Matrix());
     }
 }

@@ -31,7 +31,7 @@ public interface LayeredView {
      * @param orientation direction to offset in. Use either {@link LinearLayout#VERTICAL} or {@link LinearLayout#HORIZONTAL}
      * @param percentage  percentage of width/height to offset by - positive means down/right, negative means up/left
      */
-    void offsetImageBy(int orientation, float percentage);
+    void offsetContentBy(int orientation, float percentage);
 
     /**
      * @return the actual view represented by this object

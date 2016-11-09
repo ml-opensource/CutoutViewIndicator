@@ -36,7 +36,7 @@ public class LayeredTextViewHolder extends IndicatorViewHolder<TextView> {
     }
 
     @Override
-    public void offsetImageBy(int orientation, float percentage) {
+    public void offsetContentBy(int orientation, float percentage) {
         CharSequence text = itemView.getText();
         if (text instanceof Spanned) {
             Spannable spannable;
