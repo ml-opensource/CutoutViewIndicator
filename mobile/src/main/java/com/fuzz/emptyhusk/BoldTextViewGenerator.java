@@ -22,6 +22,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 
+import com.fuzz.indicator.style.MigratoryRange;
 import com.fuzz.indicator.style.MigratoryStyleSpan;
 import com.fuzz.indicator.text.TextViewGenerator;
 
@@ -48,12 +49,13 @@ public class BoldTextViewGenerator extends TextViewGenerator {
 
         // Only then should custom MigratorySpans be set.
 
-        int end = (int) (ssb.length() * span.getCoverage().diff());
-        ssb.setSpan(span, 0, end, span.preferredFlags(0));
-
+        MigratoryRange<Integer> coverage = span.getCoverage(ssb);
+        int start = coverage.getLower();
+        int end = coverage.getUpper();
+        ssb.setSpan(span, start, end, span.preferredFlags(0));
 
         MigratoryForegroundColorSpan boldColorSpan = new MigratoryForegroundColorSpan(ContextCompat.getColor(context, R.color.colorAccent));
-        ssb.setSpan(boldColorSpan, 0, end, boldColorSpan.preferredFlags(0));
+        ssb.setSpan(boldColorSpan, start, end, boldColorSpan.preferredFlags(0));
 
         return ssb;
     }

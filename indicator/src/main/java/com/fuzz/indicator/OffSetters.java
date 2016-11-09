@@ -58,20 +58,21 @@ public class OffSetters {
 
     public static void offsetSpansBy(@NonNull Spannable spannable, int orientation, float percentage) {
         int length = spannable.length();
+        int offset = (int) (percentage * length);
 
         MigratorySpan[] knownSpans = spannable.getSpans(0, length, MigratorySpan.class);
         if (knownSpans.length > 0) {
-            MigratoryRange<Float> fullSize = MigratoryRange.from(0, length);
+            MigratoryRange<Integer> fullSize = MigratoryRange.from(0, length);
             for (MigratorySpan knownSpan : knownSpans) {
-                offsetSpan(spannable, percentage, length, fullSize, knownSpan);
+                offsetSpan(spannable, fullSize, knownSpan, offset);
             }
         }
     }
 
-    public static void offsetSpan(@NonNull Spannable spannable, float percentage, int length, MigratoryRange<Float> fullSize, MigratorySpan knownSpan) {
-        MigratoryRange<Float> covered = knownSpan.getCoverage().translate(percentage);
-        int spanStart = fullSize.clamp(length * covered.getLower()).intValue();
-        int spanEnd = fullSize.clamp(length * covered.getUpper()).intValue();
+    public static void offsetSpan(@NonNull Spannable spannable, MigratoryRange<Integer> fullSize, MigratorySpan knownSpan, int offset) {
+        MigratoryRange<Integer> covered = knownSpan.getCoverage(spannable).translate(offset);
+        int spanStart = fullSize.clamp(covered.getLower());
+        int spanEnd = fullSize.clamp(covered.getUpper());
         int flags = knownSpan.preferredFlags(spannable.getSpanFlags(knownSpan));
         spannable.setSpan(knownSpan, spanStart, spanEnd, flags);
     }

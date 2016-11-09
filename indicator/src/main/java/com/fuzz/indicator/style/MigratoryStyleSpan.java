@@ -2,6 +2,7 @@ package com.fuzz.indicator.style;
 
 import android.os.Parcel;
 import android.support.annotation.NonNull;
+import android.text.Spannable;
 import android.text.style.StyleSpan;
 
 /**
@@ -33,8 +34,9 @@ public class MigratoryStyleSpan extends StyleSpan implements MigratorySpan {
 
     @NonNull
     @Override
-    public MigratoryRange<Float> getCoverage() {
-        return MigratoryRange.from(.2f, .8f);
+    public MigratoryRange<Integer> getCoverage(@NonNull Spannable enclosingSequence) {
+        int length = enclosingSequence.length();
+        return MigratoryRange.from((int)(.2f * length), (int)(.8f * length));
     }
 
     @Override
