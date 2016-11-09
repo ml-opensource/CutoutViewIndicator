@@ -15,6 +15,7 @@
  */
 package com.fuzz.emptyhusk.prefab;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -28,12 +29,13 @@ import com.fuzz.indicator.CutoutViewIndicator;
  * @author Philip Cohn-Cort (Fuzz)
  */
 class CVIScrollListener extends RecyclerView.OnScrollListener {
+    @NonNull
     private CutoutViewIndicator cvi;
 
     protected int cumulativeScrollDx;
     protected int cumulativeScrollDy;
 
-    CVIScrollListener(CutoutViewIndicator cvi, int initialDx, int initialDy) {
+    CVIScrollListener(@NonNull CutoutViewIndicator cvi, int initialDx, int initialDy) {
         this.cvi = cvi;
         cumulativeScrollDx = initialDx;
         cumulativeScrollDy = initialDy;
@@ -71,19 +73,26 @@ class CVIScrollListener extends RecyclerView.OnScrollListener {
                 // This ViewHolder's associated cell will be at least partially covered by indicator
                 ViewHolder holder = recyclerView.findViewHolderForLayoutPosition(rvPosition);
 
-                final int cviPosition = cvi.fixPosition(rvPosition);
-
                 /**
-                 * If there's no rvFirst view, then just go to the next one.
+                 * If there's no rvPosition view, then just go to the next one.
                  */
                 if (holder != null) {
+                    showOffsetFor(holder, layout.getOrientation());
+                 }
+             }
+        }
+    }
+
+    public void showOffsetFor(@NonNull ViewHolder holder, int rvOrientation) {
+        final int cviPosition = cvi.fixPosition(holder.getLayoutPosition());
+
                     View child = holder.itemView;
 
                     // rvStart is relative to the screen (so like -17 for just off the top/start side)
                     float rvStart;
                     int childLength;
 
-                    if (layout.getOrientation() == LinearLayoutManager.VERTICAL) {
+                    if (rvOrientation == LinearLayoutManager.VERTICAL) {
                         rvStart = child.getY();
                         childLength = child.getHeight();
                     } else {
@@ -95,8 +104,5 @@ class CVIScrollListener extends RecyclerView.OnScrollListener {
 
                     // Cover the provided position...
                     cvi.showOffsetIndicator(cviPosition, cviPositionOffset);
-                }
-            }
-        }
     }
 }
