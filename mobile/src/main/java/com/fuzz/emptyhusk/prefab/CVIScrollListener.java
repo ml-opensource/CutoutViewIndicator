@@ -78,31 +78,31 @@ class CVIScrollListener extends RecyclerView.OnScrollListener {
                  */
                 if (holder != null) {
                     showOffsetFor(holder, layout.getOrientation());
-                 }
-             }
+                }
+            }
         }
     }
 
     public void showOffsetFor(@NonNull ViewHolder holder, int rvOrientation) {
         final int cviPosition = cvi.fixPosition(holder.getLayoutPosition());
 
-                    View child = holder.itemView;
+        View child = holder.itemView;
 
-                    // rvStart is relative to the screen (so like -17 for just off the top/start side)
-                    float rvStart;
-                    int childLength;
+        // rvStart is relative to the screen (so like -17 for just off the top/start side)
+        float rvStart;
+        int childLength;
 
-                    if (rvOrientation == LinearLayoutManager.VERTICAL) {
-                        rvStart = child.getY();
-                        childLength = child.getHeight();
-                    } else {
-                        rvStart = child.getX();
-                        childLength = child.getWidth();
-                    }
+        if (rvOrientation == LinearLayoutManager.VERTICAL) {
+            rvStart = child.getY();
+            childLength = child.getHeight();
+        } else {
+            rvStart = child.getX();
+            childLength = child.getWidth();
+        }
 
-                    float cviPositionOffset = -(rvStart / childLength);
+        float cviPositionOffset = -(rvStart / childLength);
 
-                    // Cover the provided position...
-                    cvi.showOffsetIndicator(cviPosition, cviPositionOffset);
+        // Cover the provided position...
+        cvi.showOffsetIndicator(cviPosition, cviPositionOffset);
     }
 }
