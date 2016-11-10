@@ -26,6 +26,7 @@ import android.widget.ImageView;
 
 import com.fuzz.emptyhusk.R;
 import com.fuzz.indicator.CutoutViewLayoutParams;
+import com.fuzz.indicator.LayeredView;
 import com.fuzz.indicator.clip.ClippedImageViewGenerator;
 
 /**
@@ -41,6 +42,12 @@ public class ProportionalImageViewGenerator extends ClippedImageViewGenerator {
 
     protected int rvLength;
     protected int rvChildLength;
+
+    @NonNull
+    @Override
+    protected LayeredView createLayeredViewFor(@NonNull ImageView child) {
+        return new ProportionalLayeredImageViewHolder(child);
+    }
 
     @Override
     public void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp, @Nullable View originator) {

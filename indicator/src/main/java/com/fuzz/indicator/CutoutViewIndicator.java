@@ -360,13 +360,20 @@ public class CutoutViewIndicator extends LinearLayout {
      * @param percentageOffset how much of the indicator to draw (given as a value between -1 and 1). If out of range, no
      *                         indicator will be drawn
      */
+    @Deprecated
     public void showOffsetIndicator(int position, float percentageOffset) {
         LayeredView child = getViewHolderAt(position);
-        if (true) {
-            // We have something to draw
-            if (child != null) {
-                child.offsetContentBy(getOrientation(), percentageOffset);
-            }
+        // We have something to draw
+        if (child != null) {
+            child.offsetContentBy(getOrientation(), percentageOffset);
+        }
+    }
+
+    public void showOffsetIndicator(int position, OffsetEvent offsetEvent) {
+        LayeredView child = getViewHolderAt(position);
+
+        if (child != null) {
+            child.offsetContentBy(offsetEvent);
         }
     }
 

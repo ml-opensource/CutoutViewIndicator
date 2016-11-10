@@ -34,6 +34,13 @@ public interface LayeredView {
     void offsetContentBy(int orientation, float percentage);
 
     /**
+     * Perform some arbitrary action to represent the provided OffsetEvent.
+     *
+     * @param offsetEvent    whatever just happened
+     */
+    void offsetContentBy(OffsetEvent offsetEvent);
+
+    /**
      * @return the actual view represented by this object
      */
     @NonNull

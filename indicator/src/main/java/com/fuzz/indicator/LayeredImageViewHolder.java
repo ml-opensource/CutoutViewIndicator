@@ -31,6 +31,14 @@ public class LayeredImageViewHolder extends IndicatorViewHolder<ImageView> {
     }
 
     @Override
+    public void offsetContentBy(OffsetEvent event) {
+        if (event instanceof ViewPagerOffsetEvent) {
+            ViewPagerOffsetEvent ev = (ViewPagerOffsetEvent) event;
+            offsetContentBy(ev.orientation(), ev.fraction());
+        }
+    }
+
+    @Override
     public void offsetContentBy(int orientation, float percentage) {
         OffSetters.offsetImageBy(itemView, orientation, percentage, new Matrix());
     }
