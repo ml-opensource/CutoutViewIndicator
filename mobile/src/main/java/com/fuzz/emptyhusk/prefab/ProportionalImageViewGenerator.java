@@ -20,7 +20,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -31,8 +30,9 @@ import com.fuzz.indicator.clip.ClippedImageViewGenerator;
 
 /**
  * Generator for displaying clipped images which are proportional to
- * a {@link RecyclerView}. Each cell created by {@link #createCellFor(ViewGroup, int)}
- * displays part of the indicator. Intended for use in concert with
+ * a {@link android.support.v7.widget.RecyclerView RecyclerView}. Each
+ * cell created by {@link #createCellFor(ViewGroup, int)} displays
+ * part of the indicator. Intended for use in concert with
  * {@link CVIScrollListener} and {@link RecyclerStateProxy}.
  *
  * @author Philip Cohn-Cort (Fuzz)
@@ -42,14 +42,15 @@ public class ProportionalImageViewGenerator extends ClippedImageViewGenerator {
     protected int rvLength;
     protected int rvChildLength;
 
-    public void setProportionalTo(@NonNull RecyclerView recyclerView) {
-        rvLength = recyclerView.getHeight();
-        rvChildLength = recyclerView.getChildAt(0).getHeight();
-    }
-
     @Override
     public void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp, @Nullable View originator) {
         child.setBackgroundResource(lp.cellBackgroundId);
+        if (originator != null) {
+            rvChildLength = originator.getHeight();
+            if (originator.getParent() instanceof ViewGroup) {
+                rvLength = ((ViewGroup) originator.getParent()).getHeight();
+            }
+        }
         if (child instanceof ImageView) {
             GradientDrawable elongated = new GradientDrawable();
             elongated.setShape(GradientDrawable.RECTANGLE);
