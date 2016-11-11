@@ -16,6 +16,8 @@
 package com.fuzz.indicator;
 
 import android.database.DataSetObserver;
+import android.support.annotation.Nullable;
+import android.view.View;
 
 /**
  * Default implementation of {@link StateProxy}
@@ -47,6 +49,12 @@ public class UnavailableProxy implements StateProxy {
     @Override
     public void disassociateFrom(DataSetObserver observer) {
         // Do nothing
+    }
+
+    @Nullable
+    @Override
+    public View getOriginalViewFor(int cviPosition) {
+        return null;
     }
 
     /**

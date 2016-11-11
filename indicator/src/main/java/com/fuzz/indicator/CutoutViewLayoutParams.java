@@ -92,7 +92,7 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
     /**
      * Use this to set the attached {@link LayeredView} reference. This can
      * be retrieved by {@link LayeredViewGenerator} implementations during
-     * {@link LayeredViewGenerator#onBindChild(View, CutoutViewLayoutParams)}
+     * {@link LayeredViewGenerator#onBindChild(View, CutoutViewLayoutParams, View)}
      * if they so wish.
      *
      * @param layeredView    a LayeredView that would hopefully be defined

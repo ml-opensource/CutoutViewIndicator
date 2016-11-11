@@ -16,6 +16,7 @@
 package com.fuzz.indicator;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -49,9 +50,17 @@ public interface LayeredViewGenerator {
      * to the child's layout. Inspired by RecyclerView.Adapter's onBindViewHolder()
      * method.
      *
-     * @param child    a cell view created by {@link #createCellFor(ViewGroup, int)}
-     * @param lp       the child's layout parameters, already cast to
-     *                 CutoutViewLayoutParams for your convenience
+     * <p>
+     *     When the indicator represents ViewPagers, RecyclerViews, or other
+     *     ViewGroups, {@code originator} is the view which corresponds directly to the
+     *     child. In all other cases, the originator parameter is null.
+     * </p>
+     *
+     * @param child         a cell view created by {@link #createCellFor(ViewGroup, int)}
+     * @param lp            the child's layout parameters, already cast to
+     *                      CutoutViewLayoutParams for your convenience
+     * @param originator    the view which is currently acting as inspiration for the child.
+     *                      May be null.
      */
-    void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp);
+    void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp, @Nullable View originator);
 }

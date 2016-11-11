@@ -18,6 +18,7 @@ package com.fuzz.emptyhusk.prefab;
 import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -47,7 +48,7 @@ public class ProportionalImageViewGenerator extends ClippedImageViewGenerator {
     }
 
     @Override
-    public void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp) {
+    public void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp, @Nullable View originator) {
         child.setBackgroundResource(lp.cellBackgroundId);
         if (child instanceof ImageView) {
             GradientDrawable elongated = new GradientDrawable();

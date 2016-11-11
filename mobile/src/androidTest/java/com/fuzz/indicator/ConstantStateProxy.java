@@ -16,6 +16,8 @@
 package com.fuzz.indicator;
 
 import android.database.DataSetObserver;
+import android.support.annotation.Nullable;
+import android.view.View;
 
 /**
  * Specialised StateProxy for testing.
@@ -64,5 +66,11 @@ public class ConstantStateProxy implements StateProxy {
     @Override
     public boolean canObserve(DataSetObserver observer) {
         return max >= 0;
+    }
+
+    @Nullable
+    @Override
+    public View getOriginalViewFor(int cviPosition) {
+        return null;
     }
 }

@@ -254,7 +254,8 @@ public class CutoutViewIndicator extends LinearLayout {
         lp.setMargins(left, top, 0, 0);
         lp.gravity = Gravity.CENTER;
 
-        generator.onBindChild(child, lp);
+        View originator = stateProxy.getOriginalViewFor(position);
+        generator.onBindChild(child, lp, originator);
     }
 
     /**
