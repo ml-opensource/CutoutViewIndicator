@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import com.fuzz.indicator.IndicatorViewHolder;
 import com.fuzz.indicator.OffSetters;
+import com.fuzz.indicator.OffsetEvent;
+import com.fuzz.indicator.ViewPagerOffsetEvent;
 
 /**
  * Simple indicator implementation for TextViews.
@@ -49,6 +51,14 @@ public class LayeredTextViewHolder extends IndicatorViewHolder<TextView> {
             }
             OffSetters.offsetSpansBy(spannable, orientation, percentage);
             itemView.setText(spannable);
+        }
+    }
+
+    @Override
+    public void offsetContentBy(OffsetEvent event) {
+        if (event instanceof ViewPagerOffsetEvent) {
+            ViewPagerOffsetEvent ev = (ViewPagerOffsetEvent) event;
+            offsetContentBy(ev.orientation(), ev.fraction());
         }
     }
 }
