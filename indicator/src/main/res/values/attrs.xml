@@ -34,4 +34,15 @@
         <!-- design-time-only attribute for previewing what a given number of views would look like -->
         <attr name="rcv_tools_indicator_count" format="integer" />
     </declare-styleable>
+    <declare-styleable name="CutoutViewIndicator_Layout">
+        <!-- drawable to display in foreground, moving from cell to cell -->
+        <attr name="layout_rcv_drawable" format="reference" />
+        <!-- drawable to display as the background of each view -->
+        <attr name="layout_rcv_drawable_unselected" format="reference" />
+
+        <!-- length of each individual cell (in direction of CVI) -->
+        <attr name="layout_rcv_cell_length" format="dimension" />
+        <!-- transverse length of each individual cell (perpendicular to direction of CVI) -->
+        <attr name="layout_rcv_perpendicular_length" format="dimension" />
+    </declare-styleable>
 </resources>
