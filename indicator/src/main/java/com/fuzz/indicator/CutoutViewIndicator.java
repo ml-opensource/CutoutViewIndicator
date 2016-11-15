@@ -31,7 +31,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.fuzz.indicator.text.LayeredTextViewHolder;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -216,6 +220,48 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * Most child views this ViewGroup will see are created by
+     * {@link #createCellFor(int)} and added to this by the
+     * {@link #dataSetObserver}. These objects all have non-null
+     * LayeredViews associated with them.
+     * <p>
+     *     Note that all other addView methods will ultimately call into
+     *     this one. Any child view that has not already been associated
+     *     with a LayeredView via {@link #holders} will be forcibly
+     *     associated with one here (assuming a suitable implementation
+     *     can be obtained).
+     * </p>
+     */
+    @Override
+    public void addView(View child, int index, ViewGroup.LayoutParams params) {
+        super.addView(child, index, params);
+        // LayeredView's Views are always added at exact indices. If there is no value
+        // in this.holders for the given index, we need to set that right away.
+        int realIndex = indexOfChild(child);
+
+        CutoutViewLayoutParams lp = (CutoutViewLayoutParams) child.getLayoutParams();
+
+        if (holders.get(realIndex) == null) {
+            // This was NOT added via dataSetObserver! Flip a flag to ensure future recognition.
+            lp.preservedDuringRebuild = true;
+            LayeredView holder = lp.getViewHolder();
+            if (holder == null) {
+                if (child instanceof ImageView) {
+                    holder = new LayeredImageViewHolder((ImageView) child);
+                } else if (child instanceof TextView) {
+                    holder = new LayeredTextViewHolder((TextView) child);
+                } else if (child instanceof LayeredView) {
+                    holder = (LayeredView) child;
+                }
+                lp.setViewHolder(holder);
+            }
+            holders.put(realIndex, holder);
+        }
+    }
+
+    /**
      * Binds the special properties of {@link CutoutViewLayoutParams} to the
      * child in question.
      *
@@ -297,7 +343,15 @@ public class CutoutViewIndicator extends LinearLayout {
      * </p>
      */
     public void rebuildChildViews() {
+        SparseArray<LayeredView> preserved = holders.clone();
         holders.clear();
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            if (((CutoutViewLayoutParams)child.getLayoutParams()).preservedDuringRebuild) {
+                holders.put(i, preserved.get(i));
+            }
+        }
+        preserved.clear();
         removeAllViews();
         dataSetObserver.onChanged();
     }
