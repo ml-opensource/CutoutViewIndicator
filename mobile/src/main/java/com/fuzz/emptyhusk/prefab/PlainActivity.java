@@ -59,12 +59,15 @@ public class PlainActivity extends Activity {
 
         Bundle args = getIntent().getBundleExtra(ARG_FRAGMENT_ARGS);
 
-        Class<? extends Fragment> fragmentClass = getPrimaryFragmentClass();
-        Fragment fragment = Fragment.instantiate(this, fragmentClass.getName(), args);
+        if (getFragmentManager().findFragmentById(R.id.primaryContent) == null) {
 
-        getFragmentManager()
-                .beginTransaction()
-                .add(R.id.primaryContent, fragment, fragmentClass.getSimpleName())
-                .commit();
+            Class<? extends Fragment> fragmentClass = getPrimaryFragmentClass();
+            Fragment fragment = Fragment.instantiate(this, fragmentClass.getName(), args);
+
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.primaryContent, fragment, fragmentClass.getSimpleName())
+                    .commit();
+        }
     }
 }
