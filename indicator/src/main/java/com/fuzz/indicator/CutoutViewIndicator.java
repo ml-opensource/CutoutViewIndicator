@@ -253,6 +253,7 @@ public class CutoutViewIndicator extends LinearLayout {
             if (holder == null) {
                 if (child instanceof ImageView) {
                     holder = new LayeredImageViewHolder((ImageView) child);
+                    warnAboutMisuseOf((ImageView) child, holder);
                 } else if (child instanceof TextView) {
                     holder = new LayeredTextViewHolder((TextView) child);
                 } else if (child instanceof LayeredView) {
@@ -261,6 +262,24 @@ public class CutoutViewIndicator extends LinearLayout {
                 lp.setViewHolder(holder);
             }
             holders.put(realIndex, holder);
+        }
+    }
+
+    /**
+     * Call this when a View has been added to this (via {@link #addView}), to display any
+     * warnings or errors due to misuse of the {@link LayeredView}.....contract.
+     *
+     * @param child    the child view in question
+     * @param holder   that child's LayeredView (usually accessible through its LayoutParams)
+     */
+    public void warnAboutMisuseOf(ImageView child, LayeredView holder) {
+        if (holder.getClass() == LayeredImageViewHolder.class
+                && child.getScaleType() != ImageView.ScaleType.MATRIX) {
+            String tag = "resources.insufficient";
+            String message = "Only child ImageViews with a MATRIX scaleType are respected by" +
+                    " your choice of LayeredView. Offset effects will not appear properly on" +
+                    " ScaleType " + child.getScaleType() + ".";
+            logger.logToLayoutLib(tag, message);
         }
     }
 
@@ -306,8 +325,8 @@ public class CutoutViewIndicator extends LinearLayout {
         if (isInEditMode() && lp.cellBackgroundId <= 0 && lp.indicatorDrawableId <= 0) {
             String tag = "resources.unusual";
             String message = "Note that CutoutViewIndicator's generated views will not appear" +
-                    " unless you provide it with positive drawable ids" +
-                    " (i.e. attributes rcv_drawable and rcv_drawable_unselected).";
+                    " unless you provide it with a positive drawable id" +
+                    " (i.e. for the attribute rcv_drawable).";
             logger.logToLayoutLib(tag, message);
         }
 
