@@ -108,6 +108,9 @@ public class CutoutViewIndicator extends LinearLayout {
     @NonNull
     protected LayeredViewGenerator generator = new ImageViewGenerator();
 
+    @NonNull
+    protected LayoutLogger logger = LayoutLogger.getPreferred(isInEditMode());
+
     protected DataSetObserver dataSetObserver = new DataSetObserver() {
         /**
          * This method is called when the entire data set has changed,
@@ -299,6 +302,14 @@ public class CutoutViewIndicator extends LinearLayout {
         }
         lp.setMargins(left, top, 0, 0);
         lp.gravity = Gravity.CENTER;
+
+        if (isInEditMode() && lp.cellBackgroundId <= 0 && lp.indicatorDrawableId <= 0) {
+            String tag = "resources.unusual";
+            String message = "Note that CutoutViewIndicator's generated views will not appear" +
+                    " unless you provide it with positive drawable ids" +
+                    " (i.e. attributes rcv_drawable and rcv_drawable_unselected).";
+            logger.logToLayoutLib(tag, message);
+        }
 
         View originator = stateProxy.getOriginalViewFor(position);
         generator.onBindChild(child, lp, originator);
