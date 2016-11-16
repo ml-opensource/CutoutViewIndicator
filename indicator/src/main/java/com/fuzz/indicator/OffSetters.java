@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.fuzz.indicator.style.MigratoryRange;
 import com.fuzz.indicator.style.MigratorySpan;
@@ -27,7 +28,8 @@ import com.fuzz.indicator.style.MigratorySpan;
 /**
  * Collection of utility methods for offsetting specific views.
  * <p>
- *     Right now there's just one for {@link ImageView}s, but more
+ *     Right now there's just one for {@link ImageView}s and one for
+ *     {@link TextView}s, but more
  *     might appear in future.
  * </p>
  *
@@ -56,9 +58,21 @@ public class OffSetters {
         imageView.setImageMatrix(mat);
     }
 
-    public static void offsetSpansBy(@NonNull Spannable spannable, int orientation, float percentage) {
+    /**
+     * Ensures that all spans of type {@link MigratorySpan} within {@code spannable} are
+     * translated a proportional quantity of characters from their baseline position. Each
+     * span's implementation of {@link MigratorySpan#getCoverage(Spannable)} is responsible
+     * for reporting the correct baseline coverage prior to translation.
+     *
+     * @param spannable      the text to which the spans are attached
+     * @param orientation    direction of offset (currently not used)
+     * @param fraction       what proportion of the spannable should be considered offset.
+     *                       values outside the range of 0..1 will be clamped into that
+     *                       range.
+     */
+    public static void offsetSpansBy(@NonNull Spannable spannable, int orientation, float fraction) {
         int length = spannable.length();
-        int offset = (int) (percentage * length);
+        int offset = (int) (fraction * length);
 
         MigratorySpan[] knownSpans = spannable.getSpans(0, length, MigratorySpan.class);
         if (knownSpans.length > 0) {
