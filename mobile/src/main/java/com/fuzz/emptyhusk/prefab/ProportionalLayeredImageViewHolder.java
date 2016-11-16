@@ -1,9 +1,10 @@
 package com.fuzz.emptyhusk.prefab;
 
+import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
+import com.fuzz.indicator.IndicatorOffsetEvent;
 import com.fuzz.indicator.LayeredImageViewHolder;
-import com.fuzz.indicator.OffsetEvent;
 
 /**
  * @author Philip Cohn-Cort (Fuzz)
@@ -14,7 +15,7 @@ public class ProportionalLayeredImageViewHolder extends LayeredImageViewHolder {
     }
 
     @Override
-    public void offsetContentBy(OffsetEvent event) {
+    public void offsetContentBy(@NonNull IndicatorOffsetEvent event) {
         ;
     }
 }

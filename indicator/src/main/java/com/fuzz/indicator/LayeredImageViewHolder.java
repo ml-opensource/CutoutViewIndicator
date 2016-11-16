@@ -16,6 +16,7 @@
 package com.fuzz.indicator;
 
 import android.graphics.Matrix;
+import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 /**
@@ -31,15 +32,8 @@ public class LayeredImageViewHolder extends IndicatorViewHolder<ImageView> {
     }
 
     @Override
-    public void offsetContentBy(OffsetEvent event) {
-        if (event instanceof ViewPagerOffsetEvent) {
-            ViewPagerOffsetEvent ev = (ViewPagerOffsetEvent) event;
-            offsetContentBy(ev.orientation(), ev.fraction());
-        }
+    public void offsetContentBy(@NonNull IndicatorOffsetEvent event) {
+        OffSetters.offsetImageBy(itemView, event.getOrientation(), event.getFraction(), new Matrix());
     }
 
-    @Override
-    public void offsetContentBy(int orientation, float percentage) {
-        OffSetters.offsetImageBy(itemView, orientation, percentage, new Matrix());
-    }
 }

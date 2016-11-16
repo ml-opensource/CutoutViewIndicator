@@ -438,24 +438,22 @@ public class CutoutViewIndicator extends LinearLayout {
      *              ┗━━━━━{@link #getCurrentIndicatorPosition() start}
      * </pre>
      * <p>
+     *     Additional information that must be passed to the LayeredView but <i>can not</i>
+     *     be expressed solely with these two parameters may be sent through an overload
+     *     of this method. See {@link #showOffsetIndicator(int, IndicatorOffsetEvent)}.
      * </p>
      *
      * @param position         corresponds to the view where an indicator should be shown. Must be less than {@link #getChildCount()}
      * @param percentageOffset how much of the indicator to draw (given as a value between -1 and 1). If out of range, no
      *                         indicator will be drawn
      */
-    @Deprecated
     public void showOffsetIndicator(int position, float percentageOffset) {
-        LayeredView child = getViewHolderAt(position);
-        // We have something to draw
-        if (child != null) {
-            child.offsetContentBy(getOrientation(), percentageOffset);
-        }
+        showOffsetIndicator(position, new IndicatorOffsetEvent(position, percentageOffset, getOrientation()));
     }
 
-    public void showOffsetIndicator(int position, OffsetEvent offsetEvent) {
+    public void showOffsetIndicator(int position, IndicatorOffsetEvent offsetEvent) {
         LayeredView child = getViewHolderAt(position);
-
+        // We have something to draw
         if (child != null) {
             child.offsetContentBy(offsetEvent);
         }
@@ -830,12 +828,12 @@ public class CutoutViewIndicator extends LinearLayout {
      * </p>
      */
     public void ensureOnlyCurrentItemsSelected() {
-        float current = getCurrentIndicatorPosition();
+        final float current = getCurrentIndicatorPosition();
         for (int i = 0; i < getChildCount(); i++) {
             LayeredView child = getViewHolderAt(i);
             if (child != null) {
                 // offset outside the range -1..1 puts it just off-view (i.e. hiding it)
-                child.offsetContentBy(getOrientation(), current - i);
+                child.offsetContentBy(new IndicatorOffsetEvent(i, current - i, getOrientation()));
             }
         }
     }
