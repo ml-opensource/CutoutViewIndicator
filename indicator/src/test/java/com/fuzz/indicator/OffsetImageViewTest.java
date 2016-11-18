@@ -64,13 +64,13 @@ public class OffsetImageViewTest {
     private final int width;
     private final int height;
     private final int orientation;
-    private final float percentage;
+    private final float fraction;
 
-    public OffsetImageViewTest(int width, int height, int orientation, float percentage) {
+    public OffsetImageViewTest(int width, int height, int orientation, float fraction) {
         this.width = width;
         this.height = height;
         this.orientation = orientation;
-        this.percentage = percentage;
+        this.fraction = fraction;
     }
 
     @Test
@@ -81,7 +81,7 @@ public class OffsetImageViewTest {
         when(imageView.getWidth()).thenReturn(width);
         when(imageView.getHeight()).thenReturn(height);
 
-        OffSetters.offsetImageBy(imageView, orientation, percentage, matrix);
+        OffSetters.offsetImageBy(imageView, orientation, fraction, matrix);
 
         // How do we test the method is setting the right values without copying its logic to here?
         verify(matrix).setTranslate(anyFloat(), anyFloat());
