@@ -330,7 +330,12 @@ public class CutoutViewIndicator extends LinearLayout {
             logger.logToLayoutLib(tag, message);
         }
 
-        View originator = stateProxy.getOriginalViewFor(position);
+        View originator;
+        if (stateProxy instanceof ViewProvidingStateProxy) {
+            originator = ((ViewProvidingStateProxy) stateProxy).getOriginalViewFor(position);
+        } else {
+            originator = null;
+        }
         generator.onBindChild(child, lp, originator);
     }
 

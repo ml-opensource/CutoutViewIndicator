@@ -16,8 +16,6 @@
 package com.fuzz.indicator;
 
 import android.database.DataSetObserver;
-import android.support.annotation.Nullable;
-import android.view.View;
 
 /**
  * Wrap an implementation of this class around your state machine.
@@ -56,18 +54,6 @@ public interface StateProxy {
      *                                    {@link #getCurrentPosition()}.
      */
     void resendPositionInfo(CutoutViewIndicator cvi, float assumedIndicatorPosition);
-
-    /**
-     * In some use cases, it may be handy to have a reference to the original
-     * View when binding a representation thereof. See
-     * {@link LayeredViewGenerator#onBindChild(View, CutoutViewLayoutParams, View)}
-     * for details.
-     *
-     * @param cviPosition    position of a child within the CutoutViewIndicator
-     * @return the view which directly inspired the indicator's child
-     */
-    @Nullable
-    View getOriginalViewFor(int cviPosition);
 
     /**
      * This method is called when the {@link CutoutViewIndicator} is ready

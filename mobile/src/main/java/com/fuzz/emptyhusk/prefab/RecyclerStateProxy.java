@@ -25,14 +25,14 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 
 import com.fuzz.indicator.CutoutViewIndicator;
-import com.fuzz.indicator.StateProxy;
+import com.fuzz.indicator.ViewProvidingStateProxy;
 
 /**
  * {@link RecyclerView} analog to {@link com.fuzz.indicator.ViewPagerStateProxy}.
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-class RecyclerStateProxy implements StateProxy {
+class RecyclerStateProxy implements ViewProvidingStateProxy {
     @Nullable
     private AdapterDataObserver adObserver;
     @NonNull
