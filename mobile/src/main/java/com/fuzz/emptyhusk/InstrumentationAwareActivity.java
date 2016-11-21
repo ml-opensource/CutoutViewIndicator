@@ -45,6 +45,7 @@ public class InstrumentationAwareActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         inflationFrame = (ViewGroup) getLayoutInflater().inflate(R.layout.test_frame, binding.root, false);
+        binding.root.addView(inflationFrame);
     }
 
     public <T extends View> T inflateLayout(@LayoutRes int layoutId, Class<T> clazz) {
