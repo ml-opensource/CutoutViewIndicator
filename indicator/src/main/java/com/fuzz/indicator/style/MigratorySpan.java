@@ -16,6 +16,7 @@
 package com.fuzz.indicator.style;
 
 import android.support.annotation.NonNull;
+import android.text.Spannable;
 
 import com.fuzz.indicator.text.LayeredTextViewHolder;
 
@@ -30,25 +31,33 @@ import com.fuzz.indicator.text.LayeredTextViewHolder;
 public interface MigratorySpan {
 
     /**
-     * Consider a Spannable sequence has a lower bound at 0% of its length
-     * and upper bound at 100% of that length. The MigratoryRange returned
-     * by this method represents some portion of indices within that sequence.
+     * Consider a Spannable sequence which has a defined start and end.
+     * The MigratoryRange returned by this method represents some portion
+     * of indices within that sequence. Implementations are asked to
+     * <i>NOT</i> modify the parameter within this method.
      * <p>
      *     Sample caller code may be as follows:
      *     <pre>
-     *         MigratorySpan ms;
-     *         //...
-     *         Range<Float> bounds = ms.getCoverage();
-     *         String percentLower = String.format("%0.2f", bounds.getLower()/100);
-     *         String percentUpper = String.format("%0.2f", bounds.getUpper()/100);
+     * MigratorySpan ms;
+     * Spannable target;
+     *
+     * //...
+     *
+     * MigratoryRange&lt;Integer> bounds = ms.getCoverage(target);
+     *
+     * int start = bounds.getLower();
+     * int end = bounds.getUpper();
+     *
+     * target.setSpan(ms, start, end, ms.preferredFlags(0));
      *     </pre>
      * </p>
      *
      * @return a range which can be used to figure out what
-     * percentages of the Spannable is covered.
+     * characters in the Spannable are covered.
+     * @param enclosingSequence    the sequence of characters wherein this span
      */
     @NonNull
-    MigratoryRange<Float> getCoverage();
+    MigratoryRange<Integer> getCoverage(Spannable enclosingSequence);
 
     /**
      * Whatever is returned here should be a valid argument into

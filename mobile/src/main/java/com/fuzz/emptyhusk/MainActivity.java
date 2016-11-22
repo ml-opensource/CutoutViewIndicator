@@ -31,6 +31,7 @@ import com.fuzz.emptyhusk.choosegenerator.GeneratorChoiceFragment;
 import com.fuzz.emptyhusk.choosegenerator.OnSelectedListener;
 import com.fuzz.emptyhusk.prefab.NarrowerSegmentsFragment;
 import com.fuzz.emptyhusk.prefab.PlainActivity;
+import com.fuzz.emptyhusk.prefab.InlineViewPagerIndicatorFragment;
 import com.fuzz.emptyhusk.prefab.VerticalDotsFragment;
 import com.fuzz.indicator.CutoutViewIndicator;
 import com.fuzz.indicator.LayeredViewGenerator;
@@ -132,6 +133,15 @@ public class MainActivity extends AppCompatActivity {
                         null
                 );
                 startActivity(tinySegmentedIntent);
+                consumed = true;
+                break;
+            case R.id.inlineIndicators:
+                Intent premadeIntent = PlainActivity.request(
+                        this,
+                        InlineViewPagerIndicatorFragment.class,
+                        null
+                );
+                startActivity(premadeIntent);
                 consumed = true;
                 break;
         }

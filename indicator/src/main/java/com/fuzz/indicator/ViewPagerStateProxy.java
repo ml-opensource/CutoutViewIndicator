@@ -17,7 +17,10 @@ package com.fuzz.indicator;
 
 import android.database.DataSetObserver;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 /**
  * {@link StateProxy} wrapper around a {@link ViewPager}. All calls
@@ -25,7 +28,7 @@ import android.support.v4.view.ViewPager;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class ViewPagerStateProxy implements StateProxy {
+public class ViewPagerStateProxy implements ViewProvidingStateProxy {
 
     @NonNull
     private final ViewPager pager;
@@ -53,6 +56,18 @@ public class ViewPagerStateProxy implements StateProxy {
     public void resendPositionInfo(CutoutViewIndicator cvi, float assumedIndicatorPosition) {
         // We blindly trust that the assumed position is accurate.
         pageChangeListener.onPageSelected(cvi, assumedIndicatorPosition);
+    }
+
+    @Nullable
+    @Override
+    public View getOriginalViewFor(int cviPosition) {
+        View found = null;
+        PagerAdapter adapter = pager.getAdapter();
+
+        if (cviPosition != -1 && adapter instanceof ViewProvidingAdapter) {
+            found = ((ViewProvidingAdapter) adapter).getViewFor(cviPosition);
+        }
+        return found;
     }
 
     @Override

@@ -27,7 +27,7 @@ android {
     compileSdkVersion project.ext.targetVersion
     buildToolsVersion project.ext.buildVersion
     defaultConfig {
-        applicationId "com.cliabhach.emptyhusk"
+        applicationId "com.fuzz.emptyhusk"
         minSdkVersion 21
         targetSdkVersion project.ext.targetVersion
         versionCode 1

@@ -22,16 +22,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.view.View;
 
 import com.fuzz.indicator.CutoutViewIndicator;
-import com.fuzz.indicator.StateProxy;
+import com.fuzz.indicator.ViewProvidingStateProxy;
 
 /**
  * {@link RecyclerView} analog to {@link com.fuzz.indicator.ViewPagerStateProxy}.
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-class RecyclerStateProxy implements StateProxy {
+class RecyclerStateProxy implements ViewProvidingStateProxy {
     @Nullable
     private AdapterDataObserver adObserver;
     @NonNull
@@ -93,6 +94,20 @@ class RecyclerStateProxy implements StateProxy {
     @Override
     public void resendPositionInfo(CutoutViewIndicator cvi, float position) {
         listener.centerIndicatorAround(position);
+    }
+
+    @Nullable
+    @Override
+    public View getOriginalViewFor(int cviPosition) {
+        ViewHolder holder = recyclerView.findViewHolderForLayoutPosition(cviPosition);
+
+        View retVal;
+        if (holder != null) {
+            retVal = holder.itemView;
+        } else {
+            retVal = null;
+        }
+        return retVal;
     }
 
     @Override

@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.fuzz.indicator.style.MigratoryRange;
 import com.fuzz.indicator.style.MigratorySpan;
@@ -27,7 +28,8 @@ import com.fuzz.indicator.style.MigratorySpan;
 /**
  * Collection of utility methods for offsetting specific views.
  * <p>
- *     Right now there's just one for {@link ImageView}s, but more
+ *     Right now there's just one for {@link ImageView}s and one for
+ *     {@link TextView}s, but more
  *     might appear in future.
  * </p>
  *
@@ -56,22 +58,34 @@ public class OffSetters {
         imageView.setImageMatrix(mat);
     }
 
-    public static void offsetSpansBy(@NonNull Spannable spannable, int orientation, float percentage) {
+    /**
+     * Ensures that all spans of type {@link MigratorySpan} within {@code spannable} are
+     * translated a proportional quantity of characters from their baseline position. Each
+     * span's implementation of {@link MigratorySpan#getCoverage(Spannable)} is responsible
+     * for reporting the correct baseline coverage prior to translation.
+     *
+     * @param spannable      the text to which the spans are attached
+     * @param fraction       what proportion of the spannable should be considered offset.
+     *                       values outside the range of 0..1 will be clamped into that
+     *                       range.
+     */
+    public static void offsetSpansBy(@NonNull Spannable spannable, float fraction) {
         int length = spannable.length();
+        int offset = (int) (fraction * length);
 
         MigratorySpan[] knownSpans = spannable.getSpans(0, length, MigratorySpan.class);
         if (knownSpans.length > 0) {
-            MigratoryRange<Float> fullSize = MigratoryRange.from(0, length);
+            MigratoryRange<Integer> fullSize = MigratoryRange.from(0, length);
             for (MigratorySpan knownSpan : knownSpans) {
-                offsetSpan(spannable, percentage, length, fullSize, knownSpan);
+                offsetSpan(spannable, fullSize, knownSpan, offset);
             }
         }
     }
 
-    public static void offsetSpan(@NonNull Spannable spannable, float percentage, int length, MigratoryRange<Float> fullSize, MigratorySpan knownSpan) {
-        MigratoryRange<Float> covered = knownSpan.getCoverage().translate(percentage);
-        int spanStart = fullSize.clamp(length * covered.getLower()).intValue();
-        int spanEnd = fullSize.clamp(length * covered.getUpper()).intValue();
+    public static void offsetSpan(@NonNull Spannable spannable, MigratoryRange<Integer> fullSize, MigratorySpan knownSpan, int offset) {
+        MigratoryRange<Integer> covered = knownSpan.getCoverage(spannable).translate(offset);
+        int spanStart = fullSize.clamp(covered.getLower());
+        int spanEnd = fullSize.clamp(covered.getUpper());
         int flags = knownSpan.preferredFlags(spannable.getSpanFlags(knownSpan));
         spannable.setSpan(knownSpan, spanStart, spanEnd, flags);
     }

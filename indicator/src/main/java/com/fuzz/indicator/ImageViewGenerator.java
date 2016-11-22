@@ -16,6 +16,7 @@
 package com.fuzz.indicator;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -83,7 +84,7 @@ public class ImageViewGenerator implements LayeredViewGenerator {
     }
 
     @Override
-    public void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp) {
+    public void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp, @Nullable View originator) {
         child.setBackgroundResource(lp.cellBackgroundId);
         if (child instanceof ImageView) {
             ((ImageView) child).setImageResource(lp.indicatorDrawableId);

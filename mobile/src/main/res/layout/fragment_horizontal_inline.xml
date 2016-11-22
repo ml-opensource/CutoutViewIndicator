@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            />
+
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <com.fuzz.indicator.CutoutViewIndicator
+                android:id="@+id/cutoutViewIndicatorA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:rcv_drawable="@drawable/rectangle_accent"
+                app:rcv_internal_margin="0dp"
+                app:rcv_tools_indicator_count="7"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    app:layout_rcv_drawable="@drawable/rectangle_accent"
+                    app:layout_rcv_drawable_unselected="@drawable/rectangle_secondary"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    app:layout_rcv_drawable="@drawable/rectangle_accent"
+                    app:layout_rcv_drawable_unselected="@drawable/rectangle_secondary"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    app:layout_rcv_drawable="@drawable/rectangle_accent"
+                    app:layout_rcv_drawable_unselected="@drawable/rectangle_secondary"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    app:layout_rcv_drawable="@drawable/inset_circle_accent"
+                    app:layout_rcv_drawable_unselected="@drawable/circle_tertiary"
+                    />
+
+            </com.fuzz.indicator.CutoutViewIndicator>
+
+            <com.fuzz.indicator.CutoutViewIndicator
+                android:id="@+id/cutoutViewIndicatorB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:rcv_drawable="@drawable/rectangle_accent"
+                app:rcv_internal_margin="0dp"
+                app:rcv_tools_indicator_count="7"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    app:layout_rcv_drawable="@drawable/inset_circle_accent"
+                    app:layout_rcv_drawable_unselected="@drawable/circle_tertiary"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    app:layout_rcv_drawable="@drawable/rectangle_accent"
+                    app:layout_rcv_drawable_unselected="@drawable/rectangle_secondary"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    app:layout_rcv_drawable="@drawable/rectangle_accent"
+                    app:layout_rcv_drawable_unselected="@drawable/rectangle_secondary"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    app:layout_rcv_drawable="@drawable/rectangle_accent"
+                    app:layout_rcv_drawable_unselected="@drawable/rectangle_secondary"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    app:layout_rcv_drawable="@drawable/inset_circle_accent"
+                    app:layout_rcv_drawable_unselected="@drawable/circle_tertiary"
+                    />
+
+            </com.fuzz.indicator.CutoutViewIndicator>
+
+            <com.fuzz.indicator.CutoutViewIndicator
+                android:id="@+id/cutoutViewIndicatorC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:rcv_drawable="@drawable/rectangle_accent"
+                app:rcv_internal_margin="0dp"
+                app:rcv_tools_indicator_count="7"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    app:layout_rcv_drawable="@drawable/rectangle_accent"
+                    app:layout_rcv_drawable_unselected="@drawable/rectangle_secondary"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    app:layout_rcv_drawable="@drawable/rectangle_accent"
+                    app:layout_rcv_drawable_unselected="@drawable/rectangle_secondary"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    app:layout_rcv_drawable="@drawable/inset_circle_accent"
+                    app:layout_rcv_drawable_unselected="@drawable/circle_tertiary"
+                    />
+
+            </com.fuzz.indicator.CutoutViewIndicator>
+
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

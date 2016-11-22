@@ -47,8 +47,21 @@ public final class MigratoryRange<T extends Number & Comparable<T>> {
         }
     };
 
+    public static final Operator<Integer> INTEGER_OPERATOR
+            = new Operator<Integer>() {
+        @NonNull
+        @Override
+        public Integer add(Integer lower, Integer offset) {
+            return lower + offset;
+        }
+    };
+
     public static MigratoryRange<Float> from(float lower, float upper) {
         return new MigratoryRange<>(lower, upper, FLOAT_OPERATOR);
+    }
+
+    public static MigratoryRange<Integer> from(int lower, int upper) {
+        return new MigratoryRange<>(lower, upper, INTEGER_OPERATOR);
     }
 
     @NonNull

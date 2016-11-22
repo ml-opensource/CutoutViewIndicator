@@ -27,4 +27,8 @@
         android:id="@+id/tinySegmentedRecycling"
         android:title="@string/action_show_tiny_vertical_recyclerview"
         />
+    <item
+        android:id="@+id/inlineIndicators"
+        android:title="@string/action_show_inline_view_pagers"
+        />
 </menu>

@@ -17,6 +17,7 @@ package com.fuzz.indicator.text;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public abstract class TextViewGenerator implements LayeredViewGenerator {
     protected abstract Spannable getTextFor(@NonNull Context context, int position);
 
     @Override
-    public void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp) {
+    public void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp, @Nullable View originator) {
         child.setBackgroundResource(lp.cellBackgroundId);
     }
 }

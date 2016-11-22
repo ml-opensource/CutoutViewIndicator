@@ -16,7 +16,6 @@
 package com.fuzz.emptyhusk.prefab;
 
 import android.app.Fragment;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,7 +24,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import com.fuzz.emptyhusk.R;
 import com.fuzz.indicator.CutoutViewIndicator;
@@ -65,20 +63,7 @@ public class NarrowerSegmentsFragment extends Fragment {
             final CutoutViewIndicator cvi = (CutoutViewIndicator) view.findViewById(R.id.cutoutViewIndicator);
             initIndicator(recyclerView, cvi);
 
-            recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    } else {
-                        //noinspection deprecation
-                        recyclerView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                    }
-                    ProportionalImageViewGenerator gen = new ProportionalImageViewGenerator();
-                    gen.setProportionalTo(recyclerView);
-                    cvi.setGenerator(gen);
-                }
-            });
+            cvi.setGenerator(new ProportionalImageViewGenerator());
         }
     }
 

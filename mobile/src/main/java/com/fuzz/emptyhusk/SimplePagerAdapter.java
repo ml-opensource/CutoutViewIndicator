@@ -16,6 +16,7 @@
 package com.fuzz.emptyhusk;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.util.LruCache;
 import android.view.LayoutInflater;
@@ -23,14 +24,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.fuzz.indicator.ViewProvidingAdapter;
+
 /**
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class SimplePagerAdapter extends PagerAdapter {
+public class SimplePagerAdapter extends PagerAdapter implements ViewProvidingAdapter {
 
     @NonNull
     private final String[] values;
 
+    @NonNull
     private final LruCache<String, View> viewCache;
 
     public SimplePagerAdapter(@NonNull String[] values) {
@@ -53,6 +57,12 @@ public class SimplePagerAdapter extends PagerAdapter {
         }
 
         return text != null && text.equals(object);
+    }
+
+    @Nullable
+    @Override
+    public View getViewFor(int cviPosition) {
+        return viewCache.get(values[cviPosition]);
     }
 
     @Override

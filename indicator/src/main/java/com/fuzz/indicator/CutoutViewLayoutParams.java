@@ -16,6 +16,7 @@
 package com.fuzz.indicator;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -44,7 +45,23 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
     @NonNull
     protected WeakReference<LayeredView> viewHolder = new WeakReference<>(null);
 
+    /**
+     * Set this to true to prevent the attached view from being
+     * removed during the next call to {@link CutoutViewIndicator#rebuildChildViews()}.
+     * <p>
+     *     Should be false if the attached view was added by a generator.
+     * </p>
+     */
+    public boolean preservedDuringRebuild;
 
+    /**
+     * Amount of space between this view and the one before it
+     * <p>
+     *     Treat this like a conditional margin - it is added to the
+     *     {@link #getMarginStart() start/left/top margin} only if it
+     *     is <em>not</em> the first View in the CutoutViewIndicator.
+     * </p>
+     */
     public int internalSpacing;
     /**
      * This is the resolved length of the view (in pixels)
@@ -53,7 +70,9 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
      */
     public int cellLength;
     /**
-     * This is the height or width bounding all child views when {@link #HORIZONTAL} or {@link #VERTICAL}, respectively.
+     * This is the height or width bounding all child views when
+     * {@link CutoutViewIndicator#HORIZONTAL HORIZONTAL} or
+     * {@link CutoutViewIndicator#VERTICAL VERTICAL}, respectively.
      * <p/>
      * Typically equal to the height/width of the {@link CutoutViewIndicator}, minus padding.
      */
@@ -75,6 +94,7 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
 
     public CutoutViewLayoutParams(Context c, AttributeSet attrs) {
         super(c, attrs);
+        init(c, attrs);
     }
 
     public CutoutViewLayoutParams(@NonNull ViewGroup.LayoutParams source) {
@@ -89,10 +109,25 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
         super(width, height);
     }
 
+    @SuppressWarnings("ResourceType")
+    protected void init(Context context, AttributeSet attrs) {
+        if (attrs != null) {
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CutoutViewIndicator_Layout);
+            indicatorDrawableId = a.getResourceId(R.styleable.CutoutViewIndicator_Layout_layout_rcv_drawable, 0);
+
+            perpendicularLength = a.getDimensionPixelSize(R.styleable.CutoutViewIndicator_Layout_layout_rcv_perpendicular_length, WRAP_CONTENT);
+            cellLength = a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_Layout_layout_rcv_cell_length, WRAP_CONTENT);
+
+            cellBackgroundId = a.getResourceId(R.styleable.CutoutViewIndicator_Layout_layout_rcv_drawable_unselected, 0);
+
+            a.recycle();
+        }
+    }
+
     /**
      * Use this to set the attached {@link LayeredView} reference. This can
      * be retrieved by {@link LayeredViewGenerator} implementations during
-     * {@link LayeredViewGenerator#onBindChild(View, CutoutViewLayoutParams)}
+     * {@link LayeredViewGenerator#onBindChild(View, CutoutViewLayoutParams, View)}
      * if they so wish.
      *
      * @param layeredView    a LayeredView that would hopefully be defined

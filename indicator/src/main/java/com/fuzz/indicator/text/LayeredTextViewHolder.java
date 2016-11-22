@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.fuzz.indicator.IndicatorViewHolder;
 import com.fuzz.indicator.OffSetters;
+import com.fuzz.indicator.IndicatorOffsetEvent;
 
 /**
  * Simple indicator implementation for TextViews.
@@ -36,7 +37,7 @@ public class LayeredTextViewHolder extends IndicatorViewHolder<TextView> {
     }
 
     @Override
-    public void offsetImageBy(int orientation, float percentage) {
+    public void offsetContentBy(@NonNull IndicatorOffsetEvent event) {
         CharSequence text = itemView.getText();
         if (text instanceof Spanned) {
             Spannable spannable;
@@ -47,7 +48,7 @@ public class LayeredTextViewHolder extends IndicatorViewHolder<TextView> {
                 // so no need to worry about losing state.
                 spannable = new SpannableString(text);
             }
-            OffSetters.offsetSpansBy(spannable, orientation, percentage);
+            OffSetters.offsetSpansBy(spannable, event.getFraction());
             itemView.setText(spannable);
         }
     }

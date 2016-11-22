@@ -17,7 +17,6 @@ package com.fuzz.indicator;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.LinearLayout;
 
 /**
  * Simple interface which views inside the {@link CutoutViewIndicator} should implement.
@@ -25,13 +24,14 @@ import android.widget.LinearLayout;
  * @author Philip Cohn-Cort (Fuzz)
  */
 public interface LayeredView {
+
     /**
-     * Sets a new image matrix on this view. This method only allows orthogonal offsets
+     * Perform some arbitrary action to represent the provided OffsetEvent.
      *
-     * @param orientation direction to offset in. Use either {@link LinearLayout#VERTICAL} or {@link LinearLayout#HORIZONTAL}
-     * @param percentage  percentage of width/height to offset by - positive means down/right, negative means up/left
+     * @param offsetEvent    whatever just happened
+     * @see OffSetters
      */
-    void offsetImageBy(int orientation, float percentage);
+    void offsetContentBy(@NonNull IndicatorOffsetEvent offsetEvent);
 
     /**
      * @return the actual view represented by this object

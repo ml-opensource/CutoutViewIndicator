@@ -40,8 +40,9 @@ class MigratoryForegroundColorSpan extends ForegroundColorSpan implements Migrat
 
     @NonNull
     @Override
-    public MigratoryRange<Float> getCoverage() {
-        return MigratoryRange.from(.2f, .8f);
+    public MigratoryRange<Integer> getCoverage(@NonNull Spannable enclosingSequence) {
+        int length = enclosingSequence.length();
+        return MigratoryRange.from((int)(.2f * length), (int)(.8f * length));
     }
 
     @Override
