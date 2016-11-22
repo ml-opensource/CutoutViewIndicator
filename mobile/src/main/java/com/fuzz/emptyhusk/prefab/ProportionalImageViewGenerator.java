@@ -15,7 +15,6 @@
  */
 package com.fuzz.emptyhusk.prefab;
 
-import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,7 +25,6 @@ import android.widget.ImageView;
 
 import com.fuzz.emptyhusk.R;
 import com.fuzz.indicator.CutoutViewLayoutParams;
-import com.fuzz.indicator.LayeredView;
 import com.fuzz.indicator.clip.ClippedImageViewGenerator;
 
 /**
@@ -43,12 +41,6 @@ public class ProportionalImageViewGenerator extends ClippedImageViewGenerator {
     protected int rvLength;
     protected int rvChildLength;
 
-    @NonNull
-    @Override
-    protected LayeredView createLayeredViewFor(@NonNull ImageView child) {
-        return new ProportionalLayeredImageViewHolder(child);
-    }
-
     @Override
     public void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp, @Nullable View originator) {
         child.setBackgroundResource(lp.cellBackgroundId);
@@ -62,19 +54,15 @@ public class ProportionalImageViewGenerator extends ClippedImageViewGenerator {
             GradientDrawable elongated = new GradientDrawable();
             elongated.setShape(GradientDrawable.RECTANGLE);
 
-            Resources res = child.getResources();
-
             int accent = ContextCompat.getColor(child.getContext(), R.color.transparentColorAccent);
 
             float fractionOfParent = rvLength * 1.0f / rvChildLength;
 
             elongated.setColor(accent);
-            elongated.setCornerRadius(res.getDimensionPixelSize(R.dimen.circle_radius));
             float proposedLength = fractionOfParent * lp.perpendicularLength;
             elongated.setSize(lp.perpendicularLength, (int) proposedLength);
 
             ((ImageView) child).setImageDrawable(elongated);
-            ((ImageView) child).getDrawable();
         }
     }
 }
