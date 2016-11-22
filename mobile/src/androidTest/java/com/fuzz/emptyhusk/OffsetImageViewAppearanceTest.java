@@ -60,6 +60,9 @@ import static org.junit.Assert.assertThat;
  * {@link OffSetters#offsetImageBy(ImageView, int, float, Matrix)}.
  * Unlike {@code OffsetImageViewTest}, this is focused almost
  * entirely on visual regressions.
+ * <p>
+ *     TODO: Provide expected bitmaps in the R.drawable directory - see issue #37 on GitHub
+ * </p>
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
