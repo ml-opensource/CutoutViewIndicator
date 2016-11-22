@@ -48,7 +48,7 @@ public class LayeredTextViewHolder extends IndicatorViewHolder<TextView> {
                 // so no need to worry about losing state.
                 spannable = new SpannableString(text);
             }
-            OffSetters.offsetSpansBy(spannable, event.getOrientation(), event.getFraction());
+            OffSetters.offsetSpansBy(spannable, event.getFraction());
             itemView.setText(spannable);
         }
     }

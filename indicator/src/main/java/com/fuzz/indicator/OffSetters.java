@@ -65,12 +65,11 @@ public class OffSetters {
      * for reporting the correct baseline coverage prior to translation.
      *
      * @param spannable      the text to which the spans are attached
-     * @param orientation    direction of offset (currently not used)
      * @param fraction       what proportion of the spannable should be considered offset.
      *                       values outside the range of 0..1 will be clamped into that
      *                       range.
      */
-    public static void offsetSpansBy(@NonNull Spannable spannable, int orientation, float fraction) {
+    public static void offsetSpansBy(@NonNull Spannable spannable, float fraction) {
         int length = spannable.length();
         int offset = (int) (fraction * length);
 
