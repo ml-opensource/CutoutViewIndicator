@@ -12,7 +12,10 @@ them in order.
 
 You can define each cell directly in your xml file, or add them manually.
 Note that right now, the Generators shipped with this library only
-support ImageViews.
+support ImageViews and TextViews.
+
+There is experimental support for RecyclerViews in the included
+mobile app code - check out [RecyclerStateProxy][4] for details.
 
 Pictures:
 ---------
@@ -45,7 +48,7 @@ repositories {
 ```
 ```
 dependencies {
-    compile 'com.github.fuzz-productions:CutoutViewIndicator:v0.3.0'
+    compile 'com.github.fuzz-productions:CutoutViewIndicator:v0.4.0'
 }
 ```
 
@@ -138,5 +141,6 @@ especially [ViewPagerIndicator][5].
 
  [1]: https://developer.android.com/reference/android/support/v4/view/ViewPager.html
  [2]: https://github.com/eccyan/SpinningTabStrip
- [3]: library/src/main/java/com/fuzz/indicator/CutoutViewIndicator.java#L392
+ [3]: indicator/src/main/java/com/fuzz/indicator/CutoutViewIndicator.java#L362
+ [4]: mobile/src/main/java/com/fuzz/emptyhusk/prefab/RecyclerStateProxy.java
  [5]: https://github.com/JakeWharton/ViewPagerIndicator
