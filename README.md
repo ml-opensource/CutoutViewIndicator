@@ -30,6 +30,15 @@ the ViewPager page to new views. The orange bar underneath reliably
 indicates exactly which page is currently showing, mimicking the
 slightest perturbation in the ViewPager](http://i.imgur.com/fKOez3z.gif)
 
+![Sample scrolling effect with ClippedImageViewGenerator and
+RecyclerView. The RecyclerView scrolls vertically through colored
+rectangles, each a child View, each equal in width and height to the
+RecyclerView itself. An indicator on the left side mirrors these
+movements with a star-shaped indicator. Thanks to the
+ClippedImageViewGenerator, the star appears to move under the views,
+showing only half of itself when half of the associated cell
+is visible.](http://i.imgur.com/WwhvqT3.gif)
+
 There's demo source code for mobile under the `mobile` directory; we're
 looking to expand compatibility to Android Wear and Android TV too.
 

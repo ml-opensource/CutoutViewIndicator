@@ -16,20 +16,25 @@
 package com.fuzz.emptyhusk.prefab;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.fuzz.emptyhusk.R;
 import com.fuzz.indicator.CutoutViewIndicator;
-import com.fuzz.indicator.ImageViewGenerator;
+import com.fuzz.indicator.clip.ClippedImageViewGenerator;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * This fragment does not expect any arguments to be passed in.
@@ -47,8 +52,14 @@ public class VerticalDotsFragment extends Fragment {
         return R.layout.cell_color_spacer;
     }
 
+    @DrawableRes
     public int getDrawableId() {
-        return R.drawable.inset_circle_accent;
+        return android.R.drawable.star_on;
+    }
+
+    @DrawableRes
+    public int getBackgroundDrawableId() {
+        return android.R.drawable.star_off;
     }
 
     @Nullable
@@ -72,6 +83,9 @@ public class VerticalDotsFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext(), VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new MultiColoredAdapter(getChildQuantity(), getChildLayoutId()));
+
+        SnapHelper helper = new LinearSnapHelper();
+        helper.attachToRecyclerView(recyclerView);
     }
 
     /**
@@ -80,8 +94,13 @@ public class VerticalDotsFragment extends Fragment {
      * @param cvi             a new CutoutViewIndicator
      */
     private void initIndicator(@NonNull RecyclerView recyclerView, @NonNull CutoutViewIndicator cvi) {
-        cvi.setGenerator(new ImageViewGenerator());
+        cvi.setGenerator(new ClippedImageViewGenerator());
+        cvi.setBackgroundColor(Color.BLACK);
+        cvi.setCellLength(WRAP_CONTENT);
+        cvi.setPerpendicularLength(WRAP_CONTENT);
+        cvi.setInternalSpacing(40);
         cvi.setIndicatorDrawableId(getDrawableId());
+        cvi.setCellBackgroundId(getBackgroundDrawableId());
 
         int initialDx = recyclerView.getScrollX();
         int initialDy = recyclerView.getScrollY();
