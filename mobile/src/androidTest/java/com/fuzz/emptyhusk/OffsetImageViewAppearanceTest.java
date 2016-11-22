@@ -24,7 +24,6 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
@@ -47,6 +46,8 @@ import java.util.concurrent.CountDownLatch;
 
 import static android.graphics.Bitmap.Config.ARGB_8888;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.v4.view.ViewCompat.LAYOUT_DIRECTION_RTL;
+import static android.support.v4.view.ViewCompat.getLayoutDirection;
 import static android.widget.ImageView.ScaleType.MATRIX;
 import static com.fuzz.emptyhusk.BitmapMatcher.sameBitmapAs;
 import static org.hamcrest.Matchers.greaterThan;
@@ -116,7 +117,7 @@ public class OffsetImageViewAppearanceTest {
     }
 
     @Before
-    public void prepareFrame() throws Exception {
+    public void prepareLinearLayout() throws Exception {
         getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
@@ -167,7 +168,7 @@ public class OffsetImageViewAppearanceTest {
         });
 
 
-        // 3: Build the perfect 'expected' bitmap
+        // 3: Build the perfect 'expected' bitmap - this simulates what offsetImageBy does
 
         final Bitmap expectedBacking = Bitmap.createBitmap(width, height, ARGB_8888);
         Canvas expectedTarget = new Canvas(expectedBacking);
@@ -228,22 +229,23 @@ public class OffsetImageViewAppearanceTest {
                 });
             } else {
                 // expect part (but only part!) of drawable to remain on screen
-                float fractionalWidth;
-                float fractionalHeight;
+                float dx;
+                float dy;
                 if (orientation == HORIZONTAL) {
-                    fractionalWidth = fraction * width;
-                    fractionalHeight = 0;
+                    dx = fraction * width;
+                    dy = 0;
                 } else {
-                    fractionalWidth = 0;
-                    fractionalHeight = fraction * height;
+                    dx = 0;
+                    dy = fraction * height;
                 }
 
-                if ((fraction > 0) ^ (ViewCompat.getLayoutDirection(testLinearLayout) == ViewCompat.LAYOUT_DIRECTION_RTL)) {
+                boolean isRightToLeft = getLayoutDirection(testLinearLayout) == LAYOUT_DIRECTION_RTL;
+                if ((fraction > 0) ^ isRightToLeft) {
                     // Draw towards the end!
-                    fractionalHeight = -fractionalHeight;
-                    fractionalWidth = -fractionalWidth;
+                    dy = -dy;
+                    dx = -dx;
                 }
-                expectedTarget.translate(fractionalWidth, fractionalHeight);
+                expectedTarget.translate(dx, dy);
             }
         }
     }
@@ -284,9 +286,7 @@ public class OffsetImageViewAppearanceTest {
         getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
-                view.getViewTreeObserver().addOnGlobalLayoutListener(
-                        listenForGlobalLayout(view, latch)
-                );
+                view.getViewTreeObserver().addOnGlobalLayoutListener(listenForGlobalLayout(view, latch));
                 view.addOnLayoutChangeListener(listenForLayout(view, latch));
                 testLinearLayout.addView(view, lp);
             }
@@ -296,7 +296,7 @@ public class OffsetImageViewAppearanceTest {
     }
 
     @NonNull
-    public Drawable obtainDrawable(@ColorInt int accent) {
+    private Drawable obtainDrawable(@ColorInt int accent) {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
         drawable.setSize(width, height);
