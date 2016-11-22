@@ -1,3 +1,20 @@
+# [0.5.0]
+
+## Make dev work easier
+### Library changes:
+* New CVI view support: inflated XML attributes ([#35])
+* New CVI view support: views added via `addView` ([#35])
+* New warning: ImageView with ScaleType not equal to MATRIX ([#36])
+* New warning: CutoutViewLayoutParams without any drawable ids ([#36])
+* New overload: CVI::showOffsetIndicator(int, IndicatorOffsetEvent) ([#33])
+* Changed contract: MigratorySpan now uses ints, not floats ([#33])
+* Rename: percentage -> fraction ([#33])
+
+### Mobile app changes:
+* New fragment: InlineViewPagerIndicatorFragment ([#15])
+* Fixed bug: limit PlainActivity to one fragment at a time
+* New interface: ViewProvidingStateProxy ([#33])
+
 # [0.4.0]
 ## Demonstrate usage of library with RecyclerView
 
@@ -53,3 +70,6 @@
 [#21]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/21
 [#22]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/22
 [#30]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/30
+[#33]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/33
+[#35]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/35
+[#36]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/36
