@@ -1,6 +1,12 @@
-# [0.5.0]
+# [0.5.1]
+## Correct javadoc problems
 
+### Library changes:
+* Fixed bug: invalid javadoc references ([#40])
+
+# [0.5.0]
 ## Make dev work easier
+
 ### Library changes:
 * New CVI view support: inflated XML attributes ([#35])
 * New CVI view support: views added via `addView` ([#35])
@@ -73,3 +79,4 @@
 [#33]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/33
 [#35]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/35
 [#36]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/36
+[#40]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/40

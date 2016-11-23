@@ -18,6 +18,7 @@ package com.fuzz.indicator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
@@ -166,6 +167,9 @@ public class CutoutViewIndicator extends LinearLayout {
          * This method is called when the entire data becomes invalid,
          * most likely through a call to {@link Cursor#deactivate()} or {@link Cursor#close()} on a
          * {@link Cursor}.
+         * <p>
+         *     {@link ViewPager} doesn't really call this method.
+         * </p>
          */
         @Override
         public void onInvalidated() {
@@ -376,6 +380,9 @@ public class CutoutViewIndicator extends LinearLayout {
      *     {@link LayeredViewGenerator} creates AND the params defined by
      *     {@link #defaultChildParams}.
      * </p>
+     * Views which have been marked for
+     * {@link CutoutViewLayoutParams#preservedDuringRebuild preservation} will
+     * not be replaced.
      */
     public void rebuildChildViews() {
         SparseArray<LayeredView> preserved = holders.clone();

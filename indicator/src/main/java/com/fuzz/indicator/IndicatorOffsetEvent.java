@@ -46,7 +46,12 @@ public class IndicatorOffsetEvent implements OffsetEvent {
 
     /**
      * the (vertical or horizontal) orientation in which this offset event
-     * should be judged.
+     * should be judged. If this object was constructed by a {@link CutoutViewIndicator},
+     * then the return value can be assumed equal to that CutoutViewIndicator's
+     * {@link CutoutViewIndicator#getOrientation() orientation}.
+     *
+     * @return either {@link CutoutViewIndicator#HORIZONTAL HORIZONTAL} or
+     * {@link CutoutViewIndicator#VERTICAL VERTICAL}
      */
     public int getOrientation() {
         return orientation;
