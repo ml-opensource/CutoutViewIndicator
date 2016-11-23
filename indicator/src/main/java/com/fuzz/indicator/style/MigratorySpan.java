@@ -43,7 +43,7 @@ public interface MigratorySpan {
      *
      * //...
      *
-     * MigratoryRange&lt;Integer> bounds = ms.getCoverage(target);
+     * MigratoryRange&lt;Integer&gt; bounds = ms.getCoverage(target);
      *
      * int start = bounds.getLower();
      * int end = bounds.getUpper();

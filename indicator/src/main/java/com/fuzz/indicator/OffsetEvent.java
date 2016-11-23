@@ -37,7 +37,7 @@ public interface OffsetEvent {
      * <p>
      *     {@link LayeredTextViewHolder} gets a similar treatment, except with
      *     spans instead of a Drawable. Details of that can be read from the
-     *     javadoc for {@link #offsetSpansBy(Spannable, float)}.
+     *     javadoc for {@link OffSetters#offsetSpansBy(Spannable, float)}.
      * </p>
      *
      * @return fraction of indicator width/height to offset by - positive means down/right,
