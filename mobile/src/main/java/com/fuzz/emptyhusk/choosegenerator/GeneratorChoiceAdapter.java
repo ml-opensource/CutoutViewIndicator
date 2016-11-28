@@ -22,7 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fuzz.emptyhusk.BoldTextViewGenerator;
+import com.fuzz.emptyhusk.BoldTextCellGenerator;
 import com.fuzz.emptyhusk.R;
 import com.fuzz.indicator.ImageCellGenerator;
 import com.fuzz.indicator.CutoutCellGenerator;
@@ -44,8 +44,8 @@ public class GeneratorChoiceAdapter extends RecyclerView.Adapter {
 
     public GeneratorChoiceAdapter() {
         choices.add(new GeneratorChoice(ImageCellGenerator.class, "Creates simple ImageViews. These are offset with X or Y translations. A classic choice with static background and dynamic content."));
-        choices.add(new GeneratorChoice(ClippedImageCellGenerator.class, "Creates ClippedImageViews. These are offset with X or Y translations. Stylish, yet ever so slightly heavier memory-wise than ImageViewGenerator."));
-        choices.add(new GeneratorChoice(BoldTextViewGenerator.class, "Creates TextViews with bold text. The bold sections are offset in a dynamic manner within the TextViews' text. Rather new and difficult to master."));
+        choices.add(new GeneratorChoice(ClippedImageCellGenerator.class, "Creates ClippedImageViews. These are offset with X or Y translations. Stylish, yet ever so slightly heavier memory-wise than ImageCellGenerator."));
+        choices.add(new GeneratorChoice(BoldTextCellGenerator.class, "Creates TextViews with bold text. The bold sections are offset in a dynamic manner within the TextViews' text. Rather new and difficult to master."));
     }
 
     public void setChosen(@NonNull Class<? extends CutoutCellGenerator> chosen) {
