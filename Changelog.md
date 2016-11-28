@@ -1,3 +1,11 @@
+# [0.5.x SNAPSHOT]
+## Rename classes
+
+### Library changes:
+* Rename: `LayeredView` -> `CutoutCell` ([#42])
+* Rename: `LayeredViewGenerator` -> `CutoutCellGenerator` ([#42])
+* Allow xml definition of `LayeredViewGenerator` implementation ([#38])
+
 # [0.5.1]
 ## Correct javadoc problems
 
@@ -79,4 +87,6 @@
 [#33]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/33
 [#35]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/35
 [#36]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/36
+[#38]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/38
 [#40]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/40
+[#42]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/42
