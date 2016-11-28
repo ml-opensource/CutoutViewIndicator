@@ -36,13 +36,13 @@ public interface LayeredViewGenerator {
      * The caller will likely throw an Exception if the returned View is attached
      * to a {@link android.view.ViewParent}.
      *
-     * @param parent the parent ViewGroup which the LayeredView will be added to
+     * @param parent the parent ViewGroup which the CutoutCell will be added to
      * @param position where (sequentially) in the {@link CutoutViewIndicator} this view will
      *                 appear
-     * @return a new {@code LayeredView}, which really shouldn't be null.
+     * @return a new {@code CutoutCell}, which really shouldn't be null.
      */
     @NonNull
-    LayeredView createCellFor(@NonNull ViewGroup parent, int position);
+    CutoutCell createCellFor(@NonNull ViewGroup parent, int position);
 
     /**
      * This will be called during the {@link CutoutViewIndicator}'s measure pass

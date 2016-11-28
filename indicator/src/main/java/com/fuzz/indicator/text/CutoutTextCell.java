@@ -30,9 +30,9 @@ import com.fuzz.indicator.IndicatorOffsetEvent;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class LayeredTextViewHolder extends IndicatorViewHolder<TextView> {
+public class CutoutTextCell extends IndicatorViewHolder<TextView> {
 
-    public LayeredTextViewHolder(@NonNull TextView child) {
+    public CutoutTextCell(@NonNull TextView child) {
         super(child);
     }
 

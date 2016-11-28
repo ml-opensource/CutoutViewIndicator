@@ -43,7 +43,7 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
     public int indicatorDrawableId;
 
     @NonNull
-    protected WeakReference<LayeredView> viewHolder = new WeakReference<>(null);
+    protected WeakReference<CutoutCell> viewHolder = new WeakReference<>(null);
 
     /**
      * Set this to true to prevent the attached view from being
@@ -125,29 +125,29 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
     }
 
     /**
-     * Use this to set the attached {@link LayeredView} reference. This can
+     * Use this to set the attached {@link CutoutCell} reference. This can
      * be retrieved by {@link LayeredViewGenerator} implementations during
      * {@link LayeredViewGenerator#onBindChild(View, CutoutViewLayoutParams, View)}
      * if they so wish.
      *
-     * @param layeredView    a LayeredView that would hopefully be defined
-     *                       such that {@link LayeredView#getItemView()}
+     * @param cutoutCell    a CutoutCell that would hopefully be defined
+     *                       such that {@link CutoutCell#getItemView()}
      *                       returns the same object that these LayoutParams
      *                       are set on.
      */
-    public void setViewHolder(@Nullable LayeredView layeredView) {
-        this.viewHolder = new WeakReference<>(layeredView);
+    public void setViewHolder(@Nullable CutoutCell cutoutCell) {
+        this.viewHolder = new WeakReference<>(cutoutCell);
     }
 
     /**
-     * Getter counterpart to {@link #setViewHolder(LayeredView)}. In general,
+     * Getter counterpart to {@link #setViewHolder(CutoutCell)}. In general,
      * it is safe to assume that the value returned here is the same as that
      * most recently set.
      *
-     * @return the associated LayeredView if it has not been garbage-collected.
+     * @return the associated CutoutCell if it has not been garbage-collected.
      */
     @Nullable
-    public LayeredView getViewHolder() {
+    public CutoutCell getViewHolder() {
         return viewHolder.get();
     }
 

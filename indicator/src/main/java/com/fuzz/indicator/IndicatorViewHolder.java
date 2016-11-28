@@ -29,7 +29,7 @@ import android.widget.ImageView;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public abstract class IndicatorViewHolder<Root extends View> implements LayeredView {
+public abstract class IndicatorViewHolder<Root extends View> implements CutoutCell {
     @NonNull
     protected final Root itemView;
 

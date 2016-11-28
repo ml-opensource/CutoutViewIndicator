@@ -32,13 +32,13 @@ public class ImageViewGenerator implements LayeredViewGenerator {
     }
 
     /**
-     * Creates a new {@link LayeredImageViewHolder} by default. Override to change that.
+     * Creates a new {@link CutoutImageCell} by default. Override to change that.
      *
      * {@inheritDoc}
      */
     @NonNull
     @Override
-    public LayeredView createCellFor(@NonNull ViewGroup parent, int position) {
+    public CutoutCell createCellFor(@NonNull ViewGroup parent, int position) {
         CutoutViewLayoutParams lp = ((CutoutViewIndicator) parent).generateDefaultLayoutParams();
 
         ImageView child = createChildFor(parent, position);
@@ -47,9 +47,9 @@ public class ImageViewGenerator implements LayeredViewGenerator {
         child.setBackgroundResource(lp.cellBackgroundId);
         child.setImageResource(lp.indicatorDrawableId);
 
-        LayeredView layeredView = createLayeredViewFor(child);
-        lp.setViewHolder(layeredView);
-        return layeredView;
+        CutoutCell cutoutCell = createLayeredViewFor(child);
+        lp.setViewHolder(cutoutCell);
+        return cutoutCell;
     }
 
     /**
@@ -70,17 +70,17 @@ public class ImageViewGenerator implements LayeredViewGenerator {
 
     /**
      * This method is here to allow subclasses ease of overriding the exact
-     * type of {@link LayeredView} returned by {@link #createCellFor(ViewGroup, int)}.
+     * type of {@link CutoutCell} returned by {@link #createCellFor(ViewGroup, int)}.
      * <p>
      *     Could be handy for tests too.
      * </p>
      * @param child    the {@code View} part of the returned value
-     * @return a LayeredView wrapping {@code child}. If {@code child}
-     * implements LayeredView in some way, it may be returned directly.
+     * @return a CutoutCell wrapping {@code child}. If {@code child}
+     * implements CutoutCell in some way, it may be returned directly.
      */
     @NonNull
-    protected LayeredView createLayeredViewFor(@NonNull ImageView child) {
-        return new LayeredImageViewHolder(child);
+    protected CutoutCell createLayeredViewFor(@NonNull ImageView child) {
+        return new CutoutImageCell(child);
     }
 
     @Override
