@@ -126,8 +126,8 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
 
     /**
      * Use this to set the attached {@link CutoutCell} reference. This can
-     * be retrieved by {@link LayeredViewGenerator} implementations during
-     * {@link LayeredViewGenerator#onBindChild(View, CutoutViewLayoutParams, View)}
+     * be retrieved by {@link CutoutCellGenerator} implementations during
+     * {@link CutoutCellGenerator#onBindChild(View, CutoutViewLayoutParams, View)}
      * if they so wish.
      *
      * @param cutoutCell    a CutoutCell that would hopefully be defined

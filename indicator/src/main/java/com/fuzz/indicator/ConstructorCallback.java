@@ -6,13 +6,13 @@ import android.util.AttributeSet;
 
 /**
  * Interface for performing actions after
- * {@link LVGFactory#constructGeneratorFrom(Context, AttributeSet, int, String, ConstructorCallback)}
+ * {@link CCGFactory#constructGeneratorFrom(Context, AttributeSet, int, String, ConstructorCallback)}
  * finishes.
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
 public interface ConstructorCallback {
-    void onGenerated(@NonNull LayeredViewGenerator generator);
+    void onGenerated(@NonNull CutoutCellGenerator generator);
 
     void onFailed(@NonNull String message);
 }

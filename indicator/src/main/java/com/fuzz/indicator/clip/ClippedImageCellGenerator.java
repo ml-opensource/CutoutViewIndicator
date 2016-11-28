@@ -19,17 +19,17 @@ import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.fuzz.indicator.ImageViewGenerator;
+import com.fuzz.indicator.ImageCellGenerator;
 import com.fuzz.indicator.widget.ClippedImageView;
 
 /**
- * Proxy variant of {@link ImageViewGenerator} that creates
+ * Proxy variant of {@link ImageCellGenerator} that creates
  * ClippedImageViews
  * in {@link #createChildFor(ViewGroup, int)}.
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class ClippedImageViewGenerator extends ImageViewGenerator {
+public class ClippedImageCellGenerator extends ImageCellGenerator {
     @NonNull
     @Override
     protected ImageView createChildFor(@NonNull ViewGroup parent, int position) {

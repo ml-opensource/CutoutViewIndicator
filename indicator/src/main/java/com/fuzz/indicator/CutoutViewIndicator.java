@@ -44,7 +44,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * A RecyclerView-inspired ViewGroup for showing an indicator traversing multiple child Views ('cells').
  * <p>
  * There's a nice monospace line drawing in the javadoc for {@link #showOffsetIndicator(int, float)} that basically sums up
- * its appearance when operating under an {@link ImageViewGenerator}.
+ * its appearance when operating under an {@link ImageCellGenerator}.
  * </p>
  *
  * @author Philip Cohn-Cort (Fuzz)
@@ -107,7 +107,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * @see #showOffsetIndicator(int, float)
      */
     @NonNull
-    protected LayeredViewGenerator generator;
+    protected CutoutCellGenerator generator;
 
     @NonNull
     protected LayoutLogger logger;
@@ -189,7 +189,7 @@ public class CutoutViewIndicator extends LinearLayout {
         super(context, attrs, defStyleAttr);
 
         logger = LayoutLogger.getPreferred(isInEditMode());
-        generator = new ImageViewGenerator();
+        generator = new ImageCellGenerator();
         defaultChildParams = new CutoutViewLayoutParams(WRAP_CONTENT, WRAP_CONTENT);
 
         init(context, attrs, defStyleAttr);
@@ -200,7 +200,7 @@ public class CutoutViewIndicator extends LinearLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
 
         logger = LayoutLogger.getPreferred(isInEditMode());
-        generator = new ImageViewGenerator();
+        generator = new ImageCellGenerator();
         defaultChildParams = new CutoutViewLayoutParams(WRAP_CONTENT, WRAP_CONTENT);
 
         init(context, attrs, defStyleAttr);
@@ -228,9 +228,9 @@ public class CutoutViewIndicator extends LinearLayout {
 
             String generatorName = a.getString(R.styleable.CutoutViewIndicator_rcv_generator_class_name);
             if (generatorName != null) {
-                LVGFactory.constructGeneratorFrom(context, attrs, defStyleAttr, generatorName, new ConstructorCallback() {
+                CCGFactory.constructGeneratorFrom(context, attrs, defStyleAttr, generatorName, new ConstructorCallback() {
                     @Override
-                    public void onGenerated(@NonNull LayeredViewGenerator generated) {
+                    public void onGenerated(@NonNull CutoutCellGenerator generated) {
                         CutoutViewIndicator.this.generator = generated;
                     }
 
@@ -262,7 +262,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * Most child views this ViewGroup will see are created by
      * {@link #createCellFor(int)} and added to this by the
      * {@link #dataSetObserver}. These objects all have non-null
-     * LayeredViews associated with them.
+     * CutoutCells associated with them.
      * <p>
      *     Note that all other addView methods will ultimately call into
      *     this one. Any child view that has not already been associated
@@ -274,7 +274,7 @@ public class CutoutViewIndicator extends LinearLayout {
     @Override
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
         super.addView(child, index, params);
-        // LayeredView's Views are always added at exact indices. If there is no value
+        // A CutoutCell's Views are always added at exact indices. If there is no value
         // in this.holders for the given index, we need to set that right away.
         int realIndex = indexOfChild(child);
 
@@ -311,7 +311,7 @@ public class CutoutViewIndicator extends LinearLayout {
                 && child.getScaleType() != ImageView.ScaleType.MATRIX) {
             String tag = "resources.insufficient";
             String message = "Only child ImageViews with a MATRIX scaleType are respected by" +
-                    " your choice of LayeredView. Offset effects will not appear properly on" +
+                    " your choice of CutoutCell. Offset effects will not appear properly on" +
                     " ScaleType " + child.getScaleType() + ".";
             logger.logToLayoutLib(tag, message);
         }
@@ -390,7 +390,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * Set a new generator that will be called upon when a new cell
      * is needed. More or less the same as RecyclerView's Adapter.
      * <p>
-     *     Defaults to being a {@link ImageViewGenerator}, which
+     *     Defaults to being a {@link ImageCellGenerator}, which
      *     should be good enough for most purposes.
      * </p>
      * This method ends by calling {@link #rebuildChildViews()}.
@@ -398,7 +398,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * @param generator the new generator. May not be null.
      * @see #showOffsetIndicator(int, float)
      */
-    public void setGenerator(@NonNull LayeredViewGenerator generator) {
+    public void setGenerator(@NonNull CutoutCellGenerator generator) {
         this.generator = generator;
         rebuildChildViews();
     }
@@ -407,7 +407,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * Utility method for invalidating the {@link #generator} (so to speak).
      * <p>
      *     It'll ensure that the child views match both what the current
-     *     {@link LayeredViewGenerator} creates AND the params defined by
+     *     {@link CutoutCellGenerator} creates AND the params defined by
      *     {@link #defaultChildParams}.
      * </p>
      * Views which have been marked for
@@ -430,13 +430,13 @@ public class CutoutViewIndicator extends LinearLayout {
 
     /**
      * Returns a reference to the generator used to create and bind
-     * cells. Default value is an instance of {@link ImageViewGenerator}.
+     * cells. Default value is an instance of {@link ImageCellGenerator}.
      *
      * @return the generator currently in use
-     * @see #setGenerator(LayeredViewGenerator)
+     * @see #setGenerator(CutoutCellGenerator)
      */
     @NonNull
-    public LayeredViewGenerator getGenerator() {
+    public CutoutCellGenerator getGenerator() {
         return generator;
     }
 
@@ -445,7 +445,7 @@ public class CutoutViewIndicator extends LinearLayout {
      *
      * @param position used as 'index' parameter to {@link #addView(View, int)}
      * @return a new cell, appropriate for that position
-     * @see LayeredViewGenerator#createCellFor(ViewGroup, int)
+     * @see CutoutCellGenerator#createCellFor(ViewGroup, int)
      * @see #showOffsetIndicator(int, float)
      */
     @NonNull

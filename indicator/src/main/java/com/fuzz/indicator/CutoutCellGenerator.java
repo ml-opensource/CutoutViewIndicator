@@ -31,7 +31,7 @@ import android.view.ViewGroup;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public interface LayeredViewGenerator {
+public interface CutoutCellGenerator {
     /**
      * The caller will likely throw an Exception if the returned View is attached
      * to a {@link android.view.ViewParent}.

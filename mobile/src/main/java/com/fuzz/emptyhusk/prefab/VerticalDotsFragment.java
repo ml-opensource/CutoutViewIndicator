@@ -31,7 +31,7 @@ import android.view.ViewGroup;
 
 import com.fuzz.emptyhusk.R;
 import com.fuzz.indicator.CutoutViewIndicator;
-import com.fuzz.indicator.clip.ClippedImageViewGenerator;
+import com.fuzz.indicator.clip.ClippedImageCellGenerator;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -94,7 +94,7 @@ public class VerticalDotsFragment extends Fragment {
      * @param cvi             a new CutoutViewIndicator
      */
     private void initIndicator(@NonNull RecyclerView recyclerView, @NonNull CutoutViewIndicator cvi) {
-        cvi.setGenerator(new ClippedImageViewGenerator());
+        cvi.setGenerator(new ClippedImageCellGenerator());
         cvi.setBackgroundColor(Color.BLACK);
         cvi.setCellLength(WRAP_CONTENT);
         cvi.setPerpendicularLength(WRAP_CONTENT);

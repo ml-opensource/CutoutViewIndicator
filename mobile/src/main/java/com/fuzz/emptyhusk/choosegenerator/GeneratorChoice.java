@@ -17,10 +17,10 @@ package com.fuzz.emptyhusk.choosegenerator;
 
 import android.support.annotation.NonNull;
 
-import com.fuzz.indicator.LayeredViewGenerator;
+import com.fuzz.indicator.CutoutCellGenerator;
 
 /**
- * Simple object holding model data about a {@link LayeredViewGenerator}.
+ * Simple object holding model data about a {@link CutoutCellGenerator}.
  * <p>
  *     {@link #type} is a reference to the exact class this encapsulates,
  *     while {@link #description} is a user-friendly description of its
@@ -31,11 +31,11 @@ import com.fuzz.indicator.LayeredViewGenerator;
  */
 public class GeneratorChoice {
     @NonNull
-    protected final Class<? extends LayeredViewGenerator> type;
+    protected final Class<? extends CutoutCellGenerator> type;
     @NonNull
     protected final String description;
 
-    public GeneratorChoice(@NonNull Class<? extends LayeredViewGenerator> type, @NonNull String description) {
+    public GeneratorChoice(@NonNull Class<? extends CutoutCellGenerator> type, @NonNull String description) {
         this.type = type;
         this.description = description;
     }

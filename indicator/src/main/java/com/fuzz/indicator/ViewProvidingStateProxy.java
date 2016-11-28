@@ -13,7 +13,7 @@ public interface ViewProvidingStateProxy extends StateProxy {
     /**
      * In some use cases, it may be handy to have a reference to the original
      * View when binding a representation thereof. See
-     * {@link LayeredViewGenerator#onBindChild(View, CutoutViewLayoutParams, View)}
+     * {@link CutoutCellGenerator#onBindChild(View, CutoutViewLayoutParams, View)}
      * for details.
      *
      * @param cviPosition    position of a child within the CutoutViewIndicator

@@ -22,13 +22,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 /**
- * Default implementation of {@link LayeredViewGenerator}.
+ * Default implementation of {@link CutoutCellGenerator}.
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class ImageViewGenerator implements LayeredViewGenerator {
+public class ImageCellGenerator implements CutoutCellGenerator {
 
-    public ImageViewGenerator() {
+    public ImageCellGenerator() {
     }
 
     /**
@@ -47,7 +47,7 @@ public class ImageViewGenerator implements LayeredViewGenerator {
         child.setBackgroundResource(lp.cellBackgroundId);
         child.setImageResource(lp.indicatorDrawableId);
 
-        CutoutCell cutoutCell = createLayeredViewFor(child);
+        CutoutCell cutoutCell = createCellForExisting(child);
         lp.setViewHolder(cutoutCell);
         return cutoutCell;
     }
@@ -79,7 +79,7 @@ public class ImageViewGenerator implements LayeredViewGenerator {
      * implements CutoutCell in some way, it may be returned directly.
      */
     @NonNull
-    protected CutoutCell createLayeredViewFor(@NonNull ImageView child) {
+    protected CutoutCell createCellForExisting(@NonNull ImageView child) {
         return new CutoutImageCell(child);
     }
 
