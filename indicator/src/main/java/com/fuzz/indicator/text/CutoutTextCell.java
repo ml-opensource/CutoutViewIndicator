@@ -21,7 +21,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.widget.TextView;
 
-import com.fuzz.indicator.IndicatorViewHolder;
+import com.fuzz.indicator.TypicalCutoutCell;
 import com.fuzz.indicator.OffSetters;
 import com.fuzz.indicator.IndicatorOffsetEvent;
 
@@ -30,7 +30,7 @@ import com.fuzz.indicator.IndicatorOffsetEvent;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class CutoutTextCell extends IndicatorViewHolder<TextView> {
+public class CutoutTextCell extends TypicalCutoutCell<TextView> {
 
     public CutoutTextCell(@NonNull TextView child) {
         super(child);

@@ -48,7 +48,7 @@ public class ImageCellGenerator implements CutoutCellGenerator {
         child.setImageResource(lp.indicatorDrawableId);
 
         CutoutCell cutoutCell = createCellForExisting(child);
-        lp.setViewHolder(cutoutCell);
+        lp.setCutoutCell(cutoutCell);
         return cutoutCell;
     }
 

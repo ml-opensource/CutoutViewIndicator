@@ -74,7 +74,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * </p>
      */
     @NonNull
-    protected SparseArray<CutoutCell> holders = new SparseArray<>(5);
+    protected SparseArray<CutoutCell> cells = new SparseArray<>(5);
 
     /**
      * Default configuration used as a base for {@link #generateDefaultLayoutParams()}
@@ -125,7 +125,7 @@ public class CutoutViewIndicator extends LinearLayout {
             int childCount = getChildCount();
             int pageCount = getPageCount();
 
-            // Unlike in RecyclerView, the individual IndicatorViewHolders are considered interchangeable.
+            // Unlike in RecyclerView, the individual CutoutCells are considered interchangeable.
             // Therefore the only thing that matters here is how many views there are supposed to be on screen
 
             int newViews = pageCount - childCount;
@@ -134,27 +134,27 @@ public class CutoutViewIndicator extends LinearLayout {
                 // We're adding new views
                 for (int i = childCount; i < pageCount; i++) {
                     // This is a cached view
-                    CutoutCell ivh = holders.get(i);
+                    CutoutCell cell = cells.get(i);
 
-                    if (ivh == null || ivh.getItemView().getParent() != null) {
-                        // Current viewHolder is nonexistent or already in use elsewhere...create and add a new one!
-                        if (ivh != null && ivh.getItemView().getParent() == CutoutViewIndicator.this) {
+                    if (cell == null || cell.getItemView().getParent() != null) {
+                        // Current CutoutCell is nonexistent or already in use elsewhere...create and add a new one!
+                        if (cell != null && cell.getItemView().getParent() == CutoutViewIndicator.this) {
                             Log.w(TAG, "It would appear that the view at " + i + " was not removed properly.");
                         }
 
-                        ivh = createCellFor(i);
-                        holders.put(i, ivh);
+                        cell = createCellFor(i);
+                        cells.put(i, cell);
                     }
 
                     // This will invalidate the added view, triggering a call to this class's onMeasure()
-                    addView(ivh.getItemView(), i);
+                    addView(cell.getItemView(), i);
                 }
             } else if (newViews < 0) {
                 // We're removing views
                 removeViews(pageCount, -newViews);
                 // Make sure to null out those references to ViewHolders
                 for (int i = pageCount; i < childCount; i++) {
-                    unbindChild(holders.get(i));
+                    unbindChild(cells.get(i));
                 }
             } else {
                 // Quantity isn't changing.
@@ -266,7 +266,7 @@ public class CutoutViewIndicator extends LinearLayout {
      * <p>
      *     Note that all other addView methods will ultimately call into
      *     this one. Any child view that has not already been associated
-     *     with a CutoutCell via {@link #holders} will be forcibly
+     *     with a CutoutCell via {@link #cells} will be forcibly
      *     associated with one here (assuming a suitable implementation
      *     can be obtained).
      * </p>
@@ -275,15 +275,15 @@ public class CutoutViewIndicator extends LinearLayout {
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
         super.addView(child, index, params);
         // A CutoutCell's Views are always added at exact indices. If there is no value
-        // in this.holders for the given index, we need to set that right away.
+        // in this.cells for the given index, we need to set that right away.
         int realIndex = indexOfChild(child);
 
         CutoutViewLayoutParams lp = (CutoutViewLayoutParams) child.getLayoutParams();
 
-        if (holders.get(realIndex) == null) {
+        if (cells.get(realIndex) == null) {
             // This was NOT added via dataSetObserver! Flip a flag to ensure future recognition.
             lp.preservedDuringRebuild = true;
-            CutoutCell holder = lp.getViewHolder();
+            CutoutCell holder = lp.getCutoutCell();
             if (holder == null) {
                 if (child instanceof ImageView) {
                     holder = new CutoutImageCell((ImageView) child);
@@ -293,9 +293,9 @@ public class CutoutViewIndicator extends LinearLayout {
                 } else if (child instanceof CutoutCell) {
                     holder = (CutoutCell) child;
                 }
-                lp.setViewHolder(holder);
+                lp.setCutoutCell(holder);
             }
-            holders.put(realIndex, holder);
+            cells.put(realIndex, holder);
         }
     }
 
@@ -382,7 +382,7 @@ public class CutoutViewIndicator extends LinearLayout {
     public void unbindChild(CutoutCell ivh) {
         ViewGroup.LayoutParams lp = ivh.getItemView().getLayoutParams();
         if (checkLayoutParams(lp)) {
-            ((CutoutViewLayoutParams) lp).setViewHolder(null);
+            ((CutoutViewLayoutParams) lp).setCutoutCell(null);
         }
     }
 
@@ -415,12 +415,12 @@ public class CutoutViewIndicator extends LinearLayout {
      * not be replaced.
      */
     public void rebuildChildViews() {
-        SparseArray<CutoutCell> preserved = holders.clone();
-        holders.clear();
+        SparseArray<CutoutCell> preserved = cells.clone();
+        cells.clear();
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             if (((CutoutViewLayoutParams)child.getLayoutParams()).preservedDuringRebuild) {
-                holders.put(i, preserved.get(i));
+                cells.put(i, preserved.get(i));
             }
         }
         preserved.clear();
@@ -452,7 +452,7 @@ public class CutoutViewIndicator extends LinearLayout {
     protected CutoutCell createCellFor(int position) {
         CutoutCell cell = generator.createCellFor(this, position);
         CutoutViewLayoutParams lp = (CutoutViewLayoutParams) cell.getItemView().getLayoutParams();
-        lp.setViewHolder(cell);
+        lp.setCutoutCell(cell);
         return cell;
     }
 
@@ -494,7 +494,7 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     public void showOffsetIndicator(int position, IndicatorOffsetEvent offsetEvent) {
-        CutoutCell child = getViewHolderAt(position);
+        CutoutCell child = getCutoutCellAt(position);
         // We have something to draw
         if (child != null) {
             child.offsetContentBy(offsetEvent);
@@ -534,8 +534,8 @@ public class CutoutViewIndicator extends LinearLayout {
         }
 
         setDefaultChildParams(params);
-        for (int i = 0; i < holders.size(); i++) {
-            CutoutCell cutoutCell = holders.valueAt(i);
+        for (int i = 0; i < cells.size(); i++) {
+            CutoutCell cutoutCell = cells.valueAt(i);
             if (cutoutCell != null) {
                 CutoutViewLayoutParams childParams = (CutoutViewLayoutParams) cutoutCell.getItemView().getLayoutParams();
                 childParams.setFrom(params);
@@ -872,7 +872,7 @@ public class CutoutViewIndicator extends LinearLayout {
     public void ensureOnlyCurrentItemsSelected() {
         final float current = getCurrentIndicatorPosition();
         for (int i = 0; i < getChildCount(); i++) {
-            CutoutCell child = getViewHolderAt(i);
+            CutoutCell child = getCutoutCellAt(i);
             if (child != null) {
                 // offset outside the range -1..1 puts it just off-view (i.e. hiding it)
                 child.offsetContentBy(new IndicatorOffsetEvent(i, current - i, getOrientation()));
@@ -885,7 +885,7 @@ public class CutoutViewIndicator extends LinearLayout {
         CutoutViewLayoutParams params = null;
         float position = getCurrentIndicatorPosition();
         if (position >= 0) {
-            CutoutCell holder = getViewHolderAt((int) position);
+            CutoutCell holder = getCutoutCellAt((int) position);
             if (holder != null) {
                 params = (CutoutViewLayoutParams) holder.getItemView().getLayoutParams();
             }
@@ -894,8 +894,8 @@ public class CutoutViewIndicator extends LinearLayout {
     }
 
     @Nullable
-    private CutoutCell getViewHolderAt(int position) {
-        return holders.get(position);
+    private CutoutCell getCutoutCellAt(int position) {
+        return cells.get(position);
     }
 
     @Override

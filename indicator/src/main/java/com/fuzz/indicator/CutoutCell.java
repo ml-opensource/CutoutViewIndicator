@@ -20,6 +20,12 @@ import android.view.View;
 
 /**
  * Simple interface which views inside the {@link CutoutViewIndicator} should implement.
+ * <p>
+ *     Views may instead be wrapped in an implementation of this class before being
+ *     returned by the CutoutViewIndicator's {@link CutoutCellGenerator} - see
+ *     {@link CutoutViewIndicator#createCellFor(int)} and {@link TypicalCutoutCell}
+ *     for more details.
+ * </p>
  *
  * @author Philip Cohn-Cort (Fuzz)
  */

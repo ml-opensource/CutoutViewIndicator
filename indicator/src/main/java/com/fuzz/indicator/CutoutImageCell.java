@@ -25,7 +25,7 @@ import android.widget.ImageView;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class CutoutImageCell extends IndicatorViewHolder<ImageView> {
+public class CutoutImageCell extends TypicalCutoutCell<ImageView> {
 
     public CutoutImageCell(ImageView itemView) {
         super(itemView);

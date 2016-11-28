@@ -43,7 +43,7 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
     public int indicatorDrawableId;
 
     @NonNull
-    protected WeakReference<CutoutCell> viewHolder = new WeakReference<>(null);
+    protected WeakReference<CutoutCell> cutoutCell = new WeakReference<>(null);
 
     /**
      * Set this to true to prevent the attached view from being
@@ -135,20 +135,20 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
      *                       returns the same object that these LayoutParams
      *                       are set on.
      */
-    public void setViewHolder(@Nullable CutoutCell cutoutCell) {
-        this.viewHolder = new WeakReference<>(cutoutCell);
+    public void setCutoutCell(@Nullable CutoutCell cutoutCell) {
+        this.cutoutCell = new WeakReference<>(cutoutCell);
     }
 
     /**
-     * Getter counterpart to {@link #setViewHolder(CutoutCell)}. In general,
+     * Getter counterpart to {@link #setCutoutCell(CutoutCell)}. In general,
      * it is safe to assume that the value returned here is the same as that
      * most recently set.
      *
      * @return the associated CutoutCell if it has not been garbage-collected.
      */
     @Nullable
-    public CutoutCell getViewHolder() {
-        return viewHolder.get();
+    public CutoutCell getCutoutCell() {
+        return cutoutCell.get();
     }
 
     public void setFrom(@NonNull CutoutViewLayoutParams cutoutSource) {
@@ -157,7 +157,7 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
         internalSpacing = cutoutSource.internalSpacing;
         cellLength = cutoutSource.cellLength;
         perpendicularLength = cutoutSource.perpendicularLength;
-        viewHolder = cutoutSource.viewHolder;
+        cutoutCell = cutoutSource.cutoutCell;
     }
 
     /**
