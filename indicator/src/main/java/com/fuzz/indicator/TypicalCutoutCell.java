@@ -15,25 +15,32 @@
  */
 package com.fuzz.indicator;
 
-import android.graphics.Matrix;
 import android.support.annotation.NonNull;
-import android.widget.ImageView;
+import android.view.View;
 
 /**
- * A simple LayeredView implementation that performs a 2D-shift of
- * ImageView content over its background.
+ * Superclass for most cells in a {@link CutoutViewIndicator}. Of course,
+ * users of the library are welcome to implement their own
+ * {@link CutoutCell}s independently if they so desire.
+ * <p>
+ *     Subclasses should consider delegating their implementation of
+ *     {@link #offsetContentBy(IndicatorOffsetEvent)} to one of the
+ *     methods in {@link OffSetters}.
+ * </p>
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class LayeredImageViewHolder extends IndicatorViewHolder<ImageView> {
+public abstract class TypicalCutoutCell<Root extends View> implements CutoutCell {
+    @NonNull
+    protected final Root itemView;
 
-    public LayeredImageViewHolder(ImageView itemView) {
-        super(itemView);
+    public TypicalCutoutCell(@NonNull Root itemView) {
+        this.itemView = itemView;
     }
 
     @Override
-    public void offsetContentBy(@NonNull IndicatorOffsetEvent event) {
-        OffSetters.offsetImageBy(itemView, event.getOrientation(), event.getFraction(), new Matrix());
+    @NonNull
+    public Root getItemView() {
+        return itemView;
     }
-
 }

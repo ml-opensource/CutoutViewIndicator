@@ -18,10 +18,10 @@ package com.fuzz.indicator.style;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 
-import com.fuzz.indicator.text.LayeredTextViewHolder;
+import com.fuzz.indicator.text.CutoutTextCell;
 
 /**
- * Interface to be implemented by spans used in {@link LayeredTextViewHolder}.
+ * Interface to be implemented by spans used in {@link CutoutTextCell}.
  *
  * These are designed to be translated (in a 2-dimensional plane) above
  * their associated {@link android.text.Spannable Spannables}.

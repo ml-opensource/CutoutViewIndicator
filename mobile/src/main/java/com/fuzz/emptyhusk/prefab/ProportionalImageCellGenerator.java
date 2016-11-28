@@ -25,7 +25,7 @@ import android.widget.ImageView;
 
 import com.fuzz.emptyhusk.R;
 import com.fuzz.indicator.CutoutViewLayoutParams;
-import com.fuzz.indicator.clip.ClippedImageViewGenerator;
+import com.fuzz.indicator.clip.ClippedImageCellGenerator;
 
 /**
  * Generator for displaying clipped images which are proportional to
@@ -36,7 +36,7 @@ import com.fuzz.indicator.clip.ClippedImageViewGenerator;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class ProportionalImageViewGenerator extends ClippedImageViewGenerator {
+public class ProportionalImageCellGenerator extends ClippedImageCellGenerator {
 
     protected int rvLength;
     protected int rvChildLength;

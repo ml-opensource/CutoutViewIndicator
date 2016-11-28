@@ -15,31 +15,33 @@
  */
 package com.fuzz.indicator;
 
-import android.graphics.Matrix;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.ImageView;
 
 /**
- * ViewHolder for a {@link CutoutViewIndicator}.
- *
- * Can be used like a {@link android.widget.ProgressBar}, only more straightforward.
- * <br/><br/>
- * Call {@link OffSetters#offsetImageBy(ImageView, int, float, Matrix)} to offset an image over a static background.
+ * Simple interface which views inside the {@link CutoutViewIndicator} should implement.
+ * <p>
+ *     Views may instead be wrapped in an implementation of this class before being
+ *     returned by the CutoutViewIndicator's {@link CutoutCellGenerator} - see
+ *     {@link CutoutViewIndicator#createCellFor(int)} and {@link TypicalCutoutCell}
+ *     for more details.
+ * </p>
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public abstract class IndicatorViewHolder<Root extends View> implements LayeredView {
-    @NonNull
-    protected final Root itemView;
+public interface CutoutCell {
 
-    public IndicatorViewHolder(@NonNull Root itemView) {
-        this.itemView = itemView;
-    }
+    /**
+     * Perform some arbitrary action to represent the provided OffsetEvent.
+     *
+     * @param offsetEvent    whatever just happened
+     * @see OffSetters
+     */
+    void offsetContentBy(@NonNull IndicatorOffsetEvent offsetEvent);
 
-    @Override
+    /**
+     * @return the actual view represented by this object
+     */
     @NonNull
-    public Root getItemView() {
-        return itemView;
-    }
+    View getItemView();
 }

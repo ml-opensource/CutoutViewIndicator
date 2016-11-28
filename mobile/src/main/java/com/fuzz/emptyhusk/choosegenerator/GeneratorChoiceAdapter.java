@@ -22,11 +22,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fuzz.emptyhusk.BoldTextViewGenerator;
+import com.fuzz.emptyhusk.BoldTextCellGenerator;
 import com.fuzz.emptyhusk.R;
-import com.fuzz.indicator.ImageViewGenerator;
-import com.fuzz.indicator.LayeredViewGenerator;
-import com.fuzz.indicator.clip.ClippedImageViewGenerator;
+import com.fuzz.indicator.ImageCellGenerator;
+import com.fuzz.indicator.CutoutCellGenerator;
+import com.fuzz.indicator.clip.ClippedImageCellGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,15 +40,15 @@ public class GeneratorChoiceAdapter extends RecyclerView.Adapter {
     private List<GeneratorChoice> choices = new ArrayList<>();
 
     @NonNull
-    private Class<? extends LayeredViewGenerator> chosen = ImageViewGenerator.class;
+    private Class<? extends CutoutCellGenerator> chosen = ImageCellGenerator.class;
 
     public GeneratorChoiceAdapter() {
-        choices.add(new GeneratorChoice(ImageViewGenerator.class, "Creates simple ImageViews. These are offset with X or Y translations. A classic choice with static background and dynamic content."));
-        choices.add(new GeneratorChoice(ClippedImageViewGenerator.class, "Creates ClippedImageViews. These are offset with X or Y translations. Stylish, yet ever so slightly heavier memory-wise than ImageViewGenerator."));
-        choices.add(new GeneratorChoice(BoldTextViewGenerator.class, "Creates TextViews with bold text. The bold sections are offset in a dynamic manner within the TextViews' text. Rather new and difficult to master."));
+        choices.add(new GeneratorChoice(ImageCellGenerator.class, "Creates simple ImageViews. These are offset with X or Y translations. A classic choice with static background and dynamic content."));
+        choices.add(new GeneratorChoice(ClippedImageCellGenerator.class, "Creates ClippedImageViews. These are offset with X or Y translations. Stylish, yet ever so slightly heavier memory-wise than ImageCellGenerator."));
+        choices.add(new GeneratorChoice(BoldTextCellGenerator.class, "Creates TextViews with bold text. The bold sections are offset in a dynamic manner within the TextViews' text. Rather new and difficult to master."));
     }
 
-    public void setChosen(@NonNull Class<? extends LayeredViewGenerator> chosen) {
+    public void setChosen(@NonNull Class<? extends CutoutCellGenerator> chosen) {
         int oldPosition = indexOf(this.chosen);
         int newPosition = indexOf(chosen);
         this.chosen = chosen;
@@ -61,7 +61,7 @@ public class GeneratorChoiceAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private int indexOf(Class<? extends LayeredViewGenerator> chosen) {
+    private int indexOf(Class<? extends CutoutCellGenerator> chosen) {
         int position = -1;
         for (int i = 0; i < choices.size(); i++) {
             GeneratorChoice choice = choices.get(i);
@@ -98,7 +98,7 @@ public class GeneratorChoiceAdapter extends RecyclerView.Adapter {
     }
 
     @NonNull
-    public Class<? extends LayeredViewGenerator> getChosen() {
+    public Class<? extends CutoutCellGenerator> getChosen() {
         return chosen;
     }
 

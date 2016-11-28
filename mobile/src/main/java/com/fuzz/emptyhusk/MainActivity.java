@@ -34,7 +34,7 @@ import com.fuzz.emptyhusk.prefab.PlainActivity;
 import com.fuzz.emptyhusk.prefab.InlineViewPagerIndicatorFragment;
 import com.fuzz.emptyhusk.prefab.VerticalDotsFragment;
 import com.fuzz.indicator.CutoutViewIndicator;
-import com.fuzz.indicator.LayeredViewGenerator;
+import com.fuzz.indicator.CutoutCellGenerator;
 
 /**
  * Entry point into the sample application. This is designed to cover all the basic
@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
 
     protected PickerDelegate pickerDelegate;
 
-    protected OnSelectedListener<Class<? extends LayeredViewGenerator>> onGeneratorSelectedListener
-            = new OnSelectedListener<Class<? extends LayeredViewGenerator>>() {
+    protected OnSelectedListener<Class<? extends CutoutCellGenerator>> onGeneratorSelectedListener
+            = new OnSelectedListener<Class<? extends CutoutCellGenerator>>() {
         @Override
-        public void onSelected(@NonNull Class<? extends LayeredViewGenerator> chosen) {
+        public void onSelected(@NonNull Class<? extends CutoutCellGenerator> chosen) {
             try {
                 binding.cvi.setGenerator(chosen.newInstance());
             } catch (Exception e) {

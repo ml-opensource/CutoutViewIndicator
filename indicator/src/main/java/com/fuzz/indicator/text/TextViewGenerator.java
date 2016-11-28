@@ -25,25 +25,25 @@ import android.widget.TextView;
 
 import com.fuzz.indicator.CutoutViewIndicator;
 import com.fuzz.indicator.CutoutViewLayoutParams;
-import com.fuzz.indicator.LayeredView;
-import com.fuzz.indicator.LayeredViewGenerator;
+import com.fuzz.indicator.CutoutCell;
+import com.fuzz.indicator.CutoutCellGenerator;
 
 /**
  * This generator is intended to animate stuff on TextViews
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public abstract class TextViewGenerator implements LayeredViewGenerator {
+public abstract class TextViewGenerator implements CutoutCellGenerator {
     @NonNull
     @Override
-    public LayeredView createCellFor(@NonNull ViewGroup parent, int position) {
+    public CutoutCell createCellFor(@NonNull ViewGroup parent, int position) {
         CutoutViewLayoutParams lp = ((CutoutViewIndicator) parent).generateDefaultLayoutParams();
 
         TextView child = new TextView(parent.getContext());
         child.setText(getTextFor(parent.getContext(), position));
         child.setLayoutParams(lp);
 
-        return new LayeredTextViewHolder(child);
+        return new CutoutTextCell(child);
     }
 
     @NonNull

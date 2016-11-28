@@ -28,7 +28,7 @@
         <!-- width of each individual cell -->
         <attr name="rcv_width" format="dimension" />
 
-        <!-- class name of a preferred LayeredViewGenerator (defaults to ImageViewGenerator) -->
+        <!-- class name of a preferred CutoutCellGenerator (defaults to ImageCellGenerator) -->
         <attr name="rcv_generator_class_name" format="string" />
 
         <!-- space between successive cells -->

@@ -63,7 +63,7 @@ public class NarrowerSegmentsFragment extends Fragment {
             final CutoutViewIndicator cvi = (CutoutViewIndicator) view.findViewById(R.id.cutoutViewIndicator);
             initIndicator(recyclerView, cvi);
 
-            cvi.setGenerator(new ProportionalImageViewGenerator());
+            cvi.setGenerator(new ProportionalImageCellGenerator());
         }
     }
 

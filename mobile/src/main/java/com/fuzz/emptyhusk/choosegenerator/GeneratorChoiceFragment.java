@@ -28,13 +28,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 
 import com.fuzz.emptyhusk.R;
-import com.fuzz.indicator.LayeredViewGenerator;
+import com.fuzz.indicator.CutoutCellGenerator;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 
 /**
  * A specialised dialog to bring up a {@link GeneratorChoiceAdapter}, allowing the user
- * to select among the demo implementations of {@link LayeredViewGenerator} included
+ * to select among the demo implementations of {@link CutoutCellGenerator} included
  * in this app.
  * <p>
  *     Please create instances via the static {@link #newInstance(Class)} method - this
@@ -54,9 +54,9 @@ public class GeneratorChoiceFragment extends DialogFragment {
     protected GeneratorChoiceAdapter adapter = new GeneratorChoiceAdapter();
 
     @Nullable
-    protected OnSelectedListener<Class<? extends LayeredViewGenerator>> onSelectedListener;
+    protected OnSelectedListener<Class<? extends CutoutCellGenerator>> onSelectedListener;
 
-    public static GeneratorChoiceFragment newInstance(@NonNull Class<? extends LayeredViewGenerator> present) {
+    public static GeneratorChoiceFragment newInstance(@NonNull Class<? extends CutoutCellGenerator> present) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_PRESELECT, present);
 
@@ -65,7 +65,7 @@ public class GeneratorChoiceFragment extends DialogFragment {
         return fragment;
     }
 
-    public void setOnSelectedListener(@Nullable OnSelectedListener<Class<? extends LayeredViewGenerator>> onSelectedListener) {
+    public void setOnSelectedListener(@Nullable OnSelectedListener<Class<? extends CutoutCellGenerator>> onSelectedListener) {
         this.onSelectedListener = onSelectedListener;
     }
 
@@ -108,11 +108,11 @@ public class GeneratorChoiceFragment extends DialogFragment {
     }
 
     @NonNull
-    private Class<? extends LayeredViewGenerator> getChosenFrom(@Nullable Bundle bundle) {
-        Class<? extends LayeredViewGenerator> chosen = null;
+    private Class<? extends CutoutCellGenerator> getChosenFrom(@Nullable Bundle bundle) {
+        Class<? extends CutoutCellGenerator> chosen = null;
         if (bundle != null) {
             //noinspection unchecked
-            chosen = (Class<? extends LayeredViewGenerator>) bundle.getSerializable(ARG_PRESELECT);
+            chosen = (Class<? extends CutoutCellGenerator>) bundle.getSerializable(ARG_PRESELECT);
         }
         if (chosen == null) {
             throw new IllegalStateException("This class must be seeded with a non-null preselection.");

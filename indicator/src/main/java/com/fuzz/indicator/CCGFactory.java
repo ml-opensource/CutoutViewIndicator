@@ -9,12 +9,12 @@ import java.lang.reflect.InvocationTargetException;
 import static com.fuzz.indicator.reflect.ReConstructor.constructFrom;
 
 /**
- * Reflection-based utility class for creating {@link LayeredViewGenerator}s on
+ * Reflection-based utility class for creating {@link CutoutCellGenerator}s on
  * the fly. May be called by the constructors in {@link CutoutViewIndicator}.
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class LVGFactory {
+public class CCGFactory {
 
     public static void constructGeneratorFrom(
             @NonNull Context context,
@@ -23,23 +23,23 @@ public class LVGFactory {
             @NonNull String generatorName,
             @NonNull ConstructorCallback callback
     ) {
-        LayeredViewGenerator generator = null;
+        CutoutCellGenerator generator = null;
 
         String message = "";
         try {
-            generator = constructFrom(LayeredViewGenerator.class, context, attrs, defStyleAttr, generatorName);
+            generator = constructFrom(CutoutCellGenerator.class, context, attrs, defStyleAttr, generatorName);
         } catch (ClassNotFoundException ignored) {
-            message = "The specified LayeredViewGenerator cannot be found." +
+            message = "The specified CutoutCellGenerator cannot be found." +
                     " Make sure the class reference on rcv_generator_class_name" +
                     " (\'" + generatorName + "\')" +
                     " matches a class in the same ClassLoader as this layout's" +
                     " context.";
         } catch (InvocationTargetException ite) {
-            message = "The constructor of the new LayeredViewGenerator threw this: " + ite.getCause();
+            message = "The constructor of the new CutoutCellGenerator threw this: " + ite.getCause();
         } catch (Exception e) {
             message = "The following arose while trying to resolve the" +
                     " the rcv_generator_class_name=\"" + generatorName +
-                    "\" attribute as a LayeredViewGenerator: " + e.toString();
+                    "\" attribute as a CutoutCellGenerator: " + e.toString();
         } finally {
             if (generator == null) {
                 message += "\nCutoutViewIndicator didn't have access to a working" +

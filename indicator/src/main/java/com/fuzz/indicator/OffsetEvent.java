@@ -19,7 +19,7 @@ import android.graphics.Matrix;
 import android.text.Spannable;
 import android.widget.ImageView;
 
-import com.fuzz.indicator.text.LayeredTextViewHolder;
+import com.fuzz.indicator.text.CutoutTextCell;
 
 /**
  * This represents a single action or {@link android.view.MotionEvent} or whatever
@@ -30,12 +30,12 @@ import com.fuzz.indicator.text.LayeredTextViewHolder;
  */
 public interface OffsetEvent {
     /**
-     * If this is being used in a {@link LayeredImageViewHolder}, this fraction is multiplied
+     * If this is being used in a {@link CutoutImageCell}, this fraction is multiplied
      * by the {@link ImageView#getDrawable()} width/height to get a pixel offset - this
      * is then applied directly to the ImageView's Matrix via
      * {@link OffSetters#offsetImageBy(ImageView, int, float, Matrix)}.
      * <p>
-     *     {@link LayeredTextViewHolder} gets a similar treatment, except with
+     *     {@link CutoutTextCell} gets a similar treatment, except with
      *     spans instead of a Drawable. Details of that can be read from the
      *     javadoc for {@link OffSetters#offsetSpansBy(Spannable, float)}.
      * </p>
