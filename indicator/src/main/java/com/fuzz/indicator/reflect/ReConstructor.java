@@ -20,6 +20,15 @@ import static java.lang.reflect.Modifier.isPublic;
  *     Note that this class is intended for use by {@link android.view.View}
  *     subclasses, specifically when parsing xml. It's a bit heavy otherwise.
  * </p>
+ * <p>
+ *     Supported constructors (in order of precedence - only the first valid constructor will be called):
+ *     <ol>
+ *         <li>targetName(Context, AttributeSet, int)</li>
+ *         <li>targetName(Context, AttributeSet)</li>
+ *         <li>targetName(Context)</li>
+ *         <li>targetName()</li>
+ *     </ol>
+ * </p>
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
