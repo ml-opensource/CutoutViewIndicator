@@ -107,10 +107,10 @@ public class CutoutViewIndicator extends LinearLayout {
      * @see #showOffsetIndicator(int, float)
      */
     @NonNull
-    protected LayeredViewGenerator generator = new ImageViewGenerator();
+    protected LayeredViewGenerator generator;
 
     @NonNull
-    protected LayoutLogger logger = LayoutLogger.getPreferred(isInEditMode());
+    protected LayoutLogger logger;
 
     protected DataSetObserver dataSetObserver = new DataSetObserver() {
         /**
@@ -187,19 +187,27 @@ public class CutoutViewIndicator extends LinearLayout {
 
     public CutoutViewIndicator(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        logger = LayoutLogger.getPreferred(isInEditMode());
+        generator = new ImageViewGenerator();
         defaultChildParams = new CutoutViewLayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-        init(context, attrs);
+
+        init(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public CutoutViewIndicator(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+
+        logger = LayoutLogger.getPreferred(isInEditMode());
+        generator = new ImageViewGenerator();
         defaultChildParams = new CutoutViewLayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-        init(context, attrs);
+
+        init(context, attrs, defStyleAttr);
     }
 
     @SuppressWarnings("ResourceType")
-    protected void init(Context context, AttributeSet attrs) {
+    protected void init(Context context, AttributeSet attrs, int defStyleAttr) {
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CutoutViewIndicator);
             setIndicatorDrawableId(a.getResourceId(R.styleable.CutoutViewIndicator_rcv_drawable, 0));
@@ -216,6 +224,28 @@ public class CutoutViewIndicator extends LinearLayout {
 
             if (isInEditMode()) {
                 editModePageCount = a.getInteger(R.styleable.CutoutViewIndicator_rcv_tools_indicator_count, 2);
+            }
+
+            String generatorName = a.getString(R.styleable.CutoutViewIndicator_rcv_generator_class_name);
+            if (generatorName != null) {
+                LVGFactory.constructGeneratorFrom(context, attrs, defStyleAttr, generatorName, new ConstructorCallback() {
+                    @Override
+                    public void onGenerated(@NonNull LayeredViewGenerator generated) {
+                        CutoutViewIndicator.this.generator = generated;
+                    }
+
+                    @Override
+                    public void onFailed(@NonNull String message) {
+                        if (!message.isEmpty()) {
+                            Log.e(TAG, message);
+                            if (isInEditMode()) {
+                                String tag = "resources.invalid";
+                                logger.logToLayoutLib(tag, message);
+                            }
+                        }
+                    }
+                });
+
             }
 
             setCellBackgroundId(a.getResourceId(R.styleable.CutoutViewIndicator_rcv_drawable_unselected, 0));

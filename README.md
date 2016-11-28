@@ -150,6 +150,6 @@ especially [ViewPagerIndicator][5].
 
  [1]: https://developer.android.com/reference/android/support/v4/view/ViewPager.html
  [2]: https://github.com/eccyan/SpinningTabStrip
- [3]: indicator/src/main/java/com/fuzz/indicator/CutoutViewIndicator.java#L362
+ [3]: indicator/src/main/java/com/fuzz/indicator/CutoutViewIndicator.java#L593
  [4]: mobile/src/main/java/com/fuzz/emptyhusk/prefab/RecyclerStateProxy.java
  [5]: https://github.com/JakeWharton/ViewPagerIndicator

@@ -28,6 +28,9 @@
         <!-- width of each individual cell -->
         <attr name="rcv_width" format="dimension" />
 
+        <!-- class name of a preferred LayeredViewGenerator (defaults to ImageViewGenerator) -->
+        <attr name="rcv_generator_class_name" format="string" />
+
         <!-- space between successive cells -->
         <attr name="rcv_internal_margin" format="dimension" />
 
