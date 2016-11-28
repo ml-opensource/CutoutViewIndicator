@@ -4,8 +4,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 /**
- * This test should throw an exception in the constructor if a mocked
- * {@link AttributeSet} is passed in.
+ * Sample class instantiated via reflection by {@link ReConstructorTest}.
+ * <p>
+ *     This test should throw an exception in the constructor if
+ *     either parameter is non-null.
+ * </p>
  *
  * @author Philip Cohn-Cort (Fuzz)
  */

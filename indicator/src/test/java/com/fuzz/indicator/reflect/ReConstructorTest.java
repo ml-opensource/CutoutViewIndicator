@@ -199,7 +199,7 @@ public class ReConstructorTest {
                 PublicConstructorClass.class.getName()
         );
 
-        // One constructor, public
+        // One public no-args constructor, one private constructor
         assertNotNull("ReConstructor should instantiate a class with a valid public constructor.", constructed);
         assertThat(constructed, instanceOf(PublicConstructorClass.class));
         assertNull("ReConstructor should not call any private constructors", ((PublicConstructorClass) constructed).context);

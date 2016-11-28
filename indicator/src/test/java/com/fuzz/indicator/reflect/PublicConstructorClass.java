@@ -3,8 +3,11 @@ package com.fuzz.indicator.reflect;
 import android.content.Context;
 
 /**
- * This can be instantiated via reflection only with the
- * {@link #PublicConstructorClass()} constructor.
+ * Sample class instantiated via reflection by {@link ReConstructorTest}.
+ * <p>
+ *     This can be instantiated via reflection, but only with
+ *     {@link #PublicConstructorClass() one specific constructor}.
+ * </p>
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
