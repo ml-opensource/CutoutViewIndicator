@@ -93,6 +93,8 @@ task javadoc(type: Javadoc) {
     // Javadoc will error out for terrible reasons. We can't let it break the build indiscriminately
     failOnError false
 
+    options.charSet = 'UTF-8'
+
     // The JDK 8 doc lint tool is useless for validating html. Disable just that.
     // Credit for this solution goes to http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html
     // Incidentally, I have no idea what the second parameter ('-quiet') means in this context.
