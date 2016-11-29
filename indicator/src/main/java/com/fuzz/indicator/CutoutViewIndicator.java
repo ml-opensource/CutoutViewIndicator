@@ -152,7 +152,7 @@ public class CutoutViewIndicator extends LinearLayout {
             } else if (newViews < 0) {
                 // We're removing views
                 removeViews(pageCount, -newViews);
-                // Make sure to null out those references to ViewHolders
+                // Make sure to null out those references to CutoutCells
                 for (int i = pageCount; i < childCount; i++) {
                     unbindChild(cells.get(i));
                 }
@@ -283,19 +283,19 @@ public class CutoutViewIndicator extends LinearLayout {
         if (cells.get(realIndex) == null) {
             // This was NOT added via dataSetObserver! Flip a flag to ensure future recognition.
             lp.preservedDuringRebuild = true;
-            CutoutCell holder = lp.getCutoutCell();
-            if (holder == null) {
+            CutoutCell cell = lp.getCutoutCell();
+            if (cell == null) {
                 if (child instanceof ImageView) {
-                    holder = new CutoutImageCell((ImageView) child);
-                    warnAboutMisuseOf((ImageView) child, holder);
+                    cell = new CutoutImageCell((ImageView) child);
+                    warnAboutMisuseOf((ImageView) child, cell);
                 } else if (child instanceof TextView) {
-                    holder = new CutoutTextCell((TextView) child);
+                    cell = new CutoutTextCell((TextView) child);
                 } else if (child instanceof CutoutCell) {
-                    holder = (CutoutCell) child;
+                    cell = (CutoutCell) child;
                 }
-                lp.setCutoutCell(holder);
+                lp.setCutoutCell(cell);
             }
-            cells.put(realIndex, holder);
+            cells.put(realIndex, cell);
         }
     }
 
@@ -304,10 +304,10 @@ public class CutoutViewIndicator extends LinearLayout {
      * warnings or errors due to misuse of the {@link CutoutCell}.....contract.
      *
      * @param child    the child view in question
-     * @param holder   that child's CutoutCell (usually accessible through its LayoutParams)
+     * @param cell     that child's CutoutCell (usually accessible through its LayoutParams)
      */
-    public void warnAboutMisuseOf(ImageView child, CutoutCell holder) {
-        if (holder.getClass() == CutoutImageCell.class
+    public void warnAboutMisuseOf(ImageView child, CutoutCell cell) {
+        if (cell.getClass() == CutoutImageCell.class
                 && child.getScaleType() != ImageView.ScaleType.MATRIX) {
             String tag = "resources.insufficient";
             String message = "Only child ImageViews with a MATRIX scaleType are respected by" +
@@ -825,12 +825,12 @@ public class CutoutViewIndicator extends LinearLayout {
             newStateProxy.associateWith(dataSetObserver);
             dataSetObserver.onChanged();
             getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @SuppressWarnings("deprecation")
                 @Override
                 public void onGlobalLayout() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     } else {
-                        //noinspection deprecation
                         getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
 
@@ -885,9 +885,9 @@ public class CutoutViewIndicator extends LinearLayout {
         CutoutViewLayoutParams params = null;
         float position = getCurrentIndicatorPosition();
         if (position >= 0) {
-            CutoutCell holder = getCutoutCellAt((int) position);
-            if (holder != null) {
-                params = (CutoutViewLayoutParams) holder.getItemView().getLayoutParams();
+            CutoutCell cell = getCutoutCellAt((int) position);
+            if (cell != null) {
+                params = (CutoutViewLayoutParams) cell.getItemView().getLayoutParams();
             }
         }
         return params;

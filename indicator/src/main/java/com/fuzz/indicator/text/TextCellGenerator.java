@@ -33,7 +33,7 @@ import com.fuzz.indicator.CutoutCellGenerator;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public abstract class TextViewGenerator implements CutoutCellGenerator {
+public abstract class TextCellGenerator implements CutoutCellGenerator {
     @NonNull
     @Override
     public CutoutCell createCellFor(@NonNull ViewGroup parent, int position) {
