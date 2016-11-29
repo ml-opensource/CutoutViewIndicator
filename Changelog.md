@@ -1,10 +1,16 @@
-# [0.5.x SNAPSHOT]
+# [0.6.x SNAPSHOT]
+
+# [0.6.0]
 ## Rename classes
 
 ### Library changes:
 * Rename: `LayeredView` -> `CutoutCell` ([#42])
 * Rename: `LayeredViewGenerator` -> `CutoutCellGenerator` ([#42])
+* Rename: `IndicatorViewHolder` -> `TypicalCutoutCell` ([#42])
+* Rename: `BoldTextViewGenerator` -> `BoldTextCellGenerator` ([#42])
+* Rename: `holder` -> `cell` ([#42])
 * Allow xml definition of `LayeredViewGenerator` implementation ([#38])
+* Fixed bug: `CutoutViewIndicator` javadoc encoding looks bad ([#42])
 
 # [0.5.1]
 ## Correct javadoc problems
