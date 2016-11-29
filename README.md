@@ -1,6 +1,8 @@
 Flexible Indicators for Android
 ===============================
 
+[![Build Status](https://travis-ci.org/fuzz-productions/CutoutViewIndicator.svg?branch=master)](https://travis-ci.org/fuzz-productions/CutoutViewIndicator)
+
 These indicators animate every little touch on your [ViewPager][1].
 
 Want to use a [SpinningViewPager][2] instead? Just [enable an offset][3]
@@ -58,7 +60,7 @@ repositories {
 ```
 ```
 dependencies {
-    compile 'com.github.fuzz-productions:CutoutViewIndicator:v0.5.1'
+    compile 'com.github.fuzz-productions:CutoutViewIndicator:v0.6.0'
 }
 ```
 
