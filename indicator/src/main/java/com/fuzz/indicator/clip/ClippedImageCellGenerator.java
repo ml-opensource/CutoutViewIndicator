@@ -24,7 +24,7 @@ import com.fuzz.indicator.widget.ClippedImageView;
 
 /**
  * Proxy variant of {@link ImageCellGenerator} that creates
- * ClippedImageViews
+ * {@link ClippedImageView ClippedImageViews}
  * in {@link #createChildFor(ViewGroup, int)}.
  *
  * @author Philip Cohn-Cort (Fuzz)
