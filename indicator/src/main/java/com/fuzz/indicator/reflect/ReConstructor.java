@@ -79,6 +79,7 @@ public class ReConstructor<T> {
         return factory.constructWithReflectionFrom(generatorClass, context, attrs, defStyleAttr);
     }
 
+    @SuppressWarnings("unchecked")
     @NonNull
     private Class<? extends T> loadClassIn(
             @NonNull String targetName,
@@ -86,7 +87,7 @@ public class ReConstructor<T> {
     ) throws ClassNotFoundException, ClassCastException {
         Class<?> loaded = classLoader.loadClass(targetName);
         if (assignableClass.isAssignableFrom(loaded)) {
-            //noinspection unchecked - the isAssignableFrom call above guarantees that this cast is safe
+            // the isAssignableFrom call above guarantees that this cast is safe
             return (Class<? extends T>) loaded;
         } else {
             throw new ClassCastException("The class " + targetName + " does not extend " + assignableClass.getSimpleName() + ".");

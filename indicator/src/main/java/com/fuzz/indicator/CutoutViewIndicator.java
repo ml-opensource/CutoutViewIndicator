@@ -825,12 +825,12 @@ public class CutoutViewIndicator extends LinearLayout {
             newStateProxy.associateWith(dataSetObserver);
             dataSetObserver.onChanged();
             getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @SuppressWarnings("deprecation")
                 @Override
                 public void onGlobalLayout() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     } else {
-                        //noinspection deprecation
                         getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
 
