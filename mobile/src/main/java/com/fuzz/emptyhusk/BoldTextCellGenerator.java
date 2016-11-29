@@ -24,7 +24,7 @@ import android.text.style.ForegroundColorSpan;
 
 import com.fuzz.indicator.style.MigratoryRange;
 import com.fuzz.indicator.style.MigratoryStyleSpan;
-import com.fuzz.indicator.text.TextViewGenerator;
+import com.fuzz.indicator.text.TextCellGenerator;
 
 import static android.graphics.Typeface.BOLD;
 
@@ -33,7 +33,7 @@ import static android.graphics.Typeface.BOLD;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class BoldTextCellGenerator extends TextViewGenerator {
+public class BoldTextCellGenerator extends TextCellGenerator {
     @NonNull
     @Override
     protected Spannable getTextFor(@NonNull Context context, int position) {
