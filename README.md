@@ -11,10 +11,11 @@ these params and Android's View save/restore state logic will keep
 them in order.
 
 You can define each cell directly in your xml file, or add them manually.
-Note that right now, the Generators shipped with this library only
-support ImageViews and TextViews.
+Note that the Generators shipped with this library only support
+ImageViews and TextViews. We expect the vast majority of integrations
+will be satisfied with the default Generator choices.
 
-There is experimental support for RecyclerViews in the included
+There is functional support for RecyclerViews in the included
 mobile app code - check out [RecyclerStateProxy][4] for details.
 
 Pictures:
@@ -30,12 +31,12 @@ the ViewPager page to new views. The orange bar underneath reliably
 indicates exactly which page is currently showing, mimicking the
 slightest perturbation in the ViewPager](http://i.imgur.com/fKOez3z.gif)
 
-![Sample scrolling effect with ClippedImageViewGenerator and
+![Sample scrolling effect with ClippedImageCellGenerator and
 RecyclerView. The RecyclerView scrolls vertically through colored
 rectangles, each a child View, each equal in width and height to the
 RecyclerView itself. An indicator on the left side mirrors these
 movements with a star-shaped indicator. Thanks to the
-ClippedImageViewGenerator, the star appears to move under the views,
+ClippedImageCellGenerator, the star appears to move under the views,
 showing only half of itself when half of the associated cell
 is visible.](http://i.imgur.com/WwhvqT3.gif)
 
@@ -122,13 +123,30 @@ set your own Generator on the object.
 cvi.setGenerator(new GifGenerator());
 ```
 
-`ImageViewGenerator` is designed for extensibility - consider
+`ImageCellGenerator` is designed for extensibility - consider
 subclassing your custom Generator from that if its views extend
 ImageView.
 
-The base library also ships with an experimental LayoutViewGenerator
-called `TextViewGenerator`. Check out the javadoc for details on how
+The base library also ships with an experimental CutoutCellGenerator
+called `TextCellGenerator`. Check out the javadoc for details on how
 to work with it.
+
+License
+-------
+
+    Copyright 2016 Philip Cohn-Cort and Fuzz Productions
+    
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 
 Caveats
 -------
@@ -145,7 +163,7 @@ Credit:
 -------
 
 This project was inspired by the work of others in the Android community,
-especially [ViewPagerIndicator][5].
+especially [ViewPagerIndicator][5] and [AvatarImageView][6].
 
 
  [1]: https://developer.android.com/reference/android/support/v4/view/ViewPager.html
@@ -153,3 +171,4 @@ especially [ViewPagerIndicator][5].
  [3]: indicator/src/main/java/com/fuzz/indicator/CutoutViewIndicator.java#L593
  [4]: mobile/src/main/java/com/fuzz/emptyhusk/prefab/RecyclerStateProxy.java
  [5]: https://github.com/JakeWharton/ViewPagerIndicator
+ [6]: https://github.com/fanrunqi/AvatarImageView
