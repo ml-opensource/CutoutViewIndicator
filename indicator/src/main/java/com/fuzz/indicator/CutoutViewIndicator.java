@@ -541,6 +541,7 @@ public class CutoutViewIndicator extends LinearLayout {
             if (cutoutCell != null) {
                 CutoutViewLayoutParams childParams = (CutoutViewLayoutParams) cutoutCell.getItemView().getLayoutParams();
                 childParams.setFrom(params);
+                childParams.setCutoutCell(cutoutCell);
             }
         }
 
