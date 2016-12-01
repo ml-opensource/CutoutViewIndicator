@@ -87,7 +87,23 @@ public class ImageCellGenerator implements CutoutCellGenerator {
     public void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp, @Nullable View originator) {
         child.setBackgroundResource(lp.cellBackgroundId);
         if (child instanceof ImageView) {
-            ((ImageView) child).setImageResource(lp.indicatorDrawableId);
+            bindImageToChild((ImageView) child, lp);
+        }
+    }
+
+    /**
+     * Delegated method of {@link #onBindChild(View, CutoutViewLayoutParams, View)} that actually
+     * sets the image from {@link CutoutViewLayoutParams#indicatorDrawableId} on {@code child}.
+     *
+     * @param child    the targeted view
+     * @param lp       that view's LayoutParams
+     */
+    protected void bindImageToChild(@NonNull ImageView child, @NonNull CutoutViewLayoutParams lp) {
+        CutoutCell cell = lp.getCutoutCell();
+        if (cell instanceof CutoutImageCell) {
+            ((CutoutImageCell)cell).updateDrawable(lp);
+        } else {
+            child.setImageResource(lp.indicatorDrawableId);
         }
     }
 }
