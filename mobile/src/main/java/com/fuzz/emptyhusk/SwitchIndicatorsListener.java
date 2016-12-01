@@ -69,6 +69,13 @@ class SwitchIndicatorsListener implements View.OnClickListener {
             storage.addLast(vectors);
         }
 
+        CutoutViewLayoutParams repeating = cvi.generateDefaultLayoutParams();
+        repeating.indicatorDrawableId = R.drawable.animated_primary_secondary_tertiary;
+        repeating.cellBackgroundId = R.drawable.white_circle;
+        repeating.perpendicularLength = circleDiameter;
+        repeating.cellLength = circleDiameter;
+        storage.addLast(repeating);
+
         // The rectangle params should be at the end of the array when this constructor returns.
         CutoutViewLayoutParams rectangles = cvi.generateDefaultLayoutParams();
         rectangles.indicatorDrawableId = R.drawable.rectangle_accent;
