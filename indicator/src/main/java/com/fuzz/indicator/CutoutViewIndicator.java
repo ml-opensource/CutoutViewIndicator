@@ -327,6 +327,7 @@ public class CutoutViewIndicator extends LinearLayout {
     protected void bindChild(int position, View child) {
         CutoutViewLayoutParams lp;
         lp = CutoutViewLayoutParams.from(child.getLayoutParams());
+        lp.position = position;
 
         int cellLength;
         int perpendicularLength;
@@ -376,13 +377,14 @@ public class CutoutViewIndicator extends LinearLayout {
     /**
      * Unbinding counterpart to {@link #bindChild(int, View)}.
      *
-     * @param ivh    a {@link CutoutCell} originally returned
-     *               by {@link #createCellFor(int)}.
+     * @param cell    a {@link CutoutCell} originally returned
+     *                by {@link #createCellFor(int)}.
      */
-    public void unbindChild(CutoutCell ivh) {
-        ViewGroup.LayoutParams lp = ivh.getItemView().getLayoutParams();
+    public void unbindChild(CutoutCell cell) {
+        ViewGroup.LayoutParams lp = cell.getItemView().getLayoutParams();
         if (checkLayoutParams(lp)) {
             ((CutoutViewLayoutParams) lp).setCutoutCell(null);
+            ((CutoutViewLayoutParams) lp).position = -1;
         }
     }
 

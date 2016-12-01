@@ -55,6 +55,18 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
     public boolean preservedDuringRebuild;
 
     /**
+     * This is the position of the attached View within its CutoutViewIndicator parent.
+     * <p>
+     *     Defaults to -1. This value is not copied by {@link #setFrom(CutoutViewLayoutParams)}
+     *     and should not be persisted outside of this class. It's here mainly so that
+     *     {@link CutoutCellGenerator}s can access position info in their
+     *     {@link CutoutCellGenerator#onBindChild(View, CutoutViewLayoutParams, View)}
+     *     method.
+     * </p>
+     */
+    public int position = -1;
+
+    /**
      * Amount of space between this view and the one before it
      * <p>
      *     Treat this like a conditional margin - it is added to the
