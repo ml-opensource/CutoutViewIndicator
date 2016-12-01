@@ -29,8 +29,9 @@ import com.fuzz.indicator.CutoutViewLayoutParams;
  * Extension of {@link CutoutImageCell} with support for swapping between
  * {@link AnimationDrawable}s and...well, any other sort of Drawable.
  * <p>
- *     This takes the shape of treating individual frames of an
- *     AnimationDrawable as different images. Each cell gets a reference
+ *     If {@link CutoutViewLayoutParams#indicatorDrawableId} refers to an
+ *     AnimationDrawable this will treat its individual frames as different
+ *     images. Each cell gets a reference
  *     to the {@link #frames complete animation}, but only shows the nth
  *     frame thereof (where n is the current
  *     {@link CutoutViewLayoutParams#position position} of that cell in
@@ -39,22 +40,24 @@ import com.fuzz.indicator.CutoutViewLayoutParams;
  *     the chosen drawable can be smoothly updated with just one call
  *     to {@link #updateDrawable(CutoutViewLayoutParams)}.
  * </p>
+ * If the drawable attached to {@link #itemView} isn't an AnimationDrawable,
+ * this acts identically to its superclass.
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class ExplodingCutoutCell extends CutoutImageCell {
+public class FrameAwareCutoutImageCell extends CutoutImageCell {
 
     @Nullable
     protected AnimationDrawable frames;
 
     /**
-     * Check out the {@link ExplodingCutoutCell class javadoc} for details on how
+     * Check out the {@link FrameAwareCutoutImageCell class javadoc} for details on how
      * this works.
      *
      * @param child    the backing view for this cell. It can be retrieved later through
      *                 {@link #getItemView()}
      */
-    public ExplodingCutoutCell(@NonNull ImageView child) {
+    public FrameAwareCutoutImageCell(@NonNull ImageView child) {
         super(child);
         if (itemView.getDrawable() instanceof AnimationDrawable) {
             frames = (AnimationDrawable) itemView.getDrawable();
