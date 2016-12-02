@@ -31,6 +31,10 @@ import android.view.View;
  * @author Philip Cohn-Cort (Fuzz)
  */
 public abstract class TypicalCutoutCell<Root extends View> implements CutoutCell {
+
+    /**
+     * @see #getItemView()
+     */
     @NonNull
     protected final Root itemView;
 
@@ -38,9 +42,21 @@ public abstract class TypicalCutoutCell<Root extends View> implements CutoutCell
         this.itemView = itemView;
     }
 
+    /**
+     * Externally-accessible reference to {@link #itemView}. Subclasses may choose
+     * to reference the field directly, but other objects are kindly requested to use
+     * this interface-defined method.
+     *
+     * {@inheritDoc}
+     */
     @Override
     @NonNull
     public Root getItemView() {
         return itemView;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " backed by " + itemView;
     }
 }
