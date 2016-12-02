@@ -1,4 +1,10 @@
 # [0.6.x SNAPSHOT]
+## Move emphasis from CutoutCellGenerator to CutoutCell
+
+### Library changes:
+* New CutoutCell: FrameAwareCutoutImageCell ([#49])
+* Fixed bug: ColorDrawable foregrounds weren't offset ([#53])
+* Changed contract: mirror position with CutoutViewLayoutParams ([#49])
 
 # [0.6.0]
 ## Rename classes
@@ -96,3 +102,5 @@
 [#38]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/38
 [#40]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/40
 [#42]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/42
+[#49]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/49
+[#53]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/53
