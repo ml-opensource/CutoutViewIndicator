@@ -31,6 +31,10 @@ import android.view.View;
  * @author Philip Cohn-Cort (Fuzz)
  */
 public abstract class TypicalCutoutCell<Root extends View> implements CutoutCell {
+
+    /**
+     * @see #getItemView()
+     */
     @NonNull
     protected final Root itemView;
 

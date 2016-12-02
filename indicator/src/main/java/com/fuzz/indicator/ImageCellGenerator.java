@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.fuzz.indicator.clip.FrameAwareCutoutImageCell;
+
 /**
  * Default implementation of {@link CutoutCellGenerator}.
  *
@@ -80,7 +82,7 @@ public class ImageCellGenerator implements CutoutCellGenerator {
      */
     @NonNull
     protected CutoutCell createCellForExisting(@NonNull ImageView child) {
-        return new CutoutImageCell(child);
+        return new FrameAwareCutoutImageCell(child);
     }
 
     @Override
