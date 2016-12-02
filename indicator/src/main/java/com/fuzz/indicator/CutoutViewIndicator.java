@@ -875,11 +875,8 @@ public class CutoutViewIndicator extends LinearLayout {
     public void ensureOnlyCurrentItemsSelected() {
         final float current = getCurrentIndicatorPosition();
         for (int i = 0; i < getChildCount(); i++) {
-            CutoutCell child = getCutoutCellAt(i);
-            if (child != null) {
-                // offset outside the range -1..1 puts it just off-view (i.e. hiding it)
-                child.offsetContentBy(new IndicatorOffsetEvent(i, current - i, getOrientation()));
-            }
+            // offset outside the range -1..1 puts it just off-view (i.e. hiding it)
+            showOffsetIndicator(i, current - i);
         }
     }
 
