@@ -84,7 +84,7 @@ public class OffsetImageViewTest {
         OffSetters.offsetImageBy(imageView, orientation, fraction, matrix);
 
         // How do we test the method is setting the right values without copying its logic to here?
-        verify(matrix).setTranslate(anyFloat(), anyFloat());
+        verify(matrix).preTranslate(anyFloat(), anyFloat());
         verify(imageView).setImageMatrix(matrix);
     }
 
