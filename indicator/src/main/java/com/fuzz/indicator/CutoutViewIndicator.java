@@ -523,7 +523,15 @@ public class CutoutViewIndicator extends LinearLayout {
         showOffsetIndicator(position, new IndicatorOffsetEvent(position, percentageOffset, getOrientation()));
     }
 
-    public void showOffsetIndicator(int position, IndicatorOffsetEvent offsetEvent) {
+    /**
+     * Implementation-agnostic overload of {@link #showOffsetIndicator(int, float)}. Please
+     * refer to that method's javadoc (with its line drawing) to understand precisely what
+     * this method does.
+     *
+     * @param position       corresponds to the view where an indicator should be shown. Must be less than {@link #getChildCount()}
+     * @param offsetEvent    encapsulates offset and orientation information.
+     */
+    public void showOffsetIndicator(int position, @NonNull IndicatorOffsetEvent offsetEvent) {
         CutoutCell child = getCutoutCellAt(position);
         // We have something to draw
         if (child != null) {
