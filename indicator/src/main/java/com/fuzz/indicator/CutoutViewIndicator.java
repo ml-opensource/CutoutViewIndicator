@@ -36,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fuzz.indicator.cell.CutoutCell;
 import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
 import com.fuzz.indicator.proxy.ProxyReference;
 import com.fuzz.indicator.proxy.StateProxy;

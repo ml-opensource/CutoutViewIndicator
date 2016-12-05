@@ -25,6 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.fuzz.indicator.cell.CutoutCell;
+
 import java.lang.ref.WeakReference;
 
 /**

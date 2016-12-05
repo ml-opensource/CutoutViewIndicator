@@ -21,7 +21,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.widget.TextView;
 
-import com.fuzz.indicator.TypicalCutoutCell;
+import com.fuzz.indicator.cell.TypicalCutoutCell;
 import com.fuzz.indicator.OffSetters;
 import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
 

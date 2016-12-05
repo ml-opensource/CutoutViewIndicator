@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.fuzz.indicator.cell.CutoutCell;
 import com.fuzz.indicator.clip.FrameAwareCutoutImageCell;
 
 /**

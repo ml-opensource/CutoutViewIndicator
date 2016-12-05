@@ -20,6 +20,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fuzz.indicator.cell.CutoutCell;
+
 /**
  * Little pluggable interface for creating new cells for a {@link CutoutViewIndicator}.
  * <p>
