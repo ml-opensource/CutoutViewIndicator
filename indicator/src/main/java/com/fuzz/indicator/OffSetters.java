@@ -16,14 +16,19 @@
 package com.fuzz.indicator;
 
 import android.graphics.Matrix;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
+import android.util.Property;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fuzz.indicator.style.MigratoryRange;
 import com.fuzz.indicator.style.MigratorySpan;
+
+import static android.os.Build.VERSION_CODES.KITKAT;
 
 /**
  * Collection of utility methods for offsetting specific views.
@@ -36,6 +41,25 @@ import com.fuzz.indicator.style.MigratorySpan;
  * @author Philip Cohn-Cort (Fuzz)
  */
 public class OffSetters {
+
+    /**
+     * The standard {@link View#setAlpha(float)} method will override any user-provided
+     * alpha values. The TransitionAlpha, however, does not have any side effects and
+     * will peacefully coexist with standard alpha transparency.
+     * <p>
+     *     If the device is running KITKAT or higher, this TransitionAlpha will be used.
+     * </p>
+     */
+    protected static final Property<View, Float> setAlpha;
+
+    static {
+        if (Build.VERSION.SDK_INT >= KITKAT) {
+            setAlpha = Property.of(View.class, float.class, "transitionAlpha");
+        } else {
+            setAlpha = View.ALPHA;
+        }
+    }
+
     /**
      * Sets a new image matrix on this view. This method only allows orthogonal offsets
      *
@@ -54,8 +78,28 @@ public class OffSetters {
             offsetX = percentage * imageView.getWidth();
             offsetY = 0;
         }
-        mat.setTranslate(offsetX, offsetY);
+        mat.preTranslate(offsetX, offsetY);
         imageView.setImageMatrix(mat);
+    }
+
+    public static void offsetImageAlphaBy(@NonNull ImageView imageView, float fraction) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            imageView.setImageAlpha((int) (fraction * 255));
+        }
+    }
+
+    public static void offsetAlphaBy(@NonNull View imageView, float fraction) {
+        setAlpha.set(imageView, fraction);
+    }
+
+    public static void offsetImageScaleBy(@NonNull ImageView imageView, float fraction) {
+        Matrix matrix = new Matrix(imageView.getImageMatrix());
+        matrix.preScale(fraction, fraction);
+    }
+
+    public static void offsetScaleBy(@NonNull View imageView, float fraction) {
+        imageView.setScaleX(fraction);
+        imageView.setScaleY(fraction);
     }
 
     /**

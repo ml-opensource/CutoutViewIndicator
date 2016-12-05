@@ -41,14 +41,30 @@ public class CutoutImageCell extends TypicalCutoutCell<ImageView> {
 
     @Override
     public void offsetContentBy(@NonNull IndicatorOffsetEvent event) {
-        OffSetters.offsetImageBy(itemView, event.getOrientation(), event.getFraction(), new Matrix());
+        int hints = event.getOffSetHints();
+        if ((hints & OffSetHint.IMAGE_TRANSLATE) != 0) {
+            OffSetters.offsetImageBy(itemView, event.getOrientation(), event.getFraction(), new Matrix());
+        }
+        if ((hints & OffSetHint.ALPHA) != 0) {
+            OffSetters.offsetAlphaBy(itemView, 1 + event.getFraction());
+        }
+        if ((hints & OffSetHint.IMAGE_ALPHA) != 0) {
+            OffSetters.offsetImageAlphaBy(itemView, 1 + event.getFraction());
+        }
+        if ((hints & OffSetHint.SCALE) != 0) {
+            OffSetters.offsetScaleBy(itemView, 1 + event.getFraction());
+        }
+        if ((hints & OffSetHint.IMAGE_SCALE) != 0) {
+            OffSetters.offsetImageScaleBy(itemView, 1 + event.getFraction());
+        }
     }
 
     /**
      * Call this whenever the view's bounds might have changed, or the layout params are different.
      * <p>
      *     This method delegates the choice of Drawable to
-     *     {@link #chooseDrawable(CutoutViewLayoutParams)}.
+     *     {@link #chooseDrawable(CutoutViewLayoutParams)}, which it then vets before setting
+     *     on the {@link #itemView}.
      * </p>
      *
      * @param lp    the LayoutParams {@link #itemView} should be assumed to have

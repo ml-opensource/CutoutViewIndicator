@@ -29,6 +29,9 @@ public class IndicatorOffsetEvent implements OffsetEvent {
 
     protected final int orientation;
 
+    @OffSetHint
+    protected int offSetHints = OffSetHint.IMAGE_TRANSLATE;
+
     public IndicatorOffsetEvent(int position, float fraction, int orientation) {
         this.position = position;
         this.fraction = fraction;
@@ -55,5 +58,28 @@ public class IndicatorOffsetEvent implements OffsetEvent {
      */
     public int getOrientation() {
         return orientation;
+    }
+
+    /**
+     * Call this to change the {@link #offSetHints} attached to
+     * this event.
+     *
+     * @param offSetHints    a bitwise OR of a couple
+     *                       {@link OffSetHint} constants
+     * @see #getOffSetHints()
+     */
+    public void setOffSetHints(@OffSetHint int offSetHints) {
+        this.offSetHints = offSetHints;
+    }
+
+    /**
+     * If no hints were set manually, this defaults to {@link OffSetHint#IMAGE_TRANSLATE}.
+     *
+     * @return the {@link OffSetHint OffSetHints} previously set on this IndicatorOffsetEvent.
+     * @see #setOffSetHints(int)
+     */
+    @OffSetHint
+    public int getOffSetHints() {
+        return offSetHints;
     }
 }
