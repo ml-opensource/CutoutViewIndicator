@@ -18,6 +18,8 @@ package com.fuzz.indicator;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 
+import com.fuzz.indicator.proxy.StateProxy;
+
 /**
  * Utility methods for making new instances of {@link StateProxy} subclasses.
  *

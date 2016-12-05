@@ -18,6 +18,8 @@ package com.fuzz.indicator;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
+
 /**
  * Superclass for most cells in a {@link CutoutViewIndicator}. Of course,
  * users of the library are welcome to implement their own

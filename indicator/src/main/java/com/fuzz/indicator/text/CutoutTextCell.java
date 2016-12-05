@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.fuzz.indicator.TypicalCutoutCell;
 import com.fuzz.indicator.OffSetters;
-import com.fuzz.indicator.IndicatorOffsetEvent;
+import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
 
 /**
  * Simple indicator implementation for TextViews.

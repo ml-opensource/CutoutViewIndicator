@@ -18,6 +18,8 @@ package com.fuzz.indicator;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
+
 /**
  * Simple interface which views inside the {@link CutoutViewIndicator} should implement.
  * <p>

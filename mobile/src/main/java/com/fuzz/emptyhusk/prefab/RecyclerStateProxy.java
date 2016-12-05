@@ -25,9 +25,9 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 
 import com.fuzz.indicator.CutoutViewIndicator;
-import com.fuzz.indicator.IndicatorOffsetEvent;
-import com.fuzz.indicator.ProxyReference;
-import com.fuzz.indicator.ViewProvidingStateProxy;
+import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
+import com.fuzz.indicator.proxy.ProxyReference;
+import com.fuzz.indicator.proxy.ViewProvidingStateProxy;
 
 /**
  * {@link RecyclerView} analog to {@link com.fuzz.indicator.ViewPagerStateProxy}.

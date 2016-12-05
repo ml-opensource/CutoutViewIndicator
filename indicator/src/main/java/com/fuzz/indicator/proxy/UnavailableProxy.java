@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fuzz.indicator;
+package com.fuzz.indicator.proxy;
 
 import android.database.DataSetObserver;
 

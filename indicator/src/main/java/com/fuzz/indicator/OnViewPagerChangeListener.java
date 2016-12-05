@@ -17,6 +17,9 @@ package com.fuzz.indicator;
 
 import android.support.v4.view.ViewPager;
 
+import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
+import com.fuzz.indicator.proxy.ProxyReference;
+
 /**
  * Change listener for easy integration between {@link CutoutViewIndicator}
  * and {@link android.support.v4.view.ViewPager}.

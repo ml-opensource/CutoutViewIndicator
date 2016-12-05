@@ -24,6 +24,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
+import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
+
 /**
  * A simple CutoutCell implementation that performs a 2D-shift of
  * ImageView content over its background.

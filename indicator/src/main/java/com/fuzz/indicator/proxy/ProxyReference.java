@@ -1,4 +1,6 @@
-package com.fuzz.indicator;
+package com.fuzz.indicator.proxy;
+
+import com.fuzz.indicator.CutoutViewIndicator;
 
 /**
  * Interface containing the methods a {@link StateProxy} often uses while

@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fuzz.indicator;
+package com.fuzz.indicator.proxy;
 
 import android.support.annotation.NonNull;
+
+import com.fuzz.indicator.CutoutViewIndicator;
+import com.fuzz.indicator.OffSetHint;
 
 /**
  * An OffsetEvent that gives precise scroll information in the spirit of

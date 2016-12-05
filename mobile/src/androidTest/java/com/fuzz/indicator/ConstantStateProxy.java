@@ -17,6 +17,10 @@ package com.fuzz.indicator;
 
 import android.database.DataSetObserver;
 
+import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
+import com.fuzz.indicator.proxy.ProxyReference;
+import com.fuzz.indicator.proxy.StateProxy;
+
 /**
  * Specialised StateProxy for testing.
  * <p>
