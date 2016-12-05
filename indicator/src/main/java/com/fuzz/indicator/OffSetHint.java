@@ -5,11 +5,11 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.ImageView;
 
-import static com.fuzz.indicator.OffSetFlag.ALPHA;
-import static com.fuzz.indicator.OffSetFlag.IMAGE_ALPHA;
-import static com.fuzz.indicator.OffSetFlag.IMAGE_SCALE;
-import static com.fuzz.indicator.OffSetFlag.SCALE;
-import static com.fuzz.indicator.OffSetFlag.IMAGE_TRANSLATE;
+import static com.fuzz.indicator.OffSetHint.ALPHA;
+import static com.fuzz.indicator.OffSetHint.IMAGE_ALPHA;
+import static com.fuzz.indicator.OffSetHint.IMAGE_SCALE;
+import static com.fuzz.indicator.OffSetHint.SCALE;
+import static com.fuzz.indicator.OffSetHint.IMAGE_TRANSLATE;
 
 /**
  * @author Philip Cohn-Cort (Fuzz)
@@ -20,7 +20,7 @@ import static com.fuzz.indicator.OffSetFlag.IMAGE_TRANSLATE;
                 SCALE, IMAGE_SCALE
         },
         flag = true)
-public @interface OffSetFlag {
+public @interface OffSetHint {
     /**
      * Corresponds to {@link OffSetters#offsetImageBy(ImageView, int, float, Matrix)}
      */

@@ -41,20 +41,20 @@ public class CutoutImageCell extends TypicalCutoutCell<ImageView> {
 
     @Override
     public void offsetContentBy(@NonNull IndicatorOffsetEvent event) {
-        int flags = event.getOffSetFlags();
-        if ((flags & OffSetFlag.IMAGE_TRANSLATE) != 0) {
+        int hints = event.getOffSetHints();
+        if ((hints & OffSetHint.IMAGE_TRANSLATE) != 0) {
             OffSetters.offsetImageBy(itemView, event.getOrientation(), event.getFraction(), new Matrix());
         }
-        if ((flags & OffSetFlag.ALPHA) != 0) {
+        if ((hints & OffSetHint.ALPHA) != 0) {
             OffSetters.offsetAlphaBy(itemView, 1 + event.getFraction());
         }
-        if ((flags & OffSetFlag.IMAGE_ALPHA) != 0) {
+        if ((hints & OffSetHint.IMAGE_ALPHA) != 0) {
             OffSetters.offsetImageAlphaBy(itemView, 1 + event.getFraction());
         }
-        if ((flags & OffSetFlag.SCALE) != 0) {
+        if ((hints & OffSetHint.SCALE) != 0) {
             OffSetters.offsetScaleBy(itemView, 1 + event.getFraction());
         }
-        if ((flags & OffSetFlag.IMAGE_SCALE) != 0) {
+        if ((hints & OffSetHint.IMAGE_SCALE) != 0) {
             OffSetters.offsetImageScaleBy(itemView, 1 + event.getFraction());
         }
     }
