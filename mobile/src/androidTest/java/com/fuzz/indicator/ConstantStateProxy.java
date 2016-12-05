@@ -47,8 +47,8 @@ public class ConstantStateProxy implements StateProxy {
     }
 
     @Override
-    public void resendPositionInfo(CutoutViewIndicator cvi, float position) {
-        cvi.showOffsetIndicator(cvi.fixPosition((int) position), position - (int) position);
+    public IndicatorOffsetEvent resendPositionInfo(ProxyReference cvi, float position) {
+        return IndicatorOffsetEvent.from(cvi, position);
     }
 
     @Override

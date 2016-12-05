@@ -53,7 +53,7 @@ public interface StateProxy {
      *                                    not be the same as
      *                                    {@link #getCurrentPosition()}.
      */
-    void resendPositionInfo(CutoutViewIndicator cvi, float assumedIndicatorPosition);
+    IndicatorOffsetEvent resendPositionInfo(ProxyReference cvi, float assumedIndicatorPosition);
 
     /**
      * This method is called when the {@link CutoutViewIndicator} is ready

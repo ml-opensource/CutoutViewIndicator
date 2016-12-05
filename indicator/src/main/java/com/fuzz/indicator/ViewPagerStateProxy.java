@@ -53,9 +53,9 @@ public class ViewPagerStateProxy implements ViewProvidingStateProxy {
     }
 
     @Override
-    public void resendPositionInfo(CutoutViewIndicator cvi, float assumedIndicatorPosition) {
+    public IndicatorOffsetEvent resendPositionInfo(ProxyReference cvi, float assumedIndicatorPosition) {
         // We blindly trust that the assumed position is accurate.
-        pageChangeListener.onPageSelected(cvi, assumedIndicatorPosition);
+        return pageChangeListener.createEventFrom(cvi, assumedIndicatorPosition);
     }
 
     @Nullable

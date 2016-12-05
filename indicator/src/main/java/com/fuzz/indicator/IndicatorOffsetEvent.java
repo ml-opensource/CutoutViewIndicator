@@ -15,6 +15,8 @@
  */
 package com.fuzz.indicator;
 
+import android.support.annotation.NonNull;
+
 /**
  * An OffsetEvent that gives precise scroll information in the spirit of
  * {@link android.support.v4.view.ViewPager.OnPageChangeListener#onPageScrolled(int, float, int)}.
@@ -36,6 +38,31 @@ public class IndicatorOffsetEvent implements OffsetEvent {
         this.position = position;
         this.fraction = fraction;
         this.orientation = orientation;
+    }
+
+    /**
+     * When non-CutoutViewIndicator objects wish to call
+     * {@link CutoutViewIndicator#showOffsetIndicator(int, IndicatorOffsetEvent)}, they
+     * have two rudimentary options:
+     * <ul>
+     *     <li>call methods on {@code cvi} to rectify {@code assumedPosition} and determine what orientation to specify</li>
+     *     <li>ignore CutoutViewIndicator and always return the same value</li>
+     * </ul>
+     * This method makes the first option more palatable - its parameters are the same as those to
+     * {@link StateProxy#resendPositionInfo(ProxyReference, float)}, so it can smoothly
+     * delegate for any implementations of that method.
+     *
+     * @param cvi                a source of information about CutoutViewIndicator's properties
+     * @param assumedPosition    the return value from {@link CutoutViewIndicator#getCurrentIndicatorPosition()}
+     * @return a new IndicatorOffsetEvent representing the current state of {@code cvi}.
+     */
+    @NonNull
+    public static IndicatorOffsetEvent from(@NonNull ProxyReference cvi, float assumedPosition) {
+        return new IndicatorOffsetEvent(
+                cvi.fixPosition((int) assumedPosition),
+                assumedPosition - (int) assumedPosition,
+                cvi.getOrientation()
+        );
     }
 
     public int getPosition() {

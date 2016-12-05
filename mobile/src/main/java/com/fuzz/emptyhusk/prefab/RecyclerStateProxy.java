@@ -25,6 +25,8 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 
 import com.fuzz.indicator.CutoutViewIndicator;
+import com.fuzz.indicator.IndicatorOffsetEvent;
+import com.fuzz.indicator.ProxyReference;
 import com.fuzz.indicator.ViewProvidingStateProxy;
 
 /**
@@ -92,8 +94,8 @@ class RecyclerStateProxy implements ViewProvidingStateProxy {
     }
 
     @Override
-    public void resendPositionInfo(CutoutViewIndicator cvi, float position) {
-        listener.centerIndicatorAround(position);
+    public IndicatorOffsetEvent resendPositionInfo(ProxyReference cvi, float position) {
+        return listener.centerIndicatorAround(position);
     }
 
     @Nullable

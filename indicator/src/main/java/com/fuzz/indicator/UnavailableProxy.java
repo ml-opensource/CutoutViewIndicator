@@ -35,8 +35,8 @@ public class UnavailableProxy implements StateProxy {
     }
 
     @Override
-    public void resendPositionInfo(CutoutViewIndicator cvi, float assumedIndicatorPosition) {
-        // Do nothing
+    public IndicatorOffsetEvent resendPositionInfo(ProxyReference cvi, float assumedIndicatorPosition) {
+        return IndicatorOffsetEvent.from(cvi, assumedIndicatorPosition);
     }
 
     @Override

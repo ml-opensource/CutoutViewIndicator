@@ -49,7 +49,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public class CutoutViewIndicator extends LinearLayout {
+public class CutoutViewIndicator extends LinearLayout implements ProxyReference {
 
     private static final String TAG = CutoutViewIndicator.class.getSimpleName();
 
@@ -59,9 +59,8 @@ public class CutoutViewIndicator extends LinearLayout {
      */
     protected static final UnavailableProxy EDIT_MODE_PROXY = new UnavailableProxy() {
         @Override
-        public void resendPositionInfo(CutoutViewIndicator cvi, float pos) {
-            int atView = (int) pos;
-            cvi.showOffsetIndicator(cvi.fixPosition(atView), pos - atView);
+        public IndicatorOffsetEvent resendPositionInfo(ProxyReference cvi, float pos) {
+            return IndicatorOffsetEvent.from(cvi, pos);
         }
     };
 
@@ -151,7 +150,8 @@ public class CutoutViewIndicator extends LinearLayout {
                 // Quantity isn't changing.
             }
 
-            stateProxy.resendPositionInfo(CutoutViewIndicator.this, getCurrentIndicatorPosition());
+            IndicatorOffsetEvent event = stateProxy.resendPositionInfo(CutoutViewIndicator.this, getCurrentIndicatorPosition());
+            showOffsetIndicator(event.getPosition(), event);
         }
 
         /**
