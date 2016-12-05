@@ -72,7 +72,7 @@ public class FrameAwareCutoutImageCell extends CutoutImageCell {
     @Nullable
     protected Drawable chooseDrawable(@NonNull CutoutViewLayoutParams lp) {
         Drawable chosen;
-        if (frames == null || lp.position <= -1 || latestResourceId != lp.indicatorDrawableId) {
+        if (lp.position <= -1 || latestResourceId != lp.indicatorDrawableId) {
             latestResourceId = lp.indicatorDrawableId;
             chosen = ContextCompat.getDrawable(itemView.getContext(), lp.indicatorDrawableId);
             if (chosen instanceof AnimationDrawable) {
