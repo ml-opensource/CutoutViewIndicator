@@ -132,23 +132,7 @@ public class CutoutViewIndicator extends LinearLayout {
 
             if (newViews > 0) {
                 // We're adding new views
-                for (int i = childCount; i < pageCount; i++) {
-                    // This is a cached view
-                    CutoutCell cell = cells.get(i);
-
-                    if (cell == null || cell.getItemView().getParent() != null) {
-                        // Current CutoutCell is nonexistent or already in use elsewhere...create and add a new one!
-                        if (cell != null && cell.getItemView().getParent() == CutoutViewIndicator.this) {
-                            Log.w(TAG, "It would appear that the view at " + i + " was not removed properly.");
-                        }
-
-                        cell = createCellFor(i);
-                        cells.put(i, cell);
-                    }
-
-                    // This will invalidate the added view, triggering a call to this class's onMeasure()
-                    addView(cell.getItemView(), i);
-                }
+                addNewViews(childCount, pageCount);
             } else if (newViews < 0) {
                 // We're removing views
                 removeViews(pageCount, -newViews);
@@ -161,6 +145,50 @@ public class CutoutViewIndicator extends LinearLayout {
             }
 
             stateProxy.resendPositionInfo(CutoutViewIndicator.this, getCurrentIndicatorPosition());
+        }
+
+        /**
+         * Calls {@link CutoutViewIndicator#addView} {@code pageCount - childCount} times. All new
+         * views added are placed at the end of the CutoutViewIndicator.
+         * <p>
+         *     If there is a non-null entry in {@link CutoutViewIndicator#cells} at the
+         *     position where this new view will be placed, then that value is queried
+         *     for its {@link CutoutCell#getItemView() itemView}. If that itemView is then
+         *     not null and not currently attached to a parent it will be added here.
+         * </p>
+         * <p>
+         *     However, if the CutoutCell's itemView <em>is</em> null or attached to a
+         *     {@link android.view.ViewParent parent}, it will not be used and a new
+         *     CutoutCell will be created (with a backing view) by
+         *     {@link CutoutViewIndicator#createCellFor(int)}.
+         * </p>
+         * At the end of this method, the entry in {@link CutoutViewIndicator#cells} for
+         * each position of a newly-added View will contain a reference to that View's
+         * {@link CutoutCell}.
+         * @param childCount    the number of views currently added as children of this
+         * {@link CutoutViewIndicator}
+         * @param pageCount     the number of children this CutoutViewIndicator should
+         *                      have to match the {@link CutoutViewIndicator#stateProxy}'s
+         *                      {@link StateProxy#getCellCount() cell count}.
+         */
+        protected void addNewViews(int childCount, int pageCount) {
+            for (int i = childCount; i < pageCount; i++) {
+                // This is a cached view
+                CutoutCell cell = cells.get(i);
+
+                if (cell == null || cell.getItemView().getParent() != null) {
+                    // Current CutoutCell is nonexistent or already in use elsewhere...create and add a new one!
+                    if (cell != null && cell.getItemView().getParent() == CutoutViewIndicator.this) {
+                        Log.w(TAG, "It would appear that the view at " + i + " was not removed properly.");
+                    }
+
+                    cell = createCellFor(i);
+                    cells.put(i, cell);
+                }
+
+                // This will invalidate the added view, triggering a call to this class's onMeasure()
+                addView(cell.getItemView(), i);
+            }
         }
 
         /**
