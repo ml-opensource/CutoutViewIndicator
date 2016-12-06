@@ -42,7 +42,7 @@ import android.widget.ImageView;
  *
  * <p>
  *     Then, when the superclass calls {@link android.view.View#onDraw(Canvas) onDraw},
- *     the provided canvas will already have a visible {@link #getBackground() background}.
+ *     the provided canvas will already have a visible {@link #getBackingBackground() background}.
  * </p>
  *
  * @author fanrunqi
@@ -54,7 +54,7 @@ public class ClippedImageView extends ImageView {
     protected Bitmap primaryBitmap;
 
     @NonNull
-    private Paint paint = new Paint();
+    protected Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     protected PorterDuffXfermode overlayTransferMode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
 
@@ -78,23 +78,19 @@ public class ClippedImageView extends ImageView {
 
     public ClippedImageView(Context context) {
         super(context);
-        paint.setAntiAlias(true);
     }
 
     public ClippedImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        paint.setAntiAlias(true);
     }
 
     public ClippedImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        paint.setAntiAlias(true);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ClippedImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        paint.setAntiAlias(true);
     }
 
     @Override
@@ -109,8 +105,8 @@ public class ClippedImageView extends ImageView {
 
         if (prevHeight != postHeight || prevWidth != postWidth) {
             // Dimensions have changed.
-            if (getBackground() != null ) {
-                backgroundBitmap = extractBitmapFrom(getBackground(), postWidth, postHeight);
+            if (getBackingBackground() != null ) {
+                backgroundBitmap = extractBitmapFrom(getBackingBackground(), postWidth, postHeight);
             }
         }
     }
@@ -250,6 +246,16 @@ public class ClippedImageView extends ImageView {
         backgroundBitmap = extractBitmapFrom(background);
     }
 
+    /**
+     * Some subclasses may need to inject their own background drawables into
+     * the clipping process. This offers them a chance to do that without affecting
+     * any other drawing code here.
+     * @return the view's background, as it should be perceived by this class.
+     */
+    public Drawable getBackingBackground() {
+        return super.getBackground();
+    }
+
     @Override
     public void setBackground(Drawable background) {
         super.setBackground(background);
@@ -259,7 +265,7 @@ public class ClippedImageView extends ImageView {
     @Override
     public void setBackgroundColor(int color) {
         super.setBackgroundColor(color);
-        setBackgroundBitmapFrom(getBackground());
+        setBackgroundBitmapFrom(getBackingBackground());
     }
 
     @SuppressWarnings("deprecation")
@@ -274,20 +280,20 @@ public class ClippedImageView extends ImageView {
         super.setBackgroundResource(resid);
         if (backgroundResourceId == 0 || backgroundResourceId != resid) {
             backgroundResourceId = resid;
-            setBackgroundBitmapFrom(getBackground());
+            setBackgroundBitmapFrom(getBackingBackground());
         }
     }
 
     @Override
     public void setBackgroundTintList(ColorStateList tint) {
         super.setBackgroundTintList(tint);
-        setBackgroundBitmapFrom(getBackground());
+        setBackgroundBitmapFrom(getBackingBackground());
     }
 
     @Override
     public void setBackgroundTintMode(PorterDuff.Mode tintMode) {
         super.setBackgroundTintMode(tintMode);
-        setBackgroundBitmapFrom(getBackground());
+        setBackgroundBitmapFrom(getBackingBackground());
     }
 
     private Bitmap extractBitmapFrom(@Nullable Drawable drawable) {
