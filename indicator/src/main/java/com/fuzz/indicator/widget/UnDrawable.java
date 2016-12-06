@@ -17,32 +17,19 @@ import android.support.annotation.Nullable;
  */
 public class UnDrawable extends DrawableContainer {
 
-    protected static final UnDrawable CANONICAL_UN_DRAWABLE = new UnDrawable();
-
-    @Nullable
-    protected final Resources res;
-
     /**
      * Note that the constructor for {@link android.graphics.drawable.DrawableContainer.DrawableContainerState}
      * is not publicly accessible. This field is a copy of the DrawableContainerState
-     * most recently set on the anonymous LevelListDrawable in {@link #UnDrawable(Resources)}.
+     * most recently set on the anonymous LevelListDrawable in {@link #UnDrawable()}.
      */
     private DrawableContainerState extracted;
 
     /**
-     * Create a new UnDrawable with no side-effects. {@link #res} will always be null
-     * on such objects.
-     */
-    public UnDrawable() {
-        res = null;
-    }
-
-    /**
      * Create a new {@link UnDrawable} with a state stolen from {@link LevelListDrawable}.
-     * @param res    a reference to the local resources
      */
-    public UnDrawable(@NonNull Resources res) {
-        this.res = res;
+    @SuppressWarnings("deprecation")
+    public UnDrawable() {
+        Drawable seed = Resources.getSystem().getDrawable(android.R.drawable.btn_plus);
         new LevelListDrawable() {
             @Override
             protected void setConstantState(@NonNull DrawableContainerState state) {
@@ -50,8 +37,9 @@ public class UnDrawable extends DrawableContainer {
                 extracted = state;
             }
         };
-        extracted.addChild(CANONICAL_UN_DRAWABLE);
+        extracted.addChild(seed);
         setConstantState(extracted);
+        setInternalDrawable(seed);
     }
 
     @Override
@@ -66,13 +54,15 @@ public class UnDrawable extends DrawableContainer {
 
     /**
      * The parameter to this method may later be retrieved with {@link #getCurrent()}.
+     * If you try to pass in null, a bunch of superclass methods will throw
+     * {@link NullPointerException}.
      *
      * @param internalDrawable    provider of all sorts of information
      *                            about this drawable (e.g. size, transparency,
      *                            etc.).
      */
-    public void setInternalDrawable(@Nullable Drawable internalDrawable) {
-        if (extracted == null || res == null) {
+    public void setInternalDrawable(@NonNull Drawable internalDrawable) {
+        if (extracted == null) {
             throw new IllegalStateException(
                     "\"setInternalDrawable\" may only be called on UnDrawables with non-null resources."
             );
