@@ -31,6 +31,9 @@
         <!-- class name of a preferred CutoutCellGenerator (defaults to ImageCellGenerator) -->
         <attr name="rcv_generator_class_name" format="string" />
 
+        <!-- optional text mask for any TextClippedImageViews instantiated by the generator -->
+        <attr name="rcv_generator_text_mask" format="string" />
+
         <!-- space between successive cells -->
         <attr name="rcv_internal_margin" format="dimension" />
 

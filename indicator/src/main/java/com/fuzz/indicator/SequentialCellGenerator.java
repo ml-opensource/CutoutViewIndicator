@@ -1,7 +1,10 @@
 package com.fuzz.indicator;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,6 +21,21 @@ import java.util.Locale;
  * @author Philip Cohn-Cort (Fuzz)
  */
 public class SequentialCellGenerator extends ImageCellGenerator {
+
+    @NonNull
+    private String textMask = "~|%d|~";
+
+    public SequentialCellGenerator() {
+    }
+
+    public SequentialCellGenerator(@NonNull Context context, @NonNull AttributeSet attrs, int defAttr) {
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CutoutViewIndicator, defAttr, 0);
+        String textMask = a.getString(R.styleable.CutoutViewIndicator_rcv_generator_text_mask);
+        if (textMask != null) {
+            setTextMask(textMask);
+        }
+        a.recycle();
+    }
 
     @NonNull
     @Override
@@ -38,6 +56,15 @@ public class SequentialCellGenerator extends ImageCellGenerator {
     }
 
     /**
+     * Set a new string to be used as base mask by {@link #getMaskFor(CutoutViewLayoutParams)}.
+     *
+     * @param textMask    a string, with at most one {@code %d} where the position should go.
+     */
+    public void setTextMask(@NonNull String textMask) {
+        this.textMask = textMask;
+    }
+
+    /**
      * The returned string will be used as a sort of clipping path for child views,
      * provided that the children are instances of {@link TextClippedImageView}.
      *
@@ -48,6 +75,6 @@ public class SequentialCellGenerator extends ImageCellGenerator {
      */
     @NonNull
     public String getMaskFor(@NonNull CutoutViewLayoutParams lp) {
-        return String.format(Locale.getDefault(), "~|%d|~", lp.position);
+        return String.format(Locale.getDefault(), textMask, lp.position);
     }
 }
