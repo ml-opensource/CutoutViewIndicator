@@ -54,20 +54,58 @@ public class TextClippedImageView extends ClippedImageView {
 
     public TextClippedImageView(Context context) {
         super(context);
+        init(context);
     }
 
     public TextClippedImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
     }
 
     public TextClippedImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context);
     }
 
     @SuppressWarnings("unused")
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public TextClippedImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        init(context);
+    }
+
+    protected void init(@NonNull Context context) {
+        resetTextPaint();
+    }
+
+    /**
+     * This sets the text to be
+     * <ul>
+     *     <li>size: 30</li>
+     *     <li>Typeface: bold</li>
+     *     <li>align: center</li>
+     *     <li>color: black</li>
+     * </ul>
+     * @see #copyTextPaintPropertiesFrom(TextPaint)
+     * @see #textPaint
+     */
+    public void resetTextPaint() {
+        textPaint.setTextSize(30);
+        textPaint.setTypeface(Typeface.DEFAULT_BOLD);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setColor(NOT_CLIPPED);
+    }
+
+    /**
+     * Call this to modify the TextPaint used for drawing the text clip path.
+     *
+     * @param sample    a source of TextPaint styling.
+     * @see TextPaint#set(TextPaint)
+     * @see #resetTextPaint()
+     */
+    public void copyTextPaintPropertiesFrom(@NonNull TextPaint sample) {
+        textPaint.set(sample);
+        setTextMaskPath(backgroundMaskText);
     }
 
     @NonNull
@@ -81,12 +119,6 @@ public class TextClippedImageView extends ClippedImageView {
 
         paint.setXfermode(null);
         textPaint.setXfermode(null);
-
-        textPaint.setTextSize(30);
-        textPaint.setTypeface(Typeface.DEFAULT_BOLD);
-        textPaint.setFakeBoldText(true);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setColor(NOT_CLIPPED);
 
         if (backgroundMaskPath != null) {
             canvas.drawPath(backgroundMaskPath, textPaint);
