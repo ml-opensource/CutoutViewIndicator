@@ -159,6 +159,7 @@ public class TextClippedImageView extends ClippedImageView {
      * The passed string will be used to mask the background (and therefore the foreground as well).
      * <br/><br/>
      * Pass in null to disable this feature.
+     * @param mask    the text with which this view will be masked.
      */
     public void setTextMaskPath(@Nullable String mask) {
         backgroundMaskText = mask;

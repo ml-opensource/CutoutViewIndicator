@@ -184,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 app:rcv_drawable="@color/colorAccent"
-                app:rcv_drawable_unselected="@color/colorPrimaryDark"
+                app:rcv_drawable_unselected="@android:color/white"
                 app:rcv_internal_margin="0dp"
                 app:rcv_tools_indicator_count="7"
                 app:rcv_height="20dp"
