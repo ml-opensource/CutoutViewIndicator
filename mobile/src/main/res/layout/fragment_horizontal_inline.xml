@@ -13,7 +13,7 @@
         >
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
+            android:id="@+id/viewPagerA"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             />
@@ -157,6 +157,27 @@
 
             </com.fuzz.indicator.CutoutViewIndicator>
 
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPagerB"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            />
+
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
             <com.fuzz.indicator.CutoutViewIndicator
                 android:id="@+id/cutoutViewIndicatorD"
                 android:layout_width="wrap_content"
@@ -170,9 +191,7 @@
                 app:rcv_width="30dp"
                 app:rcv_generator_text_mask="*%d*"
                 app:rcv_generator_class_name="com.fuzz.indicator.SequentialCellGenerator"
-                >
-
-            </com.fuzz.indicator.CutoutViewIndicator>
+                />
 
         </LinearLayout>
     </FrameLayout>
