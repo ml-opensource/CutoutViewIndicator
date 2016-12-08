@@ -1,10 +1,13 @@
-# [0.6.x SNAPSHOT]
+# [0.7.0]
 ## Move emphasis from CutoutCellGenerator to CutoutCell
 
 ### Library changes:
 * New CutoutCell: FrameAwareCutoutImageCell ([#49])
 * Fixed bug: ColorDrawable foregrounds weren't offset ([#53])
 * Changed contract: mirror position with CutoutViewLayoutParams ([#49])
+* New generator: `SequentialCellGenerator` ([#50])
+* New view: `TextClippedImageView` ([#50])
+* New feature: multiple offset animations at once ([#51])
 
 # [0.6.0]
 ## Rename classes
