@@ -25,7 +25,7 @@ import android.support.annotation.NonNull;
  * @see #setIntrinsicHeight(int)
  * @see #setIntrinsicWidth(int)
  */
-class ResizeableColorDrawable extends ColorDrawable {
+public class ResizeableColorDrawable extends ColorDrawable {
     private int intrinsicHeight = 1;
     private int intrinsicWidth = 1;
 
