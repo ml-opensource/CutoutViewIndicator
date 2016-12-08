@@ -5,6 +5,7 @@ import android.graphics.Region;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.StateListDrawable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.StateSet;
 
@@ -25,12 +26,7 @@ public class UnDrawable extends StateListDrawable {
      *                            about this drawable (e.g. size, transparency,
      *                            etc.).
      */
-    public void setInternalDrawable(Drawable internalDrawable) {
-        if (internalDrawable == null) {
-            throw new IllegalStateException(
-                    "\"setInternalDrawable\" may only be called on UnDrawables with non-null resources."
-            );
-        }
+    public void setInternalDrawable(@NonNull Drawable internalDrawable) {
         addState(StateSet.WILD_CARD, internalDrawable);
 
         selectDrawable(0);
