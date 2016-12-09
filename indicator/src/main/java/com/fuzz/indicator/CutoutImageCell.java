@@ -24,6 +24,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
+import com.fuzz.indicator.cell.OffSetters;
 import com.fuzz.indicator.cell.TypicalCutoutCell;
 import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
 

@@ -19,7 +19,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.fuzz.indicator.CutoutViewIndicator;
-import com.fuzz.indicator.OffSetters;
 import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
 
 /**

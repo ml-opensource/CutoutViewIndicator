@@ -21,7 +21,7 @@ import android.widget.ImageView;
 
 import com.fuzz.indicator.CutoutImageCell;
 import com.fuzz.indicator.CutoutViewIndicator;
-import com.fuzz.indicator.OffSetters;
+import com.fuzz.indicator.cell.OffSetters;
 import com.fuzz.indicator.cell.CutoutTextCell;
 
 /**

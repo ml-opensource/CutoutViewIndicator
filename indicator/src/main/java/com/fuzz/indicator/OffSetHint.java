@@ -20,6 +20,8 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.fuzz.indicator.cell.OffSetters;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 

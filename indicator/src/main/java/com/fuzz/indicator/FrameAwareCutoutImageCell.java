@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fuzz.indicator.clip;
+package com.fuzz.indicator;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
@@ -21,9 +21,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
-
-import com.fuzz.indicator.CutoutImageCell;
-import com.fuzz.indicator.CutoutViewLayoutParams;
 
 /**
  * Extension of {@link CutoutImageCell} with support for swapping between

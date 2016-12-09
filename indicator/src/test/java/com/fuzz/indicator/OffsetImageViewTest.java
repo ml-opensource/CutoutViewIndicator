@@ -19,6 +19,8 @@ import android.graphics.Matrix;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.fuzz.indicator.cell.OffSetters;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
