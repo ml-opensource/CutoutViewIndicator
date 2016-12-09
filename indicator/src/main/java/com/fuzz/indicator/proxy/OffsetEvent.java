@@ -22,7 +22,7 @@ import android.widget.ImageView;
 import com.fuzz.indicator.CutoutImageCell;
 import com.fuzz.indicator.CutoutViewIndicator;
 import com.fuzz.indicator.OffSetters;
-import com.fuzz.indicator.text.CutoutTextCell;
+import com.fuzz.indicator.cell.CutoutTextCell;
 
 /**
  * This represents a single action or {@link android.view.MotionEvent} or whatever

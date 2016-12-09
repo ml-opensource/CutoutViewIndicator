@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fuzz.indicator.text;
+package com.fuzz.indicator.cell;
 
 import android.support.annotation.NonNull;
 import android.text.Spannable;

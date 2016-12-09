@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fuzz.indicator;
+package com.fuzz.indicator.clip;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -24,6 +24,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.fuzz.indicator.CutoutViewLayoutParams;
+import com.fuzz.indicator.ImageCellGenerator;
+import com.fuzz.indicator.R;
 import com.fuzz.indicator.widget.TextClippedImageView;
 
 import java.util.Locale;
