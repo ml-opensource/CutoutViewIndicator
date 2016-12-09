@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.fuzz.emptyhusk.R;
 import com.fuzz.indicator.CutoutViewIndicator;
+import com.fuzz.indicator.OffSetHint;
 
 /**
  * This fragment offers a couple different inline {@link CutoutViewIndicator}
@@ -44,7 +45,10 @@ public class InlineViewPagerIndicatorFragment extends Fragment {
             viewPagerB.setAdapter(new InlineAdapter());
 
             final CutoutViewIndicator cviD = (CutoutViewIndicator) view.findViewById(R.id.cutoutViewIndicatorD);
+            final CutoutViewIndicator cviE = (CutoutViewIndicator) view.findViewById(R.id.cutoutViewIndicatorE);
             cviD.setViewPager(viewPagerB);
+            cviE.setViewPager(viewPagerB);
+            cviE.setOffsetHints(OffSetHint.IMAGE_ALPHA);
         }
     }
 

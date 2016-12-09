@@ -109,6 +109,13 @@ public class CutoutViewIndicator extends LinearLayout {
     @NonNull
     protected CutoutCellGenerator generator;
 
+    /**
+     * This value is set by {@link #showOffsetIndicator(int, IndicatorOffsetEvent)} into
+     * {@link IndicatorOffsetEvent#setOffSetHints(int)}.
+     */
+    @OffSetHint
+    protected int offsetHints = OffSetHint.IMAGE_TRANSLATE;
+
     @NonNull
     protected LayoutLogger logger;
 
@@ -532,11 +539,21 @@ public class CutoutViewIndicator extends LinearLayout {
      * @param offsetEvent    encapsulates offset and orientation information.
      */
     public void showOffsetIndicator(int position, @NonNull IndicatorOffsetEvent offsetEvent) {
+        offsetEvent.setOffSetHints(offsetHints);
         CutoutCell child = getCutoutCellAt(position);
         // We have something to draw
         if (child != null) {
             child.offsetContentBy(offsetEvent);
         }
+    }
+
+    /**
+     * Sets the {@link OffSetHint}s to be picked up by {@link IndicatorOffsetEvent#getOffSetHints()}.
+     *
+     * @param offsetHints    the offsets that this CutoutViewIndicator should request
+     */
+    public void setOffsetHints(@OffSetHint int offsetHints) {
+        this.offsetHints = offsetHints;
     }
 
     /**

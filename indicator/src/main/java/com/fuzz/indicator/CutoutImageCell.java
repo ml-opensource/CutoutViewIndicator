@@ -49,7 +49,9 @@ public class CutoutImageCell extends TypicalCutoutCell<ImageView> {
             OffSetters.offsetAlphaBy(itemView, 1 + event.getFraction());
         }
         if ((hints & OffSetHint.IMAGE_ALPHA) != 0) {
-            OffSetters.offsetImageAlphaBy(itemView, 1 + event.getFraction());
+            float fraction = 1 - Math.abs(event.getFraction());
+            // Max value of 1 when fraction == 0
+            OffSetters.offsetImageAlphaBy(itemView, fraction);
         }
         if ((hints & OffSetHint.SCALE) != 0) {
             OffSetters.offsetScaleBy(itemView, 1 + event.getFraction());
