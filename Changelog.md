@@ -106,4 +106,6 @@
 [#40]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/40
 [#42]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/42
 [#49]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/49
+[#50]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/50
+[#51]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/51
 [#53]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/53
