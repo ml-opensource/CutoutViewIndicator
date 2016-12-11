@@ -24,7 +24,6 @@ import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 
-import com.fuzz.indicator.CutoutViewIndicator;
 import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
 import com.fuzz.indicator.proxy.ProxyReference;
 import com.fuzz.indicator.proxy.ViewProvidingStateProxy;
@@ -40,13 +39,10 @@ class RecyclerStateProxy implements ViewProvidingStateProxy {
     @NonNull
     private final RecyclerView recyclerView;
     @NonNull
-    private CutoutViewIndicator cvi;
-    @NonNull
     private CVIScrollListener listener;
 
-    public RecyclerStateProxy(@NonNull RecyclerView recyclerView, @NonNull CutoutViewIndicator cvi, @NonNull CVIScrollListener listener) {
+    public RecyclerStateProxy(@NonNull RecyclerView recyclerView, @NonNull CVIScrollListener listener) {
         this.recyclerView = recyclerView;
-        this.cvi = cvi;
         this.listener = listener;
     }
 

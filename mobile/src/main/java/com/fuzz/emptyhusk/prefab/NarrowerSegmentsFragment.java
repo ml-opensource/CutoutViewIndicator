@@ -85,7 +85,7 @@ public class NarrowerSegmentsFragment extends Fragment {
         int initialDy = recyclerView.getScrollY();
 
         CVIScrollListener listener = new CVIScrollListener(cvi, initialDx, initialDy);
-        RecyclerStateProxy proxy = new RecyclerStateProxy(recyclerView, cvi, listener);
+        RecyclerStateProxy proxy = new RecyclerStateProxy(recyclerView, listener);
         cvi.setStateProxy(proxy);
         recyclerView.addOnScrollListener(listener);
     }
