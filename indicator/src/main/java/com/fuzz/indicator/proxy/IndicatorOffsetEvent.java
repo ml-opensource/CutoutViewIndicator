@@ -32,15 +32,14 @@ public class IndicatorOffsetEvent implements OffsetEvent {
 
     protected final float fraction;
 
-    protected final int orientation;
+    protected int orientation;
 
     @OffSetHint
     protected int offSetHints = OffSetHint.IMAGE_TRANSLATE;
 
-    public IndicatorOffsetEvent(int position, float fraction, int orientation) {
+    public IndicatorOffsetEvent(int position, float fraction) {
         this.position = position;
         this.fraction = fraction;
-        this.orientation = orientation;
     }
 
     /**
@@ -63,8 +62,7 @@ public class IndicatorOffsetEvent implements OffsetEvent {
     public static IndicatorOffsetEvent from(@NonNull ProxyReference cvi, float assumedPosition) {
         return new IndicatorOffsetEvent(
                 cvi.fixPosition((int) assumedPosition),
-                assumedPosition - (int) assumedPosition,
-                cvi.getOrientation()
+                assumedPosition - (int) assumedPosition
         );
     }
 
@@ -75,6 +73,15 @@ public class IndicatorOffsetEvent implements OffsetEvent {
     @Override
     public float getFraction() {
         return fraction;
+    }
+
+    /**
+     * See {@link #getOrientation()} for details on the orientation field.
+     *
+     * @param orientation    the new (horizontal or vertical) orientation value
+     */
+    public void setOrientation(int orientation) {
+        this.orientation = orientation;
     }
 
     /**

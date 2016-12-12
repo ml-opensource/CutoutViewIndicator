@@ -18,10 +18,4 @@ public interface ProxyReference {
      */
     int fixPosition(int proposed);
 
-    /**
-     * See {@link CutoutViewIndicator#getOrientation()} for
-     * details.
-     * @return either horizontal or vertical
-     */
-    int getOrientation();
 }

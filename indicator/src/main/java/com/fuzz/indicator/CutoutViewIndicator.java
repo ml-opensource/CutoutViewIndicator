@@ -534,7 +534,7 @@ public class CutoutViewIndicator extends LinearLayout implements ProxyReference 
      *                         indicator will be drawn
      */
     public void showOffsetIndicator(int position, float percentageOffset) {
-        showOffsetIndicator(position, new IndicatorOffsetEvent(position, percentageOffset, getOrientation()));
+        showOffsetIndicator(position, new IndicatorOffsetEvent(position, percentageOffset));
     }
 
     /**
@@ -546,6 +546,7 @@ public class CutoutViewIndicator extends LinearLayout implements ProxyReference 
      * @param offsetEvent    encapsulates offset and orientation information.
      */
     public void showOffsetIndicator(int position, @NonNull IndicatorOffsetEvent offsetEvent) {
+        offsetEvent.setOrientation(getOrientation());
         offsetEvent.setOffSetHints(offsetHints);
         CutoutCell child = getCutoutCellAt(position);
         // We have something to draw
