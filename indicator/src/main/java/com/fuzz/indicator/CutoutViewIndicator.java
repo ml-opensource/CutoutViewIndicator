@@ -88,6 +88,12 @@ public class CutoutViewIndicator extends LinearLayout implements ProxyReference 
     @NonNull
     protected CutoutViewLayoutParams defaultChildParams;
 
+    /**
+     * A wrapper for the current state - see {@link StateProxy} javadoc for details.
+     *
+     * @see #setStateProxy(StateProxy)
+     * @see #setViewPager(ViewPager)
+     */
     @NonNull
     protected StateProxy stateProxy = new UnavailableProxy();
 
@@ -124,99 +130,12 @@ public class CutoutViewIndicator extends LinearLayout implements ProxyReference 
     @NonNull
     protected LayoutLogger logger;
 
-    protected DataSetObserver dataSetObserver = new DataSetObserver() {
-        /**
-         * This method is called when the entire data set has changed,
-         * most likely through a call to {@link Cursor#requery()} on a {@link Cursor}.
-         *
-         * In our case, this is most commonly triggered by {@link android.support.v4.view.PagerAdapter#notifyDataSetChanged()}
-         */
-        @Override
-        public void onChanged() {
-            super.onChanged();
-            int childCount = getChildCount();
-            int pageCount = getPageCount();
-
-            // Unlike in RecyclerView, the individual CutoutCells are considered interchangeable.
-            // Therefore the only thing that matters here is how many views there are supposed to be on screen
-
-            int newViews = pageCount - childCount;
-
-            if (newViews > 0) {
-                // We're adding new views
-                addNewViews(childCount, pageCount);
-            } else if (newViews < 0) {
-                // We're removing views
-                removeViews(pageCount, -newViews);
-                // Make sure to null out those references to CutoutCells
-                for (int i = pageCount; i < childCount; i++) {
-                    unbindChild(cells.get(i));
-                }
-            } else {
-                // Quantity isn't changing.
-            }
-
-            IndicatorOffsetEvent event = stateProxy.resendPositionInfo(CutoutViewIndicator.this, getCurrentIndicatorPosition());
-            showOffsetIndicator(event.getPosition(), event);
-        }
-
-        /**
-         * Calls {@link CutoutViewIndicator#addView} {@code pageCount - childCount} times. All new
-         * views added are placed at the end of the CutoutViewIndicator.
-         * <p>
-         *     If there is a non-null entry in {@link CutoutViewIndicator#cells} at the
-         *     position where this new view will be placed, then that value is queried
-         *     for its {@link CutoutCell#getItemView() itemView}. If that itemView is then
-         *     not null and not currently attached to a parent it will be added here.
-         * </p>
-         * <p>
-         *     However, if the CutoutCell's itemView <em>is</em> null or attached to a
-         *     {@link android.view.ViewParent parent}, it will not be used and a new
-         *     CutoutCell will be created (with a backing view) by
-         *     {@link CutoutViewIndicator#createCellFor(int)}.
-         * </p>
-         * At the end of this method, the entry in {@link CutoutViewIndicator#cells} for
-         * each position of a newly-added View will contain a reference to that View's
-         * {@link CutoutCell}.
-         * @param childCount    the number of views currently added as children of this
-         * {@link CutoutViewIndicator}
-         * @param pageCount     the number of children this CutoutViewIndicator should
-         *                      have to match the {@link CutoutViewIndicator#stateProxy}'s
-         *                      {@link StateProxy#getCellCount() cell count}.
-         */
-        protected void addNewViews(int childCount, int pageCount) {
-            for (int i = childCount; i < pageCount; i++) {
-                // This is a cached view
-                CutoutCell cell = cells.get(i);
-
-                if (cell == null || cell.getItemView().getParent() != null) {
-                    // Current CutoutCell is nonexistent or already in use elsewhere...create and add a new one!
-                    if (cell != null && cell.getItemView().getParent() == CutoutViewIndicator.this) {
-                        Log.w(TAG, "It would appear that the view at " + i + " was not removed properly.");
-                    }
-
-                    cell = createCellFor(i);
-                    cells.put(i, cell);
-                }
-
-                // This will invalidate the added view, triggering a call to this class's onMeasure()
-                addView(cell.getItemView(), i);
-            }
-        }
-
-        /**
-         * This method is called when the entire data becomes invalid,
-         * most likely through a call to {@link Cursor#deactivate()} or {@link Cursor#close()} on a
-         * {@link Cursor}.
-         * <p>
-         *     {@link ViewPager} doesn't really call this method.
-         * </p>
-         */
-        @Override
-        public void onInvalidated() {
-            super.onInvalidated();
-        }
-    };
+    /**
+     * An observer which gets notified whenever the data backing {@link #stateProxy} changes.
+     *
+     * By default, this is an implementation of {@link IntegratedDataSetObserver}.
+     */
+    protected DataSetObserver dataSetObserver = new IntegratedDataSetObserver();
 
     public CutoutViewIndicator(Context context) {
         this(context, null);
@@ -977,5 +896,106 @@ public class CutoutViewIndicator extends LinearLayout implements ProxyReference 
     @Override
     protected LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
         return new CutoutViewLayoutParams(p);
+    }
+
+    /**
+     * Dedicated implementation of {@link DataSetObserver} for use with
+     * {@link android.support.v4.view.PagerAdapter#registerDataSetObserver(DataSetObserver)}
+     * and {@code RecyclerView.Adapter}.
+     *
+     * @see #onChanged()
+     */
+    protected class IntegratedDataSetObserver extends DataSetObserver {
+        /**
+         * This method is called when the entire data set has changed,
+         * most likely through a call to {@link Cursor#requery()} on a {@link Cursor}.
+         *
+         * In our case, this is most commonly triggered by {@link android.support.v4.view.PagerAdapter#notifyDataSetChanged()}
+         */
+        @Override
+        public void onChanged() {
+            super.onChanged();
+            int childCount = getChildCount();
+            int pageCount = getPageCount();
+
+            // Unlike in RecyclerView, the individual CutoutCells are considered interchangeable.
+            // Therefore the only thing that matters here is how many views there are supposed to be on screen
+
+            int newViews = pageCount - childCount;
+
+            if (newViews > 0) {
+                // We're adding new views
+                addNewViews(childCount, pageCount);
+            } else if (newViews < 0) {
+                // We're removing views
+                removeViews(pageCount, -newViews);
+                // Make sure to null out those references to CutoutCells
+                for (int i = pageCount; i < childCount; i++) {
+                    unbindChild(cells.get(i));
+                }
+            } else {
+                // Quantity isn't changing.
+            }
+
+            IndicatorOffsetEvent event = stateProxy.resendPositionInfo(CutoutViewIndicator.this, getCurrentIndicatorPosition());
+            showOffsetIndicator(event.getPosition(), event);
+        }
+
+        /**
+         * Calls {@link CutoutViewIndicator#addView} {@code pageCount - childCount} times. All new
+         * views added are placed at the end of the CutoutViewIndicator.
+         * <p>
+         *     If there is a non-null entry in {@link CutoutViewIndicator#cells} at the
+         *     position where this new view will be placed, then that value is queried
+         *     for its {@link CutoutCell#getItemView() itemView}. If that itemView is then
+         *     not null and not currently attached to a parent it will be added here.
+         * </p>
+         * <p>
+         *     However, if the CutoutCell's itemView <em>is</em> null or attached to a
+         *     {@link android.view.ViewParent parent}, it will not be used and a new
+         *     CutoutCell will be created (with a backing view) by
+         *     {@link CutoutViewIndicator#createCellFor(int)}.
+         * </p>
+         * At the end of this method, the entry in {@link CutoutViewIndicator#cells} for
+         * each position of a newly-added View will contain a reference to that View's
+         * {@link CutoutCell}.
+         * @param childCount    the number of views currently added as children of this
+         * {@link CutoutViewIndicator}
+         * @param pageCount     the number of children this CutoutViewIndicator should
+         *                      have to match the {@link CutoutViewIndicator#stateProxy}'s
+         *                      {@link StateProxy#getCellCount() cell count}.
+         */
+        protected void addNewViews(int childCount, int pageCount) {
+            for (int i = childCount; i < pageCount; i++) {
+                // This is a cached view
+                CutoutCell cell = cells.get(i);
+
+                if (cell == null || cell.getItemView().getParent() != null) {
+                    // Current CutoutCell is nonexistent or already in use elsewhere...create and add a new one!
+                    if (cell != null && cell.getItemView().getParent() == CutoutViewIndicator.this) {
+                        Log.w(TAG, "It would appear that the view at " + i + " was not removed properly.");
+                    }
+
+                    cell = createCellFor(i);
+                    cells.put(i, cell);
+                }
+
+                // This will invalidate the added view, triggering a call to this class's onMeasure()
+                addView(cell.getItemView(), i);
+            }
+        }
+
+        /**
+         * This method is called when the entire data becomes invalid,
+         * most likely through a call to {@link Cursor#deactivate()} or {@link Cursor#close()} on a
+         * {@link Cursor}.
+         * <p>
+         *     {@link ViewPager} doesn't really call this method.
+         * </p>
+         */
+        @Override
+        public void onInvalidated() {
+            super.onInvalidated();
+        }
     }
 }
