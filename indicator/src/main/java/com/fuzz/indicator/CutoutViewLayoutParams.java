@@ -173,19 +173,4 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
         perpendicularLength = cutoutSource.perpendicularLength;
         cutoutCell = cutoutSource.cutoutCell;
     }
-
-    /**
-     * Unlike calling the constructor, if the passed parameters are already of this
-     * type they will be returned directly.
-     *
-     * @param layoutParams any layoutParams, ideally descendants of {@link CutoutViewLayoutParams}
-     * @return valid CutoutViewLayoutParams
-     */
-    public static CutoutViewLayoutParams from(@NonNull ViewGroup.LayoutParams layoutParams) {
-        if (layoutParams instanceof CutoutViewLayoutParams) {
-            return (CutoutViewLayoutParams) layoutParams;
-        } else {
-            return new CutoutViewLayoutParams(layoutParams);
-        }
-    }
 }

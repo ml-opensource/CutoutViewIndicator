@@ -360,14 +360,15 @@ public class CutoutViewIndicator extends LinearLayout implements ProxyReference 
 
     /**
      * Binds the special properties of {@link CutoutViewLayoutParams} to the
-     * child in question.
+     * child in question. The child was previously added to this via some {@link #addView}
+     * overload, so it can be safely assumed that its layout params fulfill all requirements
+     * of {@link #checkLayoutParams(ViewGroup.LayoutParams)}.
      *
      * @param position    what position this child possesses in terms of {@link #getChildAt(int)}
-     * @param child       a view that will soon be added to this CutoutViewIndicator
+     * @param child       a view that has just been added to this CutoutViewIndicator
      */
     protected void bindChild(int position, View child) {
-        CutoutViewLayoutParams lp;
-        lp = CutoutViewLayoutParams.from(child.getLayoutParams());
+        CutoutViewLayoutParams lp = (CutoutViewLayoutParams) child.getLayoutParams();
         lp.position = position;
 
         int cellLength;
