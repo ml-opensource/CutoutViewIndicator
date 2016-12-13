@@ -107,11 +107,11 @@ public class GeneratorChoiceFragment extends DialogFragment {
                 .create();
     }
 
+    @SuppressWarnings("unchecked")
     @NonNull
     private Class<? extends CutoutCellGenerator> getChosenFrom(@Nullable Bundle bundle) {
         Class<? extends CutoutCellGenerator> chosen = null;
         if (bundle != null) {
-            //noinspection unchecked
             chosen = (Class<? extends CutoutCellGenerator>) bundle.getSerializable(ARG_PRESELECT);
         }
         if (chosen == null) {

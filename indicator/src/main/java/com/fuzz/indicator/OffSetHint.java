@@ -50,7 +50,7 @@ import static com.fuzz.indicator.OffSetHint.IMAGE_TRANSLATE;
                 SCALE, IMAGE_SCALE
         },
         flag = true)
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.SOURCE)
 public @interface OffSetHint {
     /**
      * Corresponds to {@link OffSetters#offsetImageBy(ImageView, int, float, Matrix)}
