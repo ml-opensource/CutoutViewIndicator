@@ -68,10 +68,6 @@ if (project.hasProperty('waitForEmulator')) {
                 workingDir '.'
                 commandLine 'android-wait-for-emulator'
             }
-            exec {
-                workingDir '.'
-                commandLine 'adb shell input keyevent 82 &'
-            }
         }
     }
 
