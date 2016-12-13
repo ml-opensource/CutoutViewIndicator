@@ -22,6 +22,7 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 
 import com.fuzz.indicator.CutoutViewIndicator;
+import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
 
 /**
  * {@link RecyclerView} analog to {@link com.fuzz.indicator.OnViewPagerChangeListener}.
@@ -48,9 +49,8 @@ class CVIScrollListener extends RecyclerView.OnScrollListener {
         }
     }
 
-    public void centerIndicatorAround(float position) {
-        int integralPos = (int) position;
-        cvi.showOffsetIndicator(cvi.fixPosition(integralPos), position - integralPos);
+    public IndicatorOffsetEvent centerIndicatorAround(float position) {
+        return IndicatorOffsetEvent.from(cvi, position);
     }
 
     @Override

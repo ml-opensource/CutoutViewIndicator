@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fuzz.indicator;
+package com.fuzz.indicator.proxy;
 
 import android.database.DataSetObserver;
+
+import com.fuzz.indicator.CutoutViewIndicator;
 
 /**
  * Wrap an implementation of this class around your state machine.
@@ -53,7 +55,7 @@ public interface StateProxy {
      *                                    not be the same as
      *                                    {@link #getCurrentPosition()}.
      */
-    void resendPositionInfo(CutoutViewIndicator cvi, float assumedIndicatorPosition);
+    IndicatorOffsetEvent resendPositionInfo(ProxyReference cvi, float assumedIndicatorPosition);
 
     /**
      * This method is called when the {@link CutoutViewIndicator} is ready

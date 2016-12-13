@@ -26,7 +26,7 @@ import com.fuzz.emptyhusk.BoldTextCellGenerator;
 import com.fuzz.emptyhusk.R;
 import com.fuzz.indicator.ImageCellGenerator;
 import com.fuzz.indicator.CutoutCellGenerator;
-import com.fuzz.indicator.SequentialCellGenerator;
+import com.fuzz.indicator.clip.SequentialCellGenerator;
 import com.fuzz.indicator.clip.ClippedImageCellGenerator;
 
 import java.util.ArrayList;

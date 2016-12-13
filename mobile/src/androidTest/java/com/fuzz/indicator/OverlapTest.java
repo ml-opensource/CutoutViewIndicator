@@ -20,6 +20,7 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.fuzz.emptyhusk.InstrumentationAwareActivity;
 import com.fuzz.emptyhusk.MainViewBinding;
+import com.fuzz.indicator.proxy.StateProxy;
 
 import org.junit.Before;
 import org.junit.Rule;

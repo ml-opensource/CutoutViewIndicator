@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fuzz.indicator.text;
+package com.fuzz.indicator.cell;
 
 import android.support.annotation.NonNull;
 import android.text.Spannable;
@@ -21,9 +21,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.widget.TextView;
 
-import com.fuzz.indicator.TypicalCutoutCell;
-import com.fuzz.indicator.OffSetters;
-import com.fuzz.indicator.IndicatorOffsetEvent;
+import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
 
 /**
  * Simple indicator implementation for TextViews.

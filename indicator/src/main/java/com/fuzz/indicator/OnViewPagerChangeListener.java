@@ -17,6 +17,9 @@ package com.fuzz.indicator;
 
 import android.support.v4.view.ViewPager;
 
+import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
+import com.fuzz.indicator.proxy.ProxyReference;
+
 /**
  * Change listener for easy integration between {@link CutoutViewIndicator}
  * and {@link android.support.v4.view.ViewPager}.
@@ -51,17 +54,17 @@ public class OnViewPagerChangeListener implements ViewPager.OnPageChangeListener
 
     @Override
     public void onPageSelected(int position) {
-        onPageSelected(cvi, position);
+        createEventFrom(cvi, position);
     }
 
     /**
      * Integration implementation of {@link #onPageSelected(int)} for use with
-     * {@link ViewPagerStateProxy#resendPositionInfo(CutoutViewIndicator, float)}.
+     * {@link ViewPagerStateProxy#resendPositionInfo(ProxyReference, float)}.
      * @param cvi         which CutoutViewIndicator to call methods on.
      * @param position    a specified position within the indicator.
      */
-    public void onPageSelected(CutoutViewIndicator cvi, float position) {
-        cvi.showOffsetIndicator(cvi.fixPosition((int)position), position - (int)position);
+    public IndicatorOffsetEvent createEventFrom(ProxyReference cvi, float position) {
+        return IndicatorOffsetEvent.from(cvi, position);
     }
 
     @Override

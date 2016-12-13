@@ -21,7 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.fuzz.indicator.clip.FrameAwareCutoutImageCell;
+import com.fuzz.indicator.cell.CutoutCell;
 
 /**
  * Default implementation of {@link CutoutCellGenerator}.

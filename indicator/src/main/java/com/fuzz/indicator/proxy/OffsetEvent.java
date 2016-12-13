@@ -13,13 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fuzz.indicator;
+package com.fuzz.indicator.proxy;
 
 import android.graphics.Matrix;
 import android.text.Spannable;
 import android.widget.ImageView;
 
-import com.fuzz.indicator.text.CutoutTextCell;
+import com.fuzz.indicator.CutoutImageCell;
+import com.fuzz.indicator.CutoutViewIndicator;
+import com.fuzz.indicator.cell.OffSetters;
+import com.fuzz.indicator.cell.CutoutTextCell;
 
 /**
  * This represents a single action or {@link android.view.MotionEvent} or whatever

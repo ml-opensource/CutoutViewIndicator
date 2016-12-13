@@ -18,7 +18,7 @@ package com.fuzz.indicator.style;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 
-import com.fuzz.indicator.text.CutoutTextCell;
+import com.fuzz.indicator.cell.CutoutTextCell;
 
 /**
  * Interface to be implemented by spans used in {@link CutoutTextCell}.

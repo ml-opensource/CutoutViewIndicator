@@ -25,8 +25,9 @@ import android.widget.TextView;
 
 import com.fuzz.indicator.CutoutViewIndicator;
 import com.fuzz.indicator.CutoutViewLayoutParams;
-import com.fuzz.indicator.CutoutCell;
+import com.fuzz.indicator.cell.CutoutCell;
 import com.fuzz.indicator.CutoutCellGenerator;
+import com.fuzz.indicator.cell.CutoutTextCell;
 
 /**
  * This generator is intended to animate stuff on TextViews

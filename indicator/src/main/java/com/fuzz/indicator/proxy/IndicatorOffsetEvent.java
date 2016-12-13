@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fuzz.indicator;
+package com.fuzz.indicator.proxy;
+
+import android.support.annotation.NonNull;
+
+import com.fuzz.indicator.CutoutViewIndicator;
+import com.fuzz.indicator.OffSetHint;
 
 /**
  * An OffsetEvent that gives precise scroll information in the spirit of
@@ -27,15 +32,38 @@ public class IndicatorOffsetEvent implements OffsetEvent {
 
     protected final float fraction;
 
-    protected final int orientation;
+    protected int orientation;
 
     @OffSetHint
     protected int offSetHints = OffSetHint.IMAGE_TRANSLATE;
 
-    public IndicatorOffsetEvent(int position, float fraction, int orientation) {
+    public IndicatorOffsetEvent(int position, float fraction) {
         this.position = position;
         this.fraction = fraction;
-        this.orientation = orientation;
+    }
+
+    /**
+     * When non-CutoutViewIndicator objects wish to call
+     * {@link CutoutViewIndicator#showOffsetIndicator(int, IndicatorOffsetEvent)}, they
+     * have two rudimentary options:
+     * <ul>
+     *     <li>call methods on {@code cvi} to rectify {@code assumedPosition} and determine what orientation to specify</li>
+     *     <li>ignore CutoutViewIndicator and always return the same value</li>
+     * </ul>
+     * This method makes the first option more palatable - its parameters are the same as those to
+     * {@link StateProxy#resendPositionInfo(ProxyReference, float)}, so it can smoothly
+     * delegate for any implementations of that method.
+     *
+     * @param cvi                a source of information about CutoutViewIndicator's properties
+     * @param assumedPosition    the return value from {@link CutoutViewIndicator#getCurrentIndicatorPosition()}
+     * @return a new IndicatorOffsetEvent representing the current state of {@code cvi}.
+     */
+    @NonNull
+    public static IndicatorOffsetEvent from(@NonNull ProxyReference cvi, float assumedPosition) {
+        return new IndicatorOffsetEvent(
+                cvi.fixPosition((int) assumedPosition),
+                assumedPosition - (int) assumedPosition
+        );
     }
 
     public int getPosition() {
@@ -45,6 +73,15 @@ public class IndicatorOffsetEvent implements OffsetEvent {
     @Override
     public float getFraction() {
         return fraction;
+    }
+
+    /**
+     * See {@link #getOrientation()} for details on the orientation field.
+     *
+     * @param orientation    the new (horizontal or vertical) orientation value
+     */
+    public void setOrientation(int orientation) {
+        this.orientation = orientation;
     }
 
     /**

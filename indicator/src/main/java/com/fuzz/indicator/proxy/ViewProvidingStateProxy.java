@@ -1,7 +1,10 @@
-package com.fuzz.indicator;
+package com.fuzz.indicator.proxy;
 
 import android.support.annotation.Nullable;
 import android.view.View;
+
+import com.fuzz.indicator.CutoutCellGenerator;
+import com.fuzz.indicator.CutoutViewLayoutParams;
 
 /**
  * Optional extension to {@link StateProxy} to support queries on specific

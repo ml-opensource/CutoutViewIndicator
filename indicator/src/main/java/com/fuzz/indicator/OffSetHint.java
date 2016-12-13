@@ -20,6 +20,8 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.fuzz.indicator.cell.OffSetters;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -48,7 +50,7 @@ import static com.fuzz.indicator.OffSetHint.IMAGE_TRANSLATE;
                 SCALE, IMAGE_SCALE
         },
         flag = true)
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.SOURCE)
 public @interface OffSetHint {
     /**
      * Corresponds to {@link OffSetters#offsetImageBy(ImageView, int, float, Matrix)}

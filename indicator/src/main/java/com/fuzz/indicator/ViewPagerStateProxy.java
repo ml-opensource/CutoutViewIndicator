@@ -22,6 +22,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
+import com.fuzz.indicator.proxy.ProxyReference;
+import com.fuzz.indicator.proxy.StateProxy;
+import com.fuzz.indicator.proxy.ViewProvidingStateProxy;
+
 /**
  * {@link StateProxy} wrapper around a {@link ViewPager}. All calls
  * are delegated to this object.
@@ -53,9 +58,9 @@ public class ViewPagerStateProxy implements ViewProvidingStateProxy {
     }
 
     @Override
-    public void resendPositionInfo(CutoutViewIndicator cvi, float assumedIndicatorPosition) {
+    public IndicatorOffsetEvent resendPositionInfo(ProxyReference cvi, float assumedIndicatorPosition) {
         // We blindly trust that the assumed position is accurate.
-        pageChangeListener.onPageSelected(cvi, assumedIndicatorPosition);
+        return pageChangeListener.createEventFrom(cvi, assumedIndicatorPosition);
     }
 
     @Nullable

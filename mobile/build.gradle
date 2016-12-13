@@ -58,3 +58,25 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
 }
+
+if (project.hasProperty('waitForEmulator')) {
+    // We're running in some sort of integration test environment, probably Travis
+    task waitForAVD {
+        doLast {
+            // The basic idea is that by the time this task runs, the emulator will already be up
+            exec {
+                workingDir '.'
+                commandLine 'time', 'android-wait-for-emulator'
+            }
+            exec {
+                workingDir '.'
+                commandLine 'time', 'adb', 'shell', 'input', 'keyevent', '82', '&'
+            }
+        }
+    }
+
+    gradle.projectsEvaluated {
+        // the connectedDebugAndroidTest task doesn't exist until evaluation has finished
+        connectedDebugAndroidTest.dependsOn(waitForAVD)
+    }
+}

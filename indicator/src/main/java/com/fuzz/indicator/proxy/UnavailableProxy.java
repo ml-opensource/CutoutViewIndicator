@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fuzz.indicator;
+package com.fuzz.indicator.proxy;
 
 import android.database.DataSetObserver;
 
@@ -35,8 +35,8 @@ public class UnavailableProxy implements StateProxy {
     }
 
     @Override
-    public void resendPositionInfo(CutoutViewIndicator cvi, float assumedIndicatorPosition) {
-        // Do nothing
+    public IndicatorOffsetEvent resendPositionInfo(ProxyReference cvi, float assumedIndicatorPosition) {
+        return IndicatorOffsetEvent.from(cvi, assumedIndicatorPosition);
     }
 
     @Override
