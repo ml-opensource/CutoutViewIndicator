@@ -18,14 +18,16 @@ public class InlineAdapter extends PagerAdapter implements ViewProvidingAdapter 
 
     @NonNull
     private final LruCache<Integer, View> viewCache;
+    private final int count;
 
-    public InlineAdapter() {
+    public InlineAdapter(int count) {
+        this.count = count;
         viewCache = new LruCache<>(4);
     }
 
     @Override
     public int getCount() {
-        return 7;
+        return count;
     }
 
     @Override

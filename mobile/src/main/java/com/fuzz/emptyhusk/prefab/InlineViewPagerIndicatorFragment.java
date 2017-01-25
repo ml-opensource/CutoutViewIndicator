@@ -32,7 +32,7 @@ public class InlineViewPagerIndicatorFragment extends Fragment {
         View view = getView();
         if (view != null) {
             final ViewPager viewPagerA = (ViewPager) view.findViewById(R.id.viewPagerA);
-            viewPagerA.setAdapter(new InlineAdapter());
+            viewPagerA.setAdapter(new InlineAdapter(7));
 
             final CutoutViewIndicator cviA = (CutoutViewIndicator) view.findViewById(R.id.cutoutViewIndicatorA);
             final CutoutViewIndicator cviB = (CutoutViewIndicator) view.findViewById(R.id.cutoutViewIndicatorB);
@@ -42,7 +42,7 @@ public class InlineViewPagerIndicatorFragment extends Fragment {
             cviC.setViewPager(viewPagerA);
 
             final ViewPager viewPagerB = (ViewPager) view.findViewById(R.id.viewPagerB);
-            viewPagerB.setAdapter(new InlineAdapter());
+            viewPagerB.setAdapter(new InlineAdapter(3));
 
             final CutoutViewIndicator cviD = (CutoutViewIndicator) view.findViewById(R.id.cutoutViewIndicatorD);
             final CutoutViewIndicator cviE = (CutoutViewIndicator) view.findViewById(R.id.cutoutViewIndicatorE);
