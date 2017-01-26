@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,6 +17,9 @@
             android:id="@+id/viewPagerA"
             android:layout_width="match_parent"
             android:layout_height="160dp"
+            tools:layout_width="160dp"
+            tools:layout_gravity="center_horizontal"
+            tools:background="@drawable/circle_tertiary"
             />
 
         <LinearLayout
@@ -169,6 +173,9 @@
             android:id="@+id/viewPagerB"
             android:layout_width="match_parent"
             android:layout_height="160dp"
+            tools:layout_width="160dp"
+            tools:layout_gravity="center_horizontal"
+            tools:background="@drawable/circle_tertiary"
             />
 
         <LinearLayout
@@ -190,7 +197,7 @@
                 app:rcv_height="20dp"
                 app:rcv_width="30dp"
                 app:rcv_generator_text_mask="*%d*"
-                app:rcv_generator_class_name="com.fuzz.indicator.SequentialCellGenerator"
+                app:rcv_generator_class_name="com.fuzz.indicator.clip.SequentialCellGenerator"
                 />
 
             <com.fuzz.indicator.CutoutViewIndicator
@@ -202,7 +209,6 @@
                 app:rcv_drawable_unselected="@drawable/white_circle_stroke_only"
                 app:rcv_internal_margin="5dp"
                 app:rcv_tools_indicator_count="7"
-                app:rcv_generator_class_name="com.fuzz.indicator.ImageCellGenerator"
                 />
 
         </LinearLayout>
