@@ -1,7 +1,7 @@
 /*
  * Copyright 2016 fanrunqi
  *
- * Modifications Copyright 2016 Philip Cohn-Cort (Fuzz)
+ * Modifications Copyright 2016-2017 Philip Cohn-Cort (Fuzz)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
  */
 package com.fuzz.indicator.widget;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -93,21 +94,67 @@ public class ClippedImageView extends ImageView {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    /**
+     * The {@link ClippedImageView} version of {@link ImageView#onMeasure(int, int)} is marked
+     * final, since it needs to check measured dimensions before AND after the measurement
+     * actually happens. Actual measurement is performed by
+     * {@link #extensibleOnMeasure(int, int)}.
+     * <p>
+     *     If the two pairs of measurements come back different,
+     *     {@link #onDimensionsChanged(int, int)} will be called with the new
+     *     {@link #getMeasuredWidth()} and {@link #getMeasuredHeight()} values.
+     * </p>
+     *
+     * <hr/>
+     * <p/>
+     *
+     * {@inheritDoc}
+     */
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected final void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int prevHeight = getMeasuredHeight();
         int prevWidth = getMeasuredWidth();
 
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        extensibleOnMeasure(widthMeasureSpec, heightMeasureSpec);
 
         int postHeight = getMeasuredHeight();
         int postWidth = getMeasuredWidth();
 
         if (prevHeight != postHeight || prevWidth != postWidth) {
             // Dimensions have changed.
-            if (getBackingBackground() != null ) {
-                backgroundBitmap = extractBitmapFrom(getBackingBackground(), postWidth, postHeight);
-            }
+            onDimensionsChanged(postHeight, postWidth);
+        }
+    }
+
+    /**
+     * Delegate from {@link ClippedImageView#onMeasure(int, int) ClippedImageView.onMeasure}
+     * to directly call {@link ImageView#onMeasure(int, int)}. If you override this, make sure
+     * to either
+     * <ol>
+     *     <li>call into ClippedImageView with e.g. {@code super.extensibleOnMeasure()}</li>
+     *     or
+     *     <li>call {@link #setMeasuredDimension(int, int)}</li>
+     * </ol>
+     * If you don't do either of those, expect an IllegalStateException from the SDK.
+     *
+     * @param widthMeasureSpec     parameter to this class's {@link #onMeasure(int, int)}
+     * @param heightMeasureSpec    parameter to this class's {@link #onMeasure(int, int)}
+     */
+    @SuppressLint("WrongCall")
+    protected void extensibleOnMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    /**
+     * Protected method for actions that need to take place in {@link #onMeasure(int, int)}
+     * whenever the newly-measured dimensions are different from what they were previously.
+     *
+     * @param postHeight    height after measuring
+     * @param postWidth     width after measuring
+     */
+    protected void onDimensionsChanged(int postHeight, int postWidth) {
+        if (getBackingBackground() != null ) {
+            backgroundBitmap = extractBitmapFrom(getBackingBackground(), postWidth, postHeight);
         }
     }
 
