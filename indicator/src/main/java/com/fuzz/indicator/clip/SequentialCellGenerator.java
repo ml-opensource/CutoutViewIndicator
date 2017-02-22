@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Philip Cohn-Cort
+ * Copyright 2016-2017 Philip Cohn-Cort
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,8 +65,11 @@ public class SequentialCellGenerator extends ImageCellGenerator {
     public void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp, @Nullable View originator) {
         child.setBackgroundResource(lp.cellBackgroundId);
         if (child instanceof TextClippedImageView) {
-            String mask = getMaskFor(lp);
-            ((TextClippedImageView) child).setTextMaskPath(mask);
+            if (!((TextClippedImageView)child).hasTextMask()) {
+                // Child mask is not set - propagate our default value
+                String mask = getMaskFor(lp);
+                ((TextClippedImageView) child).setTextMaskPath(mask);
+            }
             bindImageToChild((ImageView) child, lp);
         } else {
             super.onBindChild(child, lp, originator);

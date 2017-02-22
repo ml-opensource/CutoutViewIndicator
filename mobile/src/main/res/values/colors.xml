@@ -24,4 +24,5 @@
     <color name="transparentColorAccent">#CCE65100</color>
 
     <color name="lightBlue">#B3E5FC</color>
+    <color name="translucentGreen">#44226688</color>
 </resources>

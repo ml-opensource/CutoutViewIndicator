@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2016 Philip Cohn-Cort
+  Copyright 2016-2017 Philip Cohn-Cort
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -50,5 +50,9 @@
         <attr name="layout_rcv_cell_length" format="dimension" />
         <!-- transverse length of each individual cell (perpendicular to direction of CVI) -->
         <attr name="layout_rcv_perpendicular_length" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="TextClippedImageView">
+        <!-- optional text mask for this view -->
+        <attr name="clip_text_mask" format="string" />
     </declare-styleable>
 </resources>
