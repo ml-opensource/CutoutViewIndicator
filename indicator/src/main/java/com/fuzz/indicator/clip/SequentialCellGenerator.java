@@ -65,8 +65,11 @@ public class SequentialCellGenerator extends ImageCellGenerator {
     public void onBindChild(@NonNull View child, @NonNull CutoutViewLayoutParams lp, @Nullable View originator) {
         child.setBackgroundResource(lp.cellBackgroundId);
         if (child instanceof TextClippedImageView) {
-            String mask = getMaskFor(lp);
-            ((TextClippedImageView) child).setTextMaskPath(mask);
+            if (!((TextClippedImageView)child).hasTextMask()) {
+                // Child mask is not set - propagate our default value
+                String mask = getMaskFor(lp);
+                ((TextClippedImageView) child).setTextMaskPath(mask);
+            }
             bindImageToChild((ImageView) child, lp);
         } else {
             super.onBindChild(child, lp, originator);

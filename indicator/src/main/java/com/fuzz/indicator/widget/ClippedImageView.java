@@ -95,8 +95,8 @@ public class ClippedImageView extends ImageView {
     }
 
     /**
-     * The {@link ClippedImageView} version of {@link ImageView#onMeasure(int, int)} is marked
-     * final, since it needs to check measured dimensions before AND after the measurement
+     * This method, the {@link ClippedImageView} version of {@link ImageView#onMeasure(int, int)},
+     * is marked final since it needs to check measured dimensions before AND after the measurement
      * actually happens. Actual measurement is performed by
      * {@link #extensibleOnMeasure(int, int)}.
      * <p>
