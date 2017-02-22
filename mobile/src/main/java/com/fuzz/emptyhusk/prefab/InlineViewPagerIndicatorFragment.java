@@ -42,13 +42,15 @@ public class InlineViewPagerIndicatorFragment extends Fragment {
             cviC.setViewPager(viewPagerA);
 
             final ViewPager viewPagerB = (ViewPager) view.findViewById(R.id.viewPagerB);
-            viewPagerB.setAdapter(new InlineAdapter(3));
+            viewPagerB.setAdapter(new InlineAdapter(9));
 
             final CutoutViewIndicator cviD = (CutoutViewIndicator) view.findViewById(R.id.cutoutViewIndicatorD);
             final CutoutViewIndicator cviE = (CutoutViewIndicator) view.findViewById(R.id.cutoutViewIndicatorE);
+            final CutoutViewIndicator cviF = (CutoutViewIndicator) view.findViewById(R.id.cutoutViewIndicatorF);
             cviD.setViewPager(viewPagerB);
             cviE.setViewPager(viewPagerB);
             cviE.setOffsetHints(OffSetHint.IMAGE_ALPHA);
+            cviF.setViewPager(viewPagerB);
         }
     }
 
