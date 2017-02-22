@@ -27,8 +27,8 @@
         <gradient
             android:type="radial"
             android:gradientRadius="@dimen/circle_fading_edge"
-            android:startColor="@color/colorSecondary"
-            android:endColor="@color/colorTertiary"
+            android:startColor="@color/colorTertiary"
+            android:endColor="@color/colorSecondary"
             />
         <size
             android:width="@dimen/rectangle_length"

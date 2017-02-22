@@ -41,7 +41,7 @@
         </activity>
         <activity
             android:name=".prefab.PlainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme"
             />
         <activity
             android:name=".InstrumentationAwareActivity"
