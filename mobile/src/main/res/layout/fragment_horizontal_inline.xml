@@ -34,7 +34,7 @@
             android:layout_height="160dp"
             tools:layout_width="160dp"
             tools:layout_gravity="center_horizontal"
-            tools:background="@drawable/circle_tertiary"
+            tools:background="@drawable/rectangle_wide_secondary"
             />
 
         <LinearLayout
@@ -42,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@color/translucentGreen"
             >
 
             <com.fuzz.indicator.CutoutViewIndicator
@@ -190,7 +191,7 @@
             android:layout_height="160dp"
             tools:layout_width="160dp"
             tools:layout_gravity="center_horizontal"
-            tools:background="@drawable/circle_secondary"
+            tools:background="@drawable/rectangle_wide_tertiary"
             />
 
         <LinearLayout
@@ -198,6 +199,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@color/translucentGreen"
             >
 
             <com.fuzz.indicator.CutoutViewIndicator

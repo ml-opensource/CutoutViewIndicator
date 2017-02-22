@@ -52,7 +52,7 @@ public class InlineAdapter extends PagerAdapter implements ViewProvidingAdapter 
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        int resId = (position % 3 == 0) ? R.drawable.circle_secondary : R.drawable.rectangle_wide_tertiary;
+        int resId = (position % 3 == 0) ? R.drawable.rectangle_wide_secondary : R.drawable.rectangle_wide_tertiary;
 
         ImageView inflated = new ImageView(container.getContext());
         inflated.setImageResource(resId);
