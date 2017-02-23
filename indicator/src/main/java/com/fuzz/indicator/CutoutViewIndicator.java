@@ -890,7 +890,9 @@ public class CutoutViewIndicator extends LinearLayout implements ProxyReference 
 
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new CutoutViewLayoutParams(getContext(), attrs);
+        CutoutViewLayoutParams params = new CutoutViewLayoutParams(defaultChildParams);
+        params.init(getContext(), attrs);
+        return params;
     }
 
     @Override
