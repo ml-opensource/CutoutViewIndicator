@@ -23,6 +23,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.LinearLayout;
 
 import com.fuzz.indicator.cell.CutoutCell;
@@ -106,13 +107,55 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
         }
     }
 
-    public CutoutViewLayoutParams(Context c, AttributeSet attrs) {
+    /**
+     * Utility method for choosing the right copy constructor.
+     *
+     * @param params           a pre-existing set of LayoutParams (might be null).
+     * @param defaultParams    the default set of LayoutParams to use when {@code params}
+     *                         is null
+     * @return a new set of {@link CutoutViewLayoutParams}.
+     */
+    @NonNull
+    public static CutoutViewLayoutParams createFrom(@Nullable ViewGroup.LayoutParams params, @NonNull CutoutViewLayoutParams defaultParams) {
+        if (params == null) {
+            return new CutoutViewLayoutParams(defaultParams);
+        } else if (params instanceof CutoutViewLayoutParams) {
+            return new CutoutViewLayoutParams((CutoutViewLayoutParams) params);
+        } else if (params instanceof MarginLayoutParams) {
+            return new CutoutViewLayoutParams((MarginLayoutParams) params);
+        } else  {
+            return new CutoutViewLayoutParams(params);
+        }
+    }
+
+    /**
+     * This constructor is called by the {@link CutoutViewIndicator} when inflating CVI
+     * children. It may only be called when that ViewGroup is fully inflated.
+     *
+     * {@inheritDoc}
+     * @param defaultParams the current value of {@link CutoutViewIndicator#defaultChildParams}
+     */
+    public CutoutViewLayoutParams(Context c, AttributeSet attrs, @NonNull CutoutViewLayoutParams defaultParams) {
         super(c, attrs);
-        init(c, attrs);
+        init(c, attrs, defaultParams);
     }
 
     public CutoutViewLayoutParams(@NonNull ViewGroup.LayoutParams source) {
         super(source);
+        if (source instanceof CutoutViewLayoutParams) {
+            CutoutViewLayoutParams cutoutSource = (CutoutViewLayoutParams) source;
+            setFrom(cutoutSource);
+        }
+    }
+
+    public CutoutViewLayoutParams(@NonNull MarginLayoutParams source) {
+        super(source);
+    }
+
+    public CutoutViewLayoutParams(@NonNull LinearLayout.LayoutParams source) {
+        super((MarginLayoutParams) source);
+        weight = source.weight;
+        gravity = source.gravity;
         if (source instanceof CutoutViewLayoutParams) {
             CutoutViewLayoutParams cutoutSource = (CutoutViewLayoutParams) source;
             setFrom(cutoutSource);
@@ -124,15 +167,33 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
     }
 
     @SuppressWarnings("ResourceType")
-    protected void init(Context context, AttributeSet attrs) {
+    protected void init(Context context, AttributeSet attrs, @Nullable CutoutViewLayoutParams defaultParams) {
+        if (defaultParams == null) {
+            defaultParams = new CutoutViewLayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+            defaultParams.perpendicularLength = WRAP_CONTENT;
+            defaultParams.cellLength = WRAP_CONTENT;
+        }
+
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CutoutViewIndicator_Layout);
-            indicatorDrawableId = a.getResourceId(R.styleable.CutoutViewIndicator_Layout_layout_rcv_drawable, 0);
+            indicatorDrawableId = a.getResourceId(
+                    R.styleable.CutoutViewIndicator_Layout_layout_rcv_drawable,
+                    defaultParams.indicatorDrawableId
+            );
 
-            perpendicularLength = a.getDimensionPixelSize(R.styleable.CutoutViewIndicator_Layout_layout_rcv_perpendicular_length, WRAP_CONTENT);
-            cellLength = a.getDimensionPixelOffset(R.styleable.CutoutViewIndicator_Layout_layout_rcv_cell_length, WRAP_CONTENT);
+            perpendicularLength = a.getDimensionPixelSize(
+                    R.styleable.CutoutViewIndicator_Layout_layout_rcv_perpendicular_length,
+                    defaultParams.perpendicularLength
+            );
+            cellLength = a.getDimensionPixelOffset(
+                    R.styleable.CutoutViewIndicator_Layout_layout_rcv_cell_length,
+                    defaultParams.cellLength
+            );
 
-            cellBackgroundId = a.getResourceId(R.styleable.CutoutViewIndicator_Layout_layout_rcv_drawable_unselected, 0);
+            cellBackgroundId = a.getResourceId(
+                    R.styleable.CutoutViewIndicator_Layout_layout_rcv_drawable_unselected,
+                    defaultParams.cellBackgroundId
+            );
 
             a.recycle();
         }
