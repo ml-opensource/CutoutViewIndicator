@@ -31,4 +31,8 @@
         android:id="@+id/inlineIndicators"
         android:title="@string/action_show_inline_view_pagers"
         />
+    <item
+        android:id="@+id/libraryLogo"
+        android:title="@string/action_show_dynamic_logo"
+        />
 </menu>

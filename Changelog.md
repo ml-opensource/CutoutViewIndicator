@@ -1,3 +1,27 @@
+# [0.8.0]
+## Clean codebase and streamline TextClippedImageView
+
+### Library changes:
+* New interface on `CutoutViewIndicator`: `ProxyReference` ([#56])
+* New package '.indicator.proxy' for code related to `StateProxy` ([#56])
+* New package '.indicator.cell' for `CutoutCell` and such ([#56])
+* Removed method: `CutoutViewLayoutParams::from` ([#56])
+* New inner class: `IntegratedDataSetObserver` ([#56])
+* Greatly augment `TextClippedImageView`: ([#64])
+  * Paths can now be read directly from `TCIV` attributes
+  * `TCIV` automatically resizes to `wrap_content`
+* `CutoutViewLayoutParams` of inflated views inherit attributes ([#66])
+* Updated gradle: 2.14.1 -> 3.2.1
+* Update copyright years to 2017 (where relevant)
+
+### Mobile app changes:
+* Remove field `cvi` from `RecyclerStateProxy` ([#56])
+* Generify `InlineAdapter`
+* `fragment_horizontal_inline.xml` now demonstrates `TCIV` usage
+* New `StateProxy` implementation: `LoopingProxy` ([#68])
+* New fragment: `AutomaticLogoFragment` ([#68])
+* Update copyright years to 2017 (where relevant)
+
 # [0.7.0]
 ## Move emphasis from CutoutCellGenerator to CutoutCell
 
@@ -109,3 +133,7 @@
 [#50]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/50
 [#51]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/51
 [#53]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/53
+[#56]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/56
+[#64]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/64
+[#66]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/66
+[#68]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/68
