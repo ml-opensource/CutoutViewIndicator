@@ -18,6 +18,8 @@
 * Remove field `cvi` from `RecyclerStateProxy` ([#56])
 * Generify `InlineAdapter`
 * `fragment_horizontal_inline.xml` now demonstrates `TCIV` usage
+* New `StateProxy` implementation: `LoopingProxy` ([#68])
+* New fragment: `AutomaticLogoFragment` ([#68])
 * Update copyright years to 2017 (where relevant)
 
 # [0.7.0]
@@ -134,3 +136,4 @@
 [#56]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/56
 [#64]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/64
 [#66]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/66
+[#68]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/68

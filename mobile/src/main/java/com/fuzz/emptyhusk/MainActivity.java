@@ -29,6 +29,7 @@ import android.widget.CompoundButton;
 
 import com.fuzz.emptyhusk.choosegenerator.GeneratorChoiceFragment;
 import com.fuzz.emptyhusk.choosegenerator.OnSelectedListener;
+import com.fuzz.emptyhusk.prefab.AutomaticLogoFragment;
 import com.fuzz.emptyhusk.prefab.NarrowerSegmentsFragment;
 import com.fuzz.emptyhusk.prefab.PlainActivity;
 import com.fuzz.emptyhusk.prefab.InlineViewPagerIndicatorFragment;
@@ -142,6 +143,15 @@ public class MainActivity extends AppCompatActivity {
                         null
                 );
                 startActivity(premadeIntent);
+                consumed = true;
+                break;
+            case R.id.libraryLogo:
+                Intent logoIntent = PlainActivity.request(
+                        this,
+                        AutomaticLogoFragment.class,
+                        null
+                );
+                startActivity(logoIntent);
                 consumed = true;
                 break;
         }
