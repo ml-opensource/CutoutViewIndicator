@@ -26,7 +26,6 @@ import static android.widget.LinearLayout.VERTICAL;
 import static android.widget.RelativeLayout.ALIGN_TOP;
 import static android.widget.RelativeLayout.BELOW;
 import static android.widget.RelativeLayout.CENTER_HORIZONTAL;
-import static android.widget.RelativeLayout.END_OF;
 import static android.widget.RelativeLayout.RIGHT_OF;
 import static android.widget.RelativeLayout.TRUE;
 
@@ -87,7 +86,7 @@ class ToggleAlignmentListener implements CompoundButton.OnCheckedChangeListener 
             // Explicitly removing the RIGHT_OF value ensures that only the relative direction
             // is used during resolution.
             anchorParams.removeRule(RIGHT_OF);
-            anchorParams.addRule(END_OF, rightOfSubject);
+            anchorParams.addRule(RelativeLayout.END_OF, rightOfSubject);
         } else {
             anchorParams.addRule(RIGHT_OF, rightOfSubject);
         }

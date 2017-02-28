@@ -26,6 +26,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.fuzz.emptyhusk.R;
 import com.fuzz.indicator.CutoutCellGenerator;
@@ -91,7 +93,11 @@ public class GeneratorChoiceFragment extends DialogFragment {
 
         LayoutInflater inflater = LayoutInflater.from(builder.getContext());
 
-        RecyclerView rootView = (RecyclerView) inflater.inflate(R.layout.dialog_generator, null, false);
+        // We're calling it 'decoy' because this is a throwaway View
+        ViewGroup decoy = new FrameLayout(builder.getContext());
+
+        // Satiate the lint check by inflating against this decoy
+        RecyclerView rootView = (RecyclerView) inflater.inflate(R.layout.dialog_generator, decoy, false);
         rootView.setAdapter(adapter);
         rootView.setLayoutManager(new LinearLayoutManager(getActivity(), VERTICAL, false));
 

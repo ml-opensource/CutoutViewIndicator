@@ -49,6 +49,7 @@ import android.widget.ImageView;
  * @author fanrunqi
  * @author Philip Cohn-Cort (Fuzz)
  */
+@SuppressLint("AppCompatCustomView")
 public class ClippedImageView extends ImageView {
 
     protected Bitmap backgroundBitmap;
