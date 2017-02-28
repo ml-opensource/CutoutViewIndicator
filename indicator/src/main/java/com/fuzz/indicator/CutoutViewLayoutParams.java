@@ -195,6 +195,8 @@ public class CutoutViewLayoutParams extends LinearLayout.LayoutParams {
                     defaultParams.cellBackgroundId
             );
 
+            internalSpacing = defaultParams.internalSpacing;
+
             a.recycle();
         }
     }
