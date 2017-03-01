@@ -71,6 +71,7 @@ dependencies {
     //compile "com.android.support:support-core-ui:$supportVersion"
 
     // Before that, though, this is the best way to include a ViewPager dependency.
+    //noinspection GradleDependency
     compile "com.android.support:support-v4:$supportVersion"
 
     testCompile 'junit:junit:4.12'
