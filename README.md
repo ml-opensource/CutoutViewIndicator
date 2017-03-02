@@ -60,7 +60,7 @@ repositories {
 ```
 ```
 dependencies {
-    compile 'com.github.fuzz-productions:CutoutViewIndicator:v0.8.0'
+    compile 'com.github.fuzz-productions:CutoutViewIndicator:v0.8.1'
 }
 ```
 

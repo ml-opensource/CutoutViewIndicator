@@ -1,3 +1,10 @@
+# [0.8.1]
+## Support latest stable android APIs
+
+### Library changes:
+* Wear project has been updated to build against the 2.0.0 release
+* Updated SDK target: API 25
+
 # [0.8.0]
 ## Clean codebase and streamline TextClippedImageView
 
