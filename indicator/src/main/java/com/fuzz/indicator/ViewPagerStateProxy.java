@@ -30,6 +30,13 @@ import com.fuzz.indicator.proxy.ViewProvidingStateProxy;
 /**
  * {@link StateProxy} wrapper around a {@link ViewPager}. All calls
  * are delegated to this object.
+ * <p>
+ *     Due to the rather strict register/unregister nature of the
+ *     {@link android.database.Observable Observable} object backing each
+ *     {@link PagerAdapter}, every call to
+ *     {@link #associateWith(DataSetObserver)} must be paired with one to
+ *     {@link #disassociateFrom(DataSetObserver)}.
+ * </p>
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
