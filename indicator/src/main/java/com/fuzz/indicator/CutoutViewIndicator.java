@@ -137,6 +137,21 @@ public class CutoutViewIndicator extends LinearLayout implements ProxyReference 
      */
     protected DataSetObserver dataSetObserver = new IntegratedDataSetObserver();
 
+    /**
+     * <p>
+     *     Association and disassociation of the {@link #dataSetObserver observer} usually takes place
+     *     in {@link #setStateProxy(StateProxy)}. Old proxies receive a call to
+     *     {@link StateProxy#disassociateFrom(DataSetObserver)}, while new ones receive a call to
+     *     {@link StateProxy#associateWith(DataSetObserver)}.
+     * </p>
+     * <p>
+     *     This field stores the value of the most recent call to
+     *     {@link StateProxy#canObserve(DataSetObserver)}, so that {@link StateProxy proxies} which
+     *     weren't associated in the first place aren't asked to disassociate.
+     * </p>
+     */
+    protected boolean currentProxyMayDisassociate;
+
     public CutoutViewIndicator(Context context) {
         this(context, null);
     }
@@ -797,7 +812,9 @@ public class CutoutViewIndicator extends LinearLayout implements ProxyReference 
      * @param newStateProxy the new StateProxy that this'll sync with. Pass null to disable.
      */
     public void setStateProxy(@Nullable StateProxy newStateProxy) {
-        stateProxy.disassociateFrom(dataSetObserver);
+        if (currentProxyMayDisassociate) {
+            stateProxy.disassociateFrom(dataSetObserver);
+        }
 
         if (newStateProxy == null) {
             newStateProxy = new UnavailableProxy();
@@ -805,6 +822,7 @@ public class CutoutViewIndicator extends LinearLayout implements ProxyReference 
 
         stateProxy = newStateProxy;
         if (newStateProxy.canObserve(dataSetObserver)) {
+            currentProxyMayDisassociate = true;
             newStateProxy.associateWith(dataSetObserver);
             dataSetObserver.onChanged();
             getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -820,6 +838,8 @@ public class CutoutViewIndicator extends LinearLayout implements ProxyReference 
                     ensureOnlyCurrentItemsSelected();
                 }
             });
+        } else {
+            currentProxyMayDisassociate = false;
         }
     }
 

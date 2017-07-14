@@ -1,3 +1,9 @@
+# [0.9.0]
+## (not yet tagged)
+
+### Library changes:
+* Fixed bug: spurious call to Observable::unregisterObserver ([#71])
+
 # [0.8.1]
 ## Support latest stable android APIs
 
@@ -144,3 +150,4 @@
 [#64]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/64
 [#66]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/66
 [#68]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/68
+[#71]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/71
