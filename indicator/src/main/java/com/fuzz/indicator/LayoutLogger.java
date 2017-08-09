@@ -21,15 +21,45 @@ import static android.os.Build.VERSION_CODES.KITKAT;
  *
  * @author Philip Cohn-Cort (Fuzz)
  */
-public abstract class LayoutLogger {
-    private static LayoutLogger stub = new LayoutLogger() {
-        @Override
-        public void logToLayoutLib(String tag, String message) {
-            // Do nothing.
-        }
-    };
+public class LayoutLogger {
 
-    private static LayoutLogger functional = new LayoutLogger() {
+    /**
+     * Utility method for getting a proper LayoutLogger instance. In edit mode,
+     * the returned object will use reflection to display messages in your IDE;
+     * anywhere else, it'll be basically a noop.
+     *
+     * @param inEditMode    whether we are currently in edit mode.
+     * @return a non-null LayoutLogger
+     * @see android.view.View#isInEditMode()
+     * @see LayoutBridgeLogger
+     * @see NoOpLogger
+     */
+    @NonNull
+    public static Logger getPreferred(boolean inEditMode) {
+        if (inEditMode) {
+            return new LayoutBridgeLogger();
+        } else {
+            return new NoOpLogger();
+        }
+    }
+
+    public interface Logger {
+        /**
+         * Edit-mode utility for logging warnings out to the preview screen.
+         *
+         * This method does nothing at runtime.
+         *
+         * @param tag        a logging tag, used to group output messages and hide duplicates
+         * @param message    the desired message
+         */
+        void logToLayoutLib(String tag, String message);
+    }
+
+    /**
+     * Tools-time logger - this should not be instantiated at runtime (the classes it looks
+     * for and uses do not exist in most (if not all) Android ROMs).
+     */
+    public static class LayoutBridgeLogger implements Logger{
 
         protected Object layoutLog;
         protected Method warning;
@@ -60,33 +90,16 @@ public abstract class LayoutLogger {
             }
             return layoutLog;
         }
-    };
-
-    /**
-     * Utility method for getting a proper LayoutLogger instance. In edit mode,
-     * the returned object will use reflection to display messages in your IDE;
-     * anywhere else, it'll be basically a noop.
-     *
-     * @param inEditMode    whether we are currently in edit mode.
-     * @return a non-null LayoutLogger
-     * @see android.view.View#isInEditMode()
-     */
-    @NonNull
-    public static LayoutLogger getPreferred(boolean inEditMode) {
-        if (inEditMode) {
-            return functional;
-        } else {
-            return stub;
-        }
     }
 
     /**
-     * Edit-mode utility for logging warnings out to the preview screen.
-     *
-     * This method does nothing at runtime.
-     *
-     * @param tag        a logging tag, used to group output messages and hide duplicates
-     * @param message    the desired message
+     * Standard 'stub' logger for runtime use. Calling {@link #logToLayoutLib(String, String)} on
+     * this will do nothing.
      */
-    public abstract void logToLayoutLib(String tag, String message);
+    public static class NoOpLogger implements Logger {
+        @Override
+        public void logToLayoutLib(String tag, String message) {
+            // Do nothing.
+        }
+    }
 }
