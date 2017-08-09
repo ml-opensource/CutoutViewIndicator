@@ -1,8 +1,9 @@
-# [0.9.0]
-## (not yet tagged)
+# [0.8.2]
+## Fix crashes
 
 ### Library changes:
 * Fixed bug: spurious call to Observable::unregisterObserver ([#71])
+* Fixed bug: LayoutLogger::getPreferred not always invokable ([#73])
 
 # [0.8.1]
 ## Support latest stable android APIs
@@ -151,3 +152,4 @@
 [#66]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/66
 [#68]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/68
 [#71]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/71
+[#73]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/73
