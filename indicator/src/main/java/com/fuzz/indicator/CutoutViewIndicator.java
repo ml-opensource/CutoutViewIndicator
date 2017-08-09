@@ -37,12 +37,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fuzz.indicator.cell.CutoutCell;
+import com.fuzz.indicator.cell.CutoutTextCell;
 import com.fuzz.indicator.proxy.IndicatorOffsetEvent;
 import com.fuzz.indicator.proxy.ProxyReference;
 import com.fuzz.indicator.proxy.StateProxy;
 import com.fuzz.indicator.proxy.UnavailableProxy;
 import com.fuzz.indicator.proxy.ViewProvidingStateProxy;
-import com.fuzz.indicator.cell.CutoutTextCell;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -128,7 +128,7 @@ public class CutoutViewIndicator extends LinearLayout implements ProxyReference 
     protected int offsetHints = OffSetHint.IMAGE_TRANSLATE;
 
     @NonNull
-    protected LayoutLogger logger;
+    protected LayoutLogger.Logger logger;
 
     /**
      * An observer which gets notified whenever the data backing {@link #stateProxy} changes.
