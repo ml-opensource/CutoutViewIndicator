@@ -33,7 +33,7 @@ import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 
-import com.fuzz.indicator.R;
+import com.fuzz.clipping.R;
 
 import static android.view.View.MeasureSpec.AT_MOST;
 import static android.view.View.MeasureSpec.getMode;

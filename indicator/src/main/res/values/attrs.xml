@@ -51,8 +51,4 @@
         <!-- transverse length of each individual cell (perpendicular to direction of CVI) -->
         <attr name="layout_rcv_perpendicular_length" format="dimension" />
     </declare-styleable>
-    <declare-styleable name="TextClippedImageView">
-        <!-- optional text mask for this view -->
-        <attr name="clip_text_mask" format="string" />
-    </declare-styleable>
 </resources>

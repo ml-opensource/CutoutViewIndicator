@@ -9,4 +9,6 @@
 .idea
 /indicator/build
 indicator.iml
+/clipping/build
+clipping.iml
 /javadoc
