@@ -74,7 +74,7 @@ dependencies {
     //noinspection GradleDependency
     compile "com.android.support:support-v4:$supportVersion"
 
-    compile project(':clipping')
+    compile "com.github.fuzz-productions:ClippedImageView:v0.1.0"
 
     testCompile 'junit:junit:4.12'
     testCompile "org.mockito:mockito-core:2.2.5"

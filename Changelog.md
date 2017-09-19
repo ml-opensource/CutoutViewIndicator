@@ -2,7 +2,7 @@
 ## Extract clipping widgets
 
 ### Library changes:
-* New module: ClippedImageView, UnDrawable, etc. in own artifact ([#76])
+* Files removed: ClippedImageView, UnDrawable, etc. in own artifact ([#76])
 
 # [0.8.2]
 ## Fix crashes
