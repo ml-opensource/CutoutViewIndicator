@@ -40,6 +40,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    // While we do generally want to fail the build if there are any serious errors,
+    // Android Lint's definition of 'error' is highly suspect.
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -64,10 +69,6 @@ if (project.hasProperty('waitForEmulator')) {
     task waitForAVD {
         doLast {
             // The basic idea is that by the time this task runs, the emulator will already be up
-            exec {
-                workingDir '.'
-                commandLine 'time', 'android-wait-for-emulator'
-            }
             exec {
                 workingDir '.'
                 commandLine 'time', 'adb', 'shell', 'input', 'keyevent', '82', '&'
