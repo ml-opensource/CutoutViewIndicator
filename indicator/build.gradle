@@ -67,16 +67,16 @@ dependencies {
     })
 
     // Starting with support lib 24.2.0, ViewPager should be included with the following directive
-    //compile "com.android.support:support-core-ui:$supportVersion"
+    //api "com.android.support:support-core-ui:$supportVersion"
 
     // Before that, though, this is the best way to include a ViewPager dependency.
     //noinspection GradleDependency
-    compile "com.android.support:support-v4:$supportVersion"
+    api "com.android.support:support-v4:$supportVersion"
 
-    compile "com.github.fuzz-productions:ClippedImageView:v0.1.0"
+    api "com.github.fuzz-productions:ClippedImageView:v0.1.0"
 
-    testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:2.2.5"
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:2.2.5"
 
     // Manually include the classes jars - javadoc can't be directly built from aars at this time
     javadocDeps fileTree(dir: "$project.buildDir/intermediates/exploded-aar/", include:"**/classes.jar")
