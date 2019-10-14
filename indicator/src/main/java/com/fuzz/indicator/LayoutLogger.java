@@ -1,14 +1,9 @@
 package com.fuzz.indicator;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.support.annotation.NonNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.KITKAT;
 
 /**
  * Accessible variant of
@@ -64,13 +59,13 @@ public class LayoutLogger {
         protected Object layoutLog;
         protected Method warning;
 
-        @TargetApi(Build.VERSION_CODES.KITKAT)
         public void logToLayoutLib(String tag, String message) {
-            if (SDK_INT >= KITKAT) {
-                try {
-                    getWarningMethod().invoke(getLayoutLog(), tag, message, null);
-                } catch (ReflectiveOperationException ignore) {
-                }
+            try {
+                getWarningMethod().invoke(getLayoutLog(), tag, message, null);
+            } catch (InvocationTargetException ignored) {
+            } catch (IllegalAccessException ignored) {
+            } catch (NoSuchMethodException ignored) {
+            } catch (ClassNotFoundException ignored) {
             }
         }
 
