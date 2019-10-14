@@ -34,6 +34,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven { url "https://jitpack.io" }
     }
     ext {
         // Note that the javadoc explains how the value for each of these variables is chosen:

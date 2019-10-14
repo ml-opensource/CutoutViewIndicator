@@ -1,6 +1,6 @@
 language: android
 sudo: required
-dist: precise
+dist: xenial
 jdk:
  - oraclejdk8
 android:
@@ -47,6 +47,7 @@ before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 script:
   - ./gradlew build connectedCheck -PwaitForEmulator=travis
+  - cat mobile/build/reports/lint-results.html
 cache:
   directories:
     - $HOME/.gradle/caches/

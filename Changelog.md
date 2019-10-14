@@ -1,3 +1,9 @@
+# [0.9.0]
+## Extract clipping widgets
+
+### Library changes:
+* Files removed: ClippedImageView, UnDrawable, etc. in own artifact ([#76])
+
 # [0.8.2]
 ## Fix crashes
 
@@ -153,3 +159,4 @@
 [#68]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/68
 [#71]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/71
 [#73]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/73
+[#76]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/76

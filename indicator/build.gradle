@@ -74,6 +74,8 @@ dependencies {
     //noinspection GradleDependency
     compile "com.android.support:support-v4:$supportVersion"
 
+    compile "com.github.fuzz-productions:ClippedImageView:v0.1.0"
+
     testCompile 'junit:junit:4.12'
     testCompile "org.mockito:mockito-core:2.2.5"
 
@@ -90,7 +92,7 @@ task javadoc(type: Javadoc) {
     // Some of the bootClasspath entries are aars - our javadoc generator ignores those
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     classpath += configurations.javadocDeps
-    destinationDir = file("../javadoc/")
+    destinationDir = file("../javadoc/indicator/")
     // Javadoc will error out for terrible reasons. We can't let it break the build indiscriminately
     failOnError false
 
