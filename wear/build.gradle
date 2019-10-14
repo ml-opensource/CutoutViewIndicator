@@ -20,7 +20,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion project.ext.targetVersion
-    buildToolsVersion project.ext.buildVersion
     defaultConfig {
         applicationId "com.fuzz.emptyhusk"
         minSdkVersion 21

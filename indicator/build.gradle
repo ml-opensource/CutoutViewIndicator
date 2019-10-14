@@ -38,7 +38,6 @@ configurations {
 
 android {
     compileSdkVersion project.ext.targetVersion
-    buildToolsVersion project.ext.buildVersion
 
     defaultConfig {
         minSdkVersion 14

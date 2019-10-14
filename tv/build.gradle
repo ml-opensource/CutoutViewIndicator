@@ -19,13 +19,12 @@ apply plugin: 'com.android.application'
 // For reference: project.ext variables are defined in the top-level build.gradle file
 /**
  * supportVersion denotes the most recent stable version of the support libraries
- * compatible with project.ext.targetVersion and project.ext.buildVersion
+ * compatible with project.ext.targetVersion
  */
 def supportVersion = "24.2.1"
 
 android {
     compileSdkVersion project.ext.targetVersion
-    buildToolsVersion project.ext.buildVersion
     defaultConfig {
         applicationId "com.fuzz.emptyhusk"
         minSdkVersion 21
