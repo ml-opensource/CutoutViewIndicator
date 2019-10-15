@@ -7,6 +7,7 @@
 * Depend on ClippedImageView: v0.1.0 ([#79])
 * Updated gradle: 3.2.1 -> 5.6.2 ([#76], [#79])
 * Updated AGP: 2.3.2 -> 3.5.1 ([#79])
+* Target Android SDK 27 (Oreo MR1) ([#79])
 
 # [0.8.2]
 ## Fix crashes
