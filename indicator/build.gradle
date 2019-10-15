@@ -26,7 +26,7 @@ def supportVersion = '27.1.1'
 
 // Maven deployment info (the name of the artifact is derived from the containing folder's name)
 group = 'com.fuzz'
-version = '0.8.2'
+version = '0.9.0'
 
 // Concept and execution for this configuration come from http://stackoverflow.com/q/29663918
 configurations {
@@ -42,7 +42,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion project.ext.targetVersion
-        versionCode 9
+        versionCode 10
         versionName "$version"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
