@@ -3,6 +3,11 @@
 
 ### Library changes:
 * Files removed: ClippedImageView, UnDrawable, etc. in own artifact ([#76])
+* Wear project has been updated to build against the 2.5.0 release
+* Depend on ClippedImageView: v0.2.0 ([#79])
+* Updated gradle: 3.2.1 -> 5.6.2 ([#76], [#79])
+* Updated AGP: 2.3.2 -> 3.5.1 ([#79])
+* Target Android SDK 27 (Oreo MR1) ([#79])
 
 # [0.8.2]
 ## Fix crashes
@@ -160,3 +165,4 @@
 [#71]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/71
 [#73]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/73
 [#76]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/76
+[#79]: https://github.com/fuzz-productions/CutoutViewIndicator/issues/79
