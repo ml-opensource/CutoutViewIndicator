@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Philip Cohn-Cort
+ * Copyright 2016-2019 Philip Cohn-Cort
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ apply plugin: 'com.github.dcendents.android-maven'
  * supportVersion is the oldest version of the support libraries against which this
  * codebase can compile.
  */
-def supportVersion = '22.2.0'
+def supportVersion = '27.1.1'
 
 // Maven deployment info (the name of the artifact is derived from the containing folder's name)
 group = 'com.fuzz'
@@ -67,13 +67,13 @@ dependencies {
     })
 
     // Starting with support lib 24.2.0, ViewPager should be included with the following directive
-    //api "com.android.support:support-core-ui:$supportVersion"
+    //noinspection GradleDependency
+    api "com.android.support:support-core-ui:$supportVersion"
 
     // Before that, though, this is the best way to include a ViewPager dependency.
-    //noinspection GradleDependency
-    api "com.android.support:support-v4:$supportVersion"
+    //api "com.android.support:support-v4:$supportVersion"
 
-    api "com.github.fuzz-productions:ClippedImageView:v0.1.0"
+    api 'com.github.fuzz-productions:ClippedImageView:v0.2.0'
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:2.2.5"
